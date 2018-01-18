@@ -6,7 +6,7 @@ A game developed for the [Global Game Jam](http://globalgamejam.org) 2018!
 The development branch (or branches related to it) contains all active work.
 
 ### Master
-The master branch is contains all work that is production-ready. Before anything can be merged into master, it must be approved by a pull-request!
+The master branch contains all work that is production-ready. Before anything can be merged into master, it must be approved by a pull-request!
 
 ## Build and Run
 This is a Unity project, so simply open the project from Unity and build it.
