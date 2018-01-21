@@ -34,5 +34,6 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
-# Ignore Messy stuff
+# Ignore Messy stuff folder
 Assets/Scenes/KlootScenes*
+Assets/Scenes/KlootScenes.meta
