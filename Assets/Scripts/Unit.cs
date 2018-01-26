@@ -24,7 +24,7 @@ public class Unit : MonoBehaviour {
 		Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
 		// myTransform.Translate(movement.normalized * speed * Time.deltaTime );
 		rigidbody.AddForce(movement * speed);
-		if (Vector3.Distance(myTransform.position, lastPosition) > 0.001){
+		if (Vector3.Distance(myTransform.position, lastPosition) > 0.01){
 			myTransform.LookAt(new Vector3(lastPosition.x, lastPosition.y, 0), new Vector3(0,0,-1));
 		}
 		lastPosition = myTransform.position;

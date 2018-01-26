@@ -13,7 +13,7 @@ public class GameMaster : MonoBehaviour {
 	private void Start() {
 		Vector3 randomPos = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
 		GameObject unitObject = Instantiate(playerPrefab, randomPos, Quaternion.identity) as GameObject;
-		units.Add(unitObject.GetComponent<Unit>());		
+		units.Add(unitObject.GetComponent<Unit>());
 	}
 
 	private void Update() {
