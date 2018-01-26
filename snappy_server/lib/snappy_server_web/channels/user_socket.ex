@@ -2,7 +2,7 @@ defmodule SnappyServerWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", SnappyServerWeb.RoomChannel
+  channel "room:*", SnappyServerWeb.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
