@@ -1,10 +1,12 @@
 defmodule SnappyServer.GameServer do
+  require Logger
+
   @moduledoc """
   This contains the Game messaging. Both the lobby system as well as the actual game communication system.
   """
 
   defmodule State do
-    @enforce_keys [:players, :unity_socket]
+    @enforce_keys [:unity_socket]
     defstruct players: %{}, unity_socket: nil
   end
 
@@ -31,6 +33,8 @@ defmodule SnappyServer.GameServer do
 
 
   defhandleinfo :first_tick!, state: state do
-    Logger.log("First Tick!")
+    Logger.debug("Unity GameServer is live!")
+
+    new_state(state)
   end
 end

@@ -11,17 +11,17 @@ defmodule SnappyServer.TCPServer do
 
   # Wait for next connection and hand it off to its own process
   # And then recurse
-  defp loop_acceptor(incoming_socket) do
-    {:ok, client} = :gen_tcp.accept(incoming_socket)
+  defp loop_acceptor(port_listener) do
+    {:ok, client} = :gen_tcp.accept(port_listener)
     {:ok, game_server} = SnappyServer.GameServer.start_link(client)
     {:ok, pid} = Task.Supervisor.start_child(SnappyServer.TCPServer.SocketTaskSupervisor,
       fn ->
-        serve(client)
+        serve(client, game_server)
       end
     )
     :ok = :gen_tcp.controlling_process(client, pid)
 
-    loop_acceptor(socket)
+    loop_acceptor(port_listener)
   end
 
   defp serve(socket, game_server) do
