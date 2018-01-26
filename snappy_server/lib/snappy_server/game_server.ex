@@ -7,17 +7,24 @@ defmodule SnappyServer.GameServer do
 
   defmodule State do
     @enforce_keys [:unity_listener, :unity_socket]
-    defstruct players: %{}, unity_listener: nil, unity_socket: nil
+    defstruct players: %{}, unity_listener: nil, unity_socket: nil, code: "AAAA"
   end
 
   use ExActor.GenServer
 
   defstart start_link(unity_socket) do
+    # TODO Code generation
+    state = %State{unity_listener: unity_listener_pid, unity_socket: unity_socket, code: generate_code()}
+
     {:ok, unity_listener_pid} = Task.start_link(fn ->
       SnappyServer.TCPServer.serve(unity_socket, self())
     end)
     :erlang.send_after(1, self(), :first_tick!)
-    initial_state(%State{unity_listener: unity_listener_pid, unity_socket: unity_socket})
+    initial_state(state)
+  end
+
+  defp generate_code do
+    Integer.to_string(:rand.uniform(65535), 32)
   end
 
   @doc "Called during lobby creation."
@@ -47,6 +54,7 @@ defmodule SnappyServer.GameServer do
 
   defhandleinfo :first_tick!, state: state do
     Logger.debug("Unity GameServer is live!")
+    send_to_unity(state, "'room_code' => '#{state.code}'")
 
     new_state(state)
   end
