@@ -50,7 +50,7 @@ defmodule SnappyServer.TCPServer do
   def write_message(socket, data) do
     IO.inspect(socket)
     IO.inspect(data)
-    Logger.debug("Sending output: #{data}")
+    Logger.debug("Sending output: #{data} to #{inspect(socket)}")
     :gen_tcp.send(socket, data)
   end
 end

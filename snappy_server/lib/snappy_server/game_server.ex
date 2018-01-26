@@ -6,8 +6,8 @@ defmodule SnappyServer.GameServer do
   """
 
   defmodule State do
-    @enforce_keys [:unity_listener]
-    defstruct players: %{}, unity_listener: nil
+    @enforce_keys [:unity_listener, :unity_socket]
+    defstruct players: %{}, unity_listener: nil, unity_socket: nil
   end
 
   use ExActor.GenServer
@@ -17,7 +17,7 @@ defmodule SnappyServer.GameServer do
       SnappyServer.TCPServer.serve(unity_socket, self())
     end)
     :erlang.send_after(1, self(), :first_tick!)
-    initial_state(%State{unity_listener: unity_listener_pid})
+    initial_state(%State{unity_listener: unity_listener_pid, unity_socket: unity_socket})
   end
 
   @doc "Called during lobby creation."
@@ -32,6 +32,7 @@ defmodule SnappyServer.GameServer do
   defcast input_message({player_name, input_message}), state: state do
     Logger.debug("Input Message: #{player_name} #{inspect(input_message)}")
     send_to_unity(state, input_message)
+    noreply
   end
 
   @doc "Called when game is finished?"
@@ -41,7 +42,7 @@ defmodule SnappyServer.GameServer do
   defcall get, state: state, do: reply(state)
 
   defp send_to_unity(state, message) do
-    SnappyServer.TCPServer.write_message(state.unity_listener, message)
+    SnappyServer.TCPServer.write_message(state.unity_socket, message)
   end
 
   defhandleinfo :first_tick!, state: state do
