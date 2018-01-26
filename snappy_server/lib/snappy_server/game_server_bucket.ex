@@ -6,29 +6,24 @@ defmodule SnappyServer.GameServerBucket do
   defstart start_link(_), do: initial_state(%{})
 
   defcall add_game(unity_socket), state: state do
-    # TODO Generate random entry password/identifier?
 
     {:ok, new_game} = SnappyServer.GameServer.start_link(unity_socket)
     new_game_state = SnappyServer.GameServer.get(new_game)
-    # updated_state = %{state | new_game_state.code => new_game}
     updated_state = Map.put(state, new_game_state.code, new_game)
-    # updated_state = [new_game | state]
     Logger.debug(inspect(updated_state))
 
-    # new_state(updated_state)
     set_and_reply(updated_state, {:ok, new_game})
   end
 
-  defcast add_player(game_code, {player_name, player_socket}), state: state do
+  defcall add_player(game_code, {player_name, player_socket}), state: state do
+    Logger.debug("Attempting to find game #{game_code} in #{inspect(state)}")
     case state do
       %{^game_code => game} ->
         # TODO actually work with game identifier
         Logger.debug("Adding player #{player_name}, #{inspect(player_socket)} \n to game #{inspect(game)}")
-        {:ok, unity_listener_pid} = SnappyServer.GameServer.add_player(game, {player_name, player_socket})
-        noreply
+        reply(SnappyServer.GameServer.add_player(game, {player_name, player_socket}))
       _ ->
-        noreply
-        # reply({:error, :attempting_to_add_player_to_unexistent_game})
+        reply({:error, :unexistent_game})
     end
   end
 
@@ -43,11 +38,6 @@ defmodule SnappyServer.GameServerBucket do
         reply({:error, :attempting_to_add_player_to_unexistent_game})
     end
   end
-
-  # defcall input_message({player_name, input_message}), state: _ do
-  #   reply({:error, :attempting_to_input_message_to_unexistent_game})
-  # end
-
 
   # TODO Dont crash when game is removed, but rather trap exits and remove game from list.
 

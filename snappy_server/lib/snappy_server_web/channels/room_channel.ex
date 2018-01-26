@@ -3,14 +3,23 @@ defmodule SnappyServerWeb.RoomChannel do
 
   def join("room:lobby", payload, socket) do
     if authorized?(payload) do
+      IO.inspect(payload)
       room_code = payload["room_code"]
       player_name = payload["player_name"]
-      SnappyServer.GameServerBucket.add_player(room_code, {player_name, socket})
-      # socket =
-      #   socket
-      #   |> assign(:room_code, room_code)
-      #   |> assign(:player_name, player_name)
-      {:ok, socket}
+      IO.inspect({room_code, player_name})
+      case SnappyServer.GameServerBucket.add_player(room_code, {player_name, socket}) do
+        {:error, :unexistent_game} ->
+          {:error, %{reason: "Unexistent Game"}}
+        {:error, :player_already_exists} ->
+          {:error, %{reason: "Player Already Exists"}}
+        {:ok, room_pid} ->
+          socket =
+            socket
+            |> assign(:room_code, room_code)
+            |> assign(:room_pid, room_pid)
+            |> assign(:player_name, player_name)
+          {:ok, socket}
+      end
     else
       {:error, %{reason: "unauthorized"}}
     end
@@ -29,14 +38,14 @@ defmodule SnappyServerWeb.RoomChannel do
     {:noreply, socket}
   end
 
-  def handle_in("new_msg", %{"body" => body, "room_code" => room_code, "player_name" => player_name}, socket) do
-    # IO.inspect(socket.assigns)
+  def handle_in("new_msg", %{"body" => body}, socket) do
+    IO.inspect(socket.assigns)
+    IO.inspect(body)
     # broadcast! socket, "new_msg", %{body: body}
-    SnappyServer.GameServerBucket.input_message(room_code, {player_name, body})
+    SnappyServer.GameServerBucket.input_message(socket.assigns[:room_code], {socket.assigns[:player_name], body})
     {:noreply, socket}
   end
   # Add authorization logic here as required.
-  # TODO add username to player list.
   defp authorized?(_payload) do
     true
   end
