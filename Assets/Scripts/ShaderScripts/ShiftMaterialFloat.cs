@@ -10,10 +10,13 @@ public class ShiftMaterialFloat : MonoBehaviour {
     [SerializeField]
     private float[] paramSpeeds;
 
+    // The renderer to get the material from.
     private MeshRenderer meshRenderer;
+
+    // Keeping track of all the param values.
     private float[] curValues;
 
-	// Use this for initialization
+	// At start, initialize the array to 0.
 	void Start () {
         curValues = new float[paramNames.Length];
         for (int i = 0; i < curValues.Length; i++)
@@ -21,7 +24,7 @@ public class ShiftMaterialFloat : MonoBehaviour {
         meshRenderer = GetComponent<MeshRenderer>();
     }
 	
-	// Update is called once per frame
+	// Every frame update the params based on their speed.
 	void Update () {
         for (int i=0; i<paramNames.Length; i++)
         {

@@ -1,4 +1,6 @@
-﻿Shader "Custom/Water"
+﻿// Simple perlin noise shader with interpolated colors.
+
+Shader "Custom/Water"
 {
     Properties
     {
@@ -94,6 +96,7 @@
                 i.uv += float2(_X, _Y);
                 float ns = PerlinNoise2D(i.uv) / 2 + 0.5f;
 
+				// Interpolate colors.
 				float4 color = ns*_BaseColor + (1-ns)*_TransColor;
 
                 return color;
