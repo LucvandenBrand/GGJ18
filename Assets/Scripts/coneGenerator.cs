@@ -7,7 +7,9 @@ public class coneGenerator : MonoBehaviour {
     public Material mat;
 	// Use this for initialization
 	void Start () {
+
         GameObject locCone = Instantiate(cone);
+		locCone.layer = LayerMask.NameToLayer ("ConesLayer");
         locCone.GetComponent<Renderer>().material = mat;
         locCone.transform.position = transform.position;
         locCone.transform.parent = transform;
