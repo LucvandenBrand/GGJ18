@@ -11,8 +11,9 @@ defmodule SnappyServer.TCPServer do
 
   # Wait for next connection and hand it off to its own process
   # And then recurse
-  defp loop_acceptor(socket) do
-    {:ok, client} = :gen_tcp.accept(socket)
+  defp loop_acceptor(incoming_socket) do
+    {:ok, client} = :gen_tcp.accept(incoming_socket)
+    {:ok, game_server} = SnappyServer.GameServer.start_link(client)
     {:ok, pid} = Task.Supervisor.start_child(SnappyServer.TCPServer.SocketTaskSupervisor,
       fn ->
         serve(client)
@@ -23,14 +24,14 @@ defmodule SnappyServer.TCPServer do
     loop_acceptor(socket)
   end
 
-  defp serve(socket) do
-    echo(socket)
+  defp serve(socket, game_server) do
+    echo(socket, game_server)
 
-    serve(socket)
+    serve(socket, game_server)
   end
 
   # Reads single message, then returns this message unaltered to socket.
-  defp echo(socket) do
+  defp echo(socket, game_server) do
     input  = read_message(socket)
     output = input
     write_message(socket, output)
