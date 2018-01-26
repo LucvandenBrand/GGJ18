@@ -13,18 +13,19 @@ defmodule SnappyServer.TCPServer do
   # And then recurse
   defp loop_acceptor(port_listener) do
     {:ok, client} = :gen_tcp.accept(port_listener)
-    {:ok, game_server} = SnappyServer.GameServer.start_link(client)
-    {:ok, pid} = Task.Supervisor.start_child(SnappyServer.TCPServer.SocketTaskSupervisor,
-      fn ->
-        serve(client, game_server)
-      end
-    )
-    :ok = :gen_tcp.controlling_process(client, pid)
+    # {:ok, game_server} = SnappyServer.GameServer.start_link(client)
+    # {:ok, pid} = Task.Supervisor.start_child(SnappyServer.TCPServer.SocketTaskSupervisor,
+    #   fn ->
+    #     serve(client, game_server)
+    #   end
+    # )
+    {:ok, unity_listener_pid} = SnappyServer.GameServerBucket.add_game(client)
+    :ok = :gen_tcp.controlling_process(client, unity_listener_pid)
 
     loop_acceptor(port_listener)
   end
 
-  defp serve(socket, game_server) do
+  def serve(socket, game_server) do
     echo(socket, game_server)
 
     serve(socket, game_server)
@@ -35,17 +36,20 @@ defmodule SnappyServer.TCPServer do
     input  = read_message(socket)
     output = input
     write_message(socket, output)
+    write_message(socket, "bazbazbaz")
   end
 
   # Reads single message from socket
   defp read_message(socket) do
     {:ok, data} = :gen_tcp.recv(socket, 0)
-    Logger.debug("Received input: #{data}")
+    Logger.debug("Received input: #{inspect(data)}")
     data
   end
 
   # Writes single message to socket
-  defp write_message(socket, data) do
+  def write_message(socket, data) do
+    IO.inspect(socket)
+    IO.inspect(data)
     Logger.debug("Sending output: #{data}")
     :gen_tcp.send(socket, data)
   end

@@ -6,20 +6,32 @@ defmodule SnappyServer.GameServer do
   """
 
   defmodule State do
-    @enforce_keys [:unity_socket]
-    defstruct players: %{}, unity_socket: nil
+    @enforce_keys [:unity_listener]
+    defstruct players: %{}, unity_listener: nil
   end
 
   use ExActor.GenServer
 
   defstart start_link(unity_socket) do
+    {:ok, unity_listener_pid} = Task.start_link(fn ->
+      SnappyServer.TCPServer.serve(unity_socket, self())
+    end)
     :erlang.send_after(1, self(), :first_tick!)
-    initial_state(%State{unity_socket: unity_socket})
+    initial_state(%State{unity_listener: unity_listener_pid})
   end
 
   @doc "Called during lobby creation."
-  defcast add_player(player_name, player_socket), state: state do
-    put_in(state, [:players, player_name], player_socket)
+  defcall add_player({player_name, player_socket}), state: state do
+    Logger.debug("Attempting to add player #{player_name} to state #{inspect(state)}")
+    updated_state = %State{state | players: Map.put(state.players, player_name, player_socket)}
+    Logger.debug(inspect(updated_state))
+
+    set_and_reply(updated_state, {:ok, updated_state.unity_listener})
+  end
+
+  defcast input_message({player_name, input_message}), state: state do
+    Logger.debug("Input Message: #{player_name} #{inspect(input_message)}")
+    send_to_unity(state, input_message)
   end
 
   @doc "Called when game is finished?"
@@ -28,9 +40,9 @@ defmodule SnappyServer.GameServer do
   @doc "Debugging"
   defcall get, state: state, do: reply(state)
 
-  defcast send_to_unity(message) do
+  defp send_to_unity(state, message) do
+    SnappyServer.TCPServer.write_message(state.unity_listener, message)
   end
-
 
   defhandleinfo :first_tick!, state: state do
     Logger.debug("Unity GameServer is live!")

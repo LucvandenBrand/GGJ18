@@ -14,7 +14,14 @@ defmodule SnappyServer.Application do
       supervisor(SnappyServerWeb.Endpoint, []),
       # Start your own worker by calling: SnappyServer.Worker.start_link(arg1, arg2, arg3)
       # worker(SnappyServer.Worker, [arg1, arg2, arg3]),
+
+      # List of games:
+      SnappyServer.GameServerBucket,
+
+      # TODO: Probably remove.
       {Task.Supervisor, name: SnappyServer.TCPServer.SocketTaskSupervisor},
+
+      # Socket listener
       Supervisor.child_spec(
         {Task, fn -> SnappyServer.TCPServer.accept(8002) end},
         restart: :permanent

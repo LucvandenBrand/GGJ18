@@ -3,6 +3,7 @@ defmodule SnappyServerWeb.RoomChannel do
 
   def join("room:lobby", payload, socket) do
     if authorized?(payload) do
+      SnappyServer.GameServerBucket.add_player({"Foobar", socket})
       {:ok, socket}
     else
       {:error, %{reason: "unauthorized"}}
@@ -24,6 +25,7 @@ defmodule SnappyServerWeb.RoomChannel do
 
   def handle_in("new_msg", %{"body" => body}, socket) do
     broadcast! socket, "new_msg", %{body: body}
+    SnappyServer.GameServerBucket.input_message({"Foobar", body})
     {:noreply, socket}
   end
   # Add authorization logic here as required.
