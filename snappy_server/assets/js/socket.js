@@ -57,6 +57,7 @@ socket.connect()
 
 let channel           = socket.channel("room:lobby", {})
 let roomCodeInput         = document.querySelector("#room-code")
+let playerNameInput         = document.querySelector("#player-name")
 let chatInput         = document.querySelector("#chat-input")
 let joinButton        = document.querySelector("#join-button")
 
@@ -64,7 +65,7 @@ let messagesContainer = document.querySelector("#messages")
 
 chatInput.addEventListener("keypress", event => {
     if(event.keyCode === 13){
-        channel.push("new_msg", {body: chatInput.value, room_code: roomCodeInput.value})
+        channel.push("new_msg", {body: chatInput.value, room_code: roomCodeInput.value, player_name: playerNameInput.value})
         chatInput.value = ""
     }
 })
@@ -78,9 +79,16 @@ channel.on("new_msg", payload => {
 joinButton.addEventListener("click", event => {
     event.preventDefault();
 
-    channel.join({"room_code": roomCodeInput.value})
-        .receive("ok", resp => { console.log("Joined successfully", resp) })
+    channel.join({"room_code": roomCodeInput.value, player_name: playerNameInput.value})
         .receive("error", resp => { console.log("Unable to join", resp) })
+        .receive("ok", resp => {
+            console.log("Joined successfully", resp)
+
+            document.querySelector("[data-origin='player-name']").innerHTML = playerNameInput.value;
+            document.querySelector("[data-origin='room-code']").innerHTML = roomCodeInput.value;
+            document.querySelector("#game-joining-section").style = "display: none";
+            document.querySelector("#game-playing-section").style = "display: block";
+        });
 
 })
 
