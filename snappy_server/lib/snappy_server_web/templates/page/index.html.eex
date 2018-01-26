@@ -2,4 +2,11 @@
     
 </div>
 
+Room Code:
+<input name="" type="text" value="" id="room-code" />
+<button id="join-button">Join</button>
+
+Temp Raw Chat Input:
 <input name="" type="text" value="" id="chat-input" />
+
+

@@ -14,11 +14,12 @@ defmodule SnappyServer.GameServer do
 
   defstart start_link(unity_socket) do
     # TODO Code generation
-    state = %State{unity_listener: unity_listener_pid, unity_socket: unity_socket, code: generate_code()}
 
     {:ok, unity_listener_pid} = Task.start_link(fn ->
       SnappyServer.TCPServer.serve(unity_socket, self())
     end)
+    state = %State{unity_listener: unity_listener_pid, unity_socket: unity_socket, code: generate_code()}
+
     :erlang.send_after(1, self(), :first_tick!)
     initial_state(state)
   end
