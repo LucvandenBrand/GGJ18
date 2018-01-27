@@ -7,6 +7,7 @@ using UnityEngine;
 using System;
 
 using UnityEngine.UI;
+using UnityEditor.Animations;
 
 namespace SnappyServerEvent {
     [Serializable]
@@ -104,6 +105,9 @@ public class NetworkController : MonoBehaviour {
     Dictionary<string, Unit> players = new Dictionary<string, Unit>();
     int healthyPlayers = 0;
 
+
+    // The Animation to call on game over.
+    public Animator cameraAnimator;
 
     //public GameObject DebugText;
 
@@ -271,6 +275,7 @@ public class NetworkController : MonoBehaviour {
         if(healthyPlayers == 0 && players.Count > 0) {
             // Game Over
             Debug.Log("Game Over!");
+            cameraAnimator.SetTrigger("End-Sick");
         }
     }
 }
