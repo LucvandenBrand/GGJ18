@@ -9,6 +9,7 @@ public class Unit : MonoBehaviour {
 	Transform myTransform;
 	Rigidbody2D rigidbody;
 	Vector3 lastPosition;
+
 	[SerializeField]
 	public float speed;
 	public float rotationSpeed;
@@ -46,10 +47,10 @@ public class Unit : MonoBehaviour {
 			//myTransform.LookAt(new Vector3(myTransform.position.x + virtualJoystick.x, myTransform.position.y + virtualJoystick.y, 0), new Vector3(0,0,-1));
 		}
 		addForce(virtualJoystick.x, virtualJoystick.y);
-
-    if(!this.isInfected){
-        this.score++;
-    }
+  }
+  
+  public void updateScore() {
+	  score += 1;
   }
 
 public void addVirtualForce(float x_axis, float y_axis) {
