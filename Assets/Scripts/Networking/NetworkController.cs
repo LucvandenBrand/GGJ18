@@ -118,6 +118,7 @@ public class NetworkController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         processNetworkMessages();
+        checkOtherControllers();
     }
 
     static TcpClient client = null;
@@ -152,10 +153,11 @@ public class NetworkController : MonoBehaviour {
         }
     }
 
-    public void add_player(string player_name){
+    public GameObject add_player(string player_name) {
         Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0);
         GameObject playerObject = Instantiate(playerPrefab, randomPos, Quaternion.identity) as GameObject;
         players.Add(player_name, playerObject.GetComponent<Unit>());
+        return playerObject;
     }
 
     public void send_message(string player_name, string message){
@@ -196,12 +198,14 @@ public class NetworkController : MonoBehaviour {
         }
     }
 
+    private static Stream stream;
+
     static void connect() {
         if (client == null) {
             string server = "localhost";
             int port = 8002;
             client = new TcpClient(server, port);
-            Stream stream = client.GetStream();
+            stream = client.GetStream();
             reader = new BinaryReader(stream);
             writer = new BinaryWriter(stream);
         }
@@ -210,5 +214,31 @@ public class NetworkController : MonoBehaviour {
     public static void send(NetworkMessage msg) {
         msg.WriteToStream(writer);
         writer.Flush();
+    }
+
+    public void OnDestroy()
+    {
+        networkThread.Abort();
+        stream.Close();
+    }
+
+    List<String> inputStringsVertical = new List<String>{ "VerticalArrow", "VerticalWASD" };
+    List<String> inputStringsHorizontal = new List<String> { "HorizontalArrow", "HorizontalWASD" };
+    private void checkOtherControllers()
+    {
+        for (int i=0; i<inputStringsHorizontal.Count; i++)
+        {
+            if (Input.GetAxisRaw(inputStringsVertical[i]) > 0.5)
+            {
+                GameObject curPlayer = add_player(inputStringsVertical[i]);
+                KeysToVirtual keys = curPlayer.AddComponent<KeysToVirtual>();
+                keys.horizontalString = inputStringsVertical[i];
+                keys.verticalString = inputStringsHorizontal[i];
+                keys.toBeControlled = curPlayer.GetComponent<Unit>();
+
+                inputStringsHorizontal.RemoveAt(i);
+                inputStringsVertical.RemoveAt(i);
+            }
+        }
     }
 }
