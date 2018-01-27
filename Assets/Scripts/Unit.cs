@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class Unit : MonoBehaviour {
 
     Transform myTransform;
@@ -9,6 +10,10 @@ public class Unit : MonoBehaviour {
     Vector3 lastPosition;
     [SerializeField]
     float speed = 40;
+
+    int infected = 0;   // 0: no
+                        // 1: yes virus 1
+                        // 2: yes virus 2
 
     Vector2 virtualJoystick = new Vector2(0, 0);
     
@@ -50,5 +55,13 @@ public class Unit : MonoBehaviour {
         }
         // myTransform.Translate(movement.normalized * speed * Time.deltaTime );
         rigidbody.AddForce(movement * speed);
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        
+    }
+
+    void OnTriggerEnter2D(Collider2D other) {
+        
     }
 }
