@@ -551,6 +551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1404716629429212, guid: 4b00221222a752b4f8fa943e71806cdd,
     type: 2}
+  cameraAnimator: {fileID: 52144769}
 --- !u!4 &950224469
 Transform:
   m_ObjectHideFlags: 0
