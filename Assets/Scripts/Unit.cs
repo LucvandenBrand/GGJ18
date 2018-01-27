@@ -95,4 +95,9 @@ void OnCollisionEnter2D(Collision2D other) {
 		}
 		// TODO Play nice animation
 	}
+
+    public void ResetPlayer(){
+        this.isInfected = false;
+        this.score = 0;
+    }
 }
