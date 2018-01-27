@@ -16,11 +16,11 @@ public class Unit : MonoBehaviour {
     public bool isInfected = false;
     public int score = 0;
     public string name = "";
-    
-	public class InfectionEvent : UnityEvent<Unit> {}
-	public InfectionEvent infectionEvent = new InfectionEvent();
 
-	public Vector2 virtualJoystick = new Vector2(0, 0);
+    public class InfectionEvent : UnityEvent<Unit> {}
+    public InfectionEvent infectionEvent = new InfectionEvent();
+
+    Vector2 virtualJoystick = new Vector2(0, 0);
 	
 	
 	// Use this for initialization
