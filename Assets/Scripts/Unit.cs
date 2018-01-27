@@ -13,7 +13,7 @@ public class Unit : MonoBehaviour {
     float speed = 40;
 
     bool isInfected = false;
-    int score = 0;
+    public int score = 0;
     public string name = "";
 
     public class InfectionEvent : UnityEvent<Unit> {}

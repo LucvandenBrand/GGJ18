@@ -112,6 +112,9 @@ public class NetworkController : MonoBehaviour {
     // The text to show the room in.
     public Text roomText;
 
+    // The text to show the score in.
+    public Text scoreText;
+
     void Awake() {
         DontDestroyOnLoad(this);
     }
@@ -269,14 +272,30 @@ public class NetworkController : MonoBehaviour {
         }
     }
 
-    private void playerBecameInfected(Unit player){
+    private void playerBecameInfected(Unit player) {
         Debug.Log("Player " + player.name + " became infected!");
         healthyPlayers--;
         Debug.Log("healthy Players:" + healthyPlayers);
-        if(healthyPlayers == 0 && players.Count > 0) {
+        if (healthyPlayers == 0 && players.Count > 0) {
             // Game Over
             Debug.Log("Game Over!");
             cameraAnimator.SetTrigger("End-Sick");
+            showScore();
         }
+    }
+
+    private void showScore() { 
+
+        // Show the score
+        List<Unit> playerList = new List<Unit>(players.Values);
+        playerList.Sort((p, q) => p.score.CompareTo(q.score));
+
+        string scoreString = "SCORE:\n";
+
+        foreach (Unit player in playerList)
+        {
+            scoreString += player.name + ": " + player.score + "\n";
+        }
+        scoreText.text = scoreString;
     }
 }
