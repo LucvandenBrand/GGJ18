@@ -23,9 +23,9 @@ public class Unit : MonoBehaviour {
     }
 	
     // Update is called once per frame
-    void Update () {
+    void FixedUpdate () {
         // addForce(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        if(virtualJoystick.x != 0 || virtualJoystick.y != 0) {
+        if(virtualJoystick.x != 0 && virtualJoystick.y != 0) {
             myTransform.LookAt(new Vector3(myTransform.position.x + virtualJoystick.x, myTransform.position.y + virtualJoystick.y, 0), new Vector3(0,0,-1));
         }
         addForce(virtualJoystick.x, virtualJoystick.y);
