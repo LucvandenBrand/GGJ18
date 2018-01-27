@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 198112193052820682}
   - component: {fileID: 199644590391556970}
   m_Layer: 0
-  m_Name: VfxStarsFourPointsColor
+  m_Name: BubblesParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

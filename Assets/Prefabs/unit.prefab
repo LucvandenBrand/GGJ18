@@ -354,6 +354,8 @@ MonoBehaviour:
   name: 
   hasDisconnected: 0
   virtualJoystick: {x: 0, y: 0}
+  playerCollisionParticleSystem: {fileID: 1335849293727152, guid: 76906a851cd7740dd8a136beff0261d0,
+    type: 2}
 --- !u!114 &114923149312049486
 MonoBehaviour:
   m_ObjectHideFlags: 1
