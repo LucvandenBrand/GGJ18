@@ -249,8 +249,12 @@ public class NetworkController : MonoBehaviour {
 
     public void OnDestroy()
     {
-        networkThread.Abort();
-        stream.Close();
+        if(networkThread != null) {
+            networkThread.Abort();
+        }
+        if(stream != null){
+            stream.Close();
+        }
     }
 
     // Runs for all non-networked controllers.
