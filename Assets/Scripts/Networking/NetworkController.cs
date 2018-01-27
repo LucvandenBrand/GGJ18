@@ -194,7 +194,7 @@ public class NetworkController : MonoBehaviour {
         //DebugTextText.text = "" + pointer_x;
         // Debug.Log(pointer_x);
         player.addVirtualForce(pointer_x, -pointer_y);
-        // player.Infect(); // TODO Temporary test.
+        player.Infect(); // TODO Temporary test.
     }
 
     public void player_release(string player_name) {
@@ -282,9 +282,6 @@ public class NetworkController : MonoBehaviour {
             Debug.Log("Game Over!");
             cameraAnimator.SetTrigger("End-Sick");
             showScore();
-            foreach(Unit p in players.Values) {
-                p.ResetPlayer();
-            }
         }
     }
 
@@ -302,19 +299,4 @@ public class NetworkController : MonoBehaviour {
         }
         scoreText.text = scoreString;
     }
-
-    /* Players are disallowed to move outside of the screen. Preventing death. */
-    private void ClampPlayers()
-    {
-        foreach (Unit player in players.Values)
-        {
-            var pos = Camera.main.WorldToViewportPoint(player.transform.position);
-            pos.x = Mathf.Clamp(pos.x, 0.1f, 0.9f);
-            pos.y = Mathf.Clamp(pos.y, 0.1f, 0.9f);
-            player.transform.position = Camera.main.ViewportToWorldPoint(pos);
-        }
 }
-
-
-}
-
