@@ -22,7 +22,6 @@ public class Unit : MonoBehaviour {
 
     public Vector2 virtualJoystick = new Vector2(0, 0);
     
-    
     // Use this for initialization
     void Start () {
         isInfected = Random.value > 0.5;
@@ -44,7 +43,6 @@ public class Unit : MonoBehaviour {
             this.score++;
         }
     }
-    
 
     public void addVirtualForce(float x_axis, float y_axis) {
         virtualJoystick = new Vector2(x_axis, y_axis);
@@ -68,17 +66,10 @@ public class Unit : MonoBehaviour {
 
    void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.tag == "Bullet") {
-// 			Debug.LogError("JHEEEEEEEEEEEEE");
-			
-			
-			
-			if (!isInfected){
-				Destroy(other.gameObject);
-				isInfected = true;
-				// todo: notify something
-			}
-		}
-    }
+            Destroy(other.gameObject);
+            Infect();
+        }
+   }
 
     void OnTriggerEnter2D(Collider2D other) {
     }
