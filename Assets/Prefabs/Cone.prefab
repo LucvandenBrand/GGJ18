@@ -21,7 +21,8 @@ GameObject:
   - component: {fileID: 4368707732620950}
   - component: {fileID: 33277345712917152}
   - component: {fileID: 23457442173183268}
-  m_Layer: 0
+  - component: {fileID: 64822922746609082}
+  m_Layer: 12
   m_Name: Cone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,4 +82,18 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1935166454861528}
+  m_Mesh: {fileID: 4300000, guid: 9480f7515c32d6346aa8a3a1830aac6c, type: 2}
+--- !u!64 &64822922746609082
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1935166454861528}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 9480f7515c32d6346aa8a3a1830aac6c, type: 2}
