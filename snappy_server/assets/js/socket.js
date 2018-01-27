@@ -71,8 +71,10 @@ function joystickloop(){
         oldNormalizedX = normalizedX;
         oldNormalizedY = normalizedY;
     }
+    window.requestAnimationFrame(joystickloop);
 }
-window.setInterval(joystickloop, 1000/10);
+window.requestAnimationFrame(joystickloop);
+// window.setInterval(joystickloop, 1000/60);
 
 
 function main(){
