@@ -1,0 +1,18 @@
+<div id="messages" >
+    
+</div>
+
+<section id="game-joining-section">
+Player Name:
+<input name="" type="text" value="" id="player-name" />
+Room Code:
+<input name="" type="text" value="" id="room-code" />
+<button id="join-button">Join</button>
+</section>
+
+
+<section style="display: none" id="game-playing-section" >
+
+<canvas id="controlcircle">
+</section>
+
