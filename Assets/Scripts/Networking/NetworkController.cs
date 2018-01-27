@@ -208,6 +208,7 @@ public class NetworkController : MonoBehaviour {
         Debug.Log("Player Disconnected: " + player_name);
         // Unit player = players[player_name];
         // player.addVirtualForce(0, 0);
+        players[player_name].hasDisconnected = true;
     }
 
     static void startServer() {
@@ -282,13 +283,22 @@ public class NetworkController : MonoBehaviour {
             Debug.Log("Game Over!");
             cameraAnimator.SetTrigger("End-Sick");
             showScore();
+
+            // Remove old players; reset players that are still here.
+            Dictionary<string, Unit> newPlayers = new Dictionary<string, Unit>();
             foreach(Unit p in players.Values) {
-                p.ResetPlayer();
+                if(p.hasDisconnected){
+                    UnityEngine.Object.Destroy(p.transform);
+                } else {
+                    p.ResetPlayer();
+                    newPlayers.Add(p.name, p);
+                }
             }
+            players = newPlayers;
         }
     }
 
-    private void showScore() { 
+    private void showScore() {
 
         // Show the score
         List<Unit> playerList = new List<Unit>(players.Values);
