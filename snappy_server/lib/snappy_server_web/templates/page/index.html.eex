@@ -15,7 +15,7 @@
         <label for="room-code">
             Room Code:
         </label>
-        <input name="" type="text" value="" id="room-code" />
+        <input name="" type="text" value="" id="room-code" data-always-uppercase="true" />
     </div>
     <div>
         <button id="join-button">Join</button>

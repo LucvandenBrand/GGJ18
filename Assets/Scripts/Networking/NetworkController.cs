@@ -93,9 +93,9 @@ namespace SnappyServerEvent {
     [Serializable]
     public class PlayerDisconnected : PlayerEvent {
         public override void handle(NetworkController network_controller){
+            network_controller.player_disconnected(this.player_name);
         }
     }
-
 }
 
 public class NetworkController : MonoBehaviour {
@@ -104,7 +104,7 @@ public class NetworkController : MonoBehaviour {
     Dictionary<string, Unit> players = new Dictionary<string, Unit>();
 
 
-    public GameObject DebugText;
+    //public GameObject DebugText;
 
     void Awake() {
         DontDestroyOnLoad(this);
@@ -118,6 +118,7 @@ public class NetworkController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         processNetworkMessages();
+        checkOtherControllers();
     }
 
     static TcpClient client = null;
@@ -152,23 +153,26 @@ public class NetworkController : MonoBehaviour {
         }
     }
 
-    public void add_player(string player_name){
-        Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0);
+    public GameObject add_player(string player_name) {
+        Debug.Log("Player Connected: " + player_name);
+        Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 100);
         GameObject playerObject = Instantiate(playerPrefab, randomPos, Quaternion.identity) as GameObject;
         players.Add(player_name, playerObject.GetComponent<Unit>());
+        return playerObject;
     }
 
     public void send_message(string player_name, string message){
+        Debug.Log("Sent message by player " + player_name + ": " + message);
     }
 
     public void send_room_code(string room_code){
-        Debug.Log(room_code);
+        Debug.Log("Room Code: " + room_code);
     }
 
     public void player_move(string player_name, float pointer_x, float pointer_y) {
         Unit player = players[player_name];
-        Text DebugTextText = DebugText.GetComponent<Text>();
-        DebugTextText.text = "" + pointer_x;
+        //Text DebugTextText = DebugText.GetComponent<Text>();
+        //DebugTextText.text = "" + pointer_x;
         // Debug.Log(pointer_x);
         player.addVirtualForce(pointer_x, -pointer_y);
     }
@@ -176,6 +180,13 @@ public class NetworkController : MonoBehaviour {
     public void player_release(string player_name) {
         Unit player = players[player_name];
         player.addVirtualForce(0, 0);
+    }
+
+    // TODO: Proper disconnection logic.
+    public void player_disconnected(string player_name) {
+        Debug.Log("Player Disconnected: " + player_name);
+        // Unit player = players[player_name];
+        // player.addVirtualForce(0, 0);
     }
 
     static void startServer() {
@@ -196,12 +207,14 @@ public class NetworkController : MonoBehaviour {
         }
     }
 
+    private static Stream stream;
+
     static void connect() {
         if (client == null) {
             string server = "localhost";
             int port = 8002;
             client = new TcpClient(server, port);
-            Stream stream = client.GetStream();
+            stream = client.GetStream();
             reader = new BinaryReader(stream);
             writer = new BinaryWriter(stream);
         }
@@ -210,5 +223,31 @@ public class NetworkController : MonoBehaviour {
     public static void send(NetworkMessage msg) {
         msg.WriteToStream(writer);
         writer.Flush();
+    }
+
+    public void OnDestroy()
+    {
+        networkThread.Abort();
+        stream.Close();
+    }
+
+    List<String> inputStringsVertical = new List<String>{ "VerticalArrow", "VerticalWASD" };
+    List<String> inputStringsHorizontal = new List<String> { "HorizontalArrow", "HorizontalWASD" };
+    private void checkOtherControllers()
+    {
+        for (int i=0; i<inputStringsHorizontal.Count; i++)
+        {
+            if (Input.GetAxisRaw(inputStringsVertical[i]) > 0.5)
+            {
+                GameObject curPlayer = add_player(inputStringsVertical[i]);
+                KeysToVirtual keys = curPlayer.AddComponent<KeysToVirtual>();
+                keys.horizontalString = inputStringsVertical[i];
+                keys.verticalString = inputStringsHorizontal[i];
+                keys.toBeControlled = curPlayer.GetComponent<Unit>();
+
+                inputStringsHorizontal.RemoveAt(i);
+                inputStringsVertical.RemoveAt(i);
+            }
+        }
     }
 }
