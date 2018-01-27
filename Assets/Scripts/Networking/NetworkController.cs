@@ -104,7 +104,7 @@ public class NetworkController : MonoBehaviour {
     Dictionary<string, Unit> players = new Dictionary<string, Unit>();
 
 
-    public GameObject DebugText;
+    //public GameObject DebugText;
 
     void Awake() {
         DontDestroyOnLoad(this);
@@ -155,7 +155,7 @@ public class NetworkController : MonoBehaviour {
 
     public GameObject add_player(string player_name) {
         Debug.Log("Player Connected: " + player_name);
-        Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0);
+        Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 100);
         GameObject playerObject = Instantiate(playerPrefab, randomPos, Quaternion.identity) as GameObject;
         players.Add(player_name, playerObject.GetComponent<Unit>());
         return playerObject;
@@ -171,8 +171,8 @@ public class NetworkController : MonoBehaviour {
 
     public void player_move(string player_name, float pointer_x, float pointer_y) {
         Unit player = players[player_name];
-        Text DebugTextText = DebugText.GetComponent<Text>();
-        DebugTextText.text = "" + pointer_x;
+        //Text DebugTextText = DebugText.GetComponent<Text>();
+        //DebugTextText.text = "" + pointer_x;
         // Debug.Log(pointer_x);
         player.addVirtualForce(pointer_x, -pointer_y);
     }

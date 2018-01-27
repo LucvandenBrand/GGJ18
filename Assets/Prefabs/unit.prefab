@@ -149,7 +149,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1404716629429212}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 100}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4352502400297668}
@@ -315,7 +315,7 @@ Rigidbody2D:
   m_Constraints: 4
 --- !u!58 &58526381875654716
 CircleCollider2D:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1404716629429212}
@@ -363,7 +363,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 0.50735295, b: 0.50735295, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.42
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 1
