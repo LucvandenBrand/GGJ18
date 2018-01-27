@@ -102,7 +102,7 @@ namespace SnappyServerEvent {
 public class NetworkController : MonoBehaviour {
 
     public GameObject playerPrefab;
-    Dictionary<string, Unit> players = new Dictionary<string, Unit>();
+    public Dictionary<string, Unit> players = new Dictionary<string, Unit>();
     int healthyPlayers = 0;
 
 
@@ -128,6 +128,7 @@ public class NetworkController : MonoBehaviour {
     void Update() {
         processNetworkMessages();
         checkManualControllers();
+        ClampPlayers();
     }
 
     static TcpClient client = null;
@@ -166,6 +167,7 @@ public class NetworkController : MonoBehaviour {
         Debug.Log("Player Connected: " + player_name);
         Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 5);
         GameObject playerObject = Instantiate(playerPrefab, randomPos, Quaternion.identity) as GameObject;
+        playerObject.name = player_name;
 
         Unit playerUnit = playerObject.GetComponent<Unit>();
         playerUnit.name = player_name;
@@ -309,5 +311,24 @@ public class NetworkController : MonoBehaviour {
             scoreString += player.name + ": " + player.score + "\n";
         }
         scoreText.text = scoreString;
+    }
+
+    /* Players are disallowed to move outside of the screen. Preventing death. */
+    private void ClampPlayers()
+    {
+        foreach (Unit player in players.Values)
+        {
+            var pos = Camera.main.WorldToViewportPoint(player.transform.position);
+            pos.x = Mathf.Clamp(pos.x, 0.1f, 0.9f);
+            pos.y = Mathf.Clamp(pos.y, 0.1f, 0.9f);
+            player.transform.position = Camera.main.ViewportToWorldPoint(pos);
+        }
+    }
+
+    public void FinalScreen()
+    {
+        Debug.Log("Game Over!");
+        cameraAnimator.SetTrigger("End-Sick");
+        showScore();
     }
 }

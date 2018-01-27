@@ -9,6 +9,7 @@ public class Unit : MonoBehaviour {
 	Transform myTransform;
 	Rigidbody2D rigidbody;
 	Vector3 lastPosition;
+
 	[SerializeField]
 	public float speed;
 	public float rotationSpeed;
@@ -22,6 +23,15 @@ public class Unit : MonoBehaviour {
 	public InfectionEvent infectionEvent = new InfectionEvent();
 
 	public Vector2 virtualJoystick = new Vector2(0, 0);
+
+    [SerializeField]
+    private GameObject playerCollisionParticleSystem;
+
+
+    [SerializeField]
+    private AudioClip playerCollisionSound;
+    private AudioSource audiosource;
+    public int rayScore;
 	
 	// Use this for initialization
 	void Start () {
@@ -29,6 +39,8 @@ public class Unit : MonoBehaviour {
 		myTransform = gameObject.transform;
 		rigidbody = gameObject.GetComponent<Rigidbody2D>();
 		lastPosition = myTransform.position;
+
+		audiosource = GetComponent<AudioSource>();
 // 		if (Random.value > 0.5){
 // 			Infect();
 // 		}
@@ -41,13 +53,29 @@ public class Unit : MonoBehaviour {
 			//myTransform.LookAt(new Vector3(myTransform.position.x + virtualJoystick.x, myTransform.position.y + virtualJoystick.y, 0), new Vector3(0,0,-1));
 		}
 		addForce(virtualJoystick.x, virtualJoystick.y);
+  }
+  
+  public void updateScore() {
+	score += 1;
+  }
+  
+  public void updateRayScore() {
+        rayScore += 1;
+  }
 
+<<<<<<< HEAD
 	if(!this.isInfected){
 		this.score++;
 		float scale = .5f + .8f * System.Math.Min((float)score, 10.0f);
 		myTransform.localScale = new Vector3(scale, scale, scale); // MUST BE SMALLER THAN 5!!
 	}
 }
+=======
+    public void resetRayScore()
+    {
+        rayScore = 0;
+    }
+>>>>>>> ed38244633e25b5c6f281b9d1c2fb240542a2ae6
 
 public void addVirtualForce(float x_axis, float y_axis) {
 	virtualJoystick = new Vector2(x_axis, y_axis);
@@ -71,6 +99,22 @@ public void addForce(float x_axis, float y_axis) {
 
 	void OnTriggerEnter2D(Collider2D other) {
 	}
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "Player")
+        {
+            GameObject particles = Instantiate(playerCollisionParticleSystem, Camera.main.transform);
+            particles.transform.position = coll.transform.position;
+
+            float lowPitchRange = .75F;
+            float highPitchRange = 1.5F;
+            float velToVol = .01F;
+            float hitVol = coll.relativeVelocity.magnitude * velToVol;
+            audiosource.pitch = Random.Range (lowPitchRange,highPitchRange);
+            audiosource.PlayOneShot(playerCollisionSound, hitVol);
+        }
+    }
 	
 
 	public void Infect(){

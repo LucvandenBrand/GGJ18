@@ -4,31 +4,56 @@ using UnityEngine;
 
 public class GameMaster : MonoBehaviour {
 
-	Animation animation;
-	public GameObject playerPrefab;
-    public int numPlayers;
-    public GameObject bullet;
+	// List<Unit> units = new List<Unit>();
+    [SerializeField] public LayerMask layerMask;
+    [SerializeField] public float rayLength = 100;
 
-	List<Unit> units = new List<Unit>();
+    [SerializeField] int width, height;
 
+    [SerializeField] NetworkController networkController;
 
-    private void Start() {
-        for (int i = 0; i < numPlayers; i++)
-        {
-// 			float distance = 1000f;
-//             Vector3 randomPos = new Vector3(Random.Range(-distance, distance), Random.Range(-distance, distance), 0);
-// 		    GameObject unitObject = Instantiate(playerPrefab, randomPos, Quaternion.identity) as GameObject;
-// 		    units.Add(unitObject.GetComponent<Unit>());
-            //give infection to first player
-//             if (i == 0)
-//             {
-//                 Gun gun = unitObject.AddComponent<RodeHond>();
-//             }
+    public Unit DetermanScore() {
+        for (int x=0; x <= width; x++) {
+            for (int y=0; y <= height; y++) {
+                Vector3 test = new Vector3((1 / (float)width) * x, (1 / (float)height) * y, 0);
+
+                RaycastHit hit;
+
+                Ray ray = Camera.main.ViewportPointToRay(test);
+                Debug.DrawRay(ray.origin, ray.direction * rayLength, Color.yellow, 500f);	
+
+                if(Physics.Raycast(ray, out hit, rayLength, layerMask)) {
+                    if (hit.transform.gameObject != null) {
+                        hit.transform.gameObject.GetComponentInParent<Unit>().updateRayScore();
+                    } else {
+                        Debug.LogError("RAAR");
+                    }
+                }
+            }
         }
-		
+
+        List<Unit> players = new List<Unit>(networkController.players.Values);
+        Unit highScoreUnit = players[0];
+
+        foreach (var player in players) 
+            if (player.rayScore > highScoreUnit.rayScore) 
+                highScoreUnit = player;
+        foreach (var player in players)
+            player.resetRayScore();
+        highScoreUnit.score++;
+        return highScoreUnit;
 	}
 
-	private void Update() {
+    private void ResetScore() {
+        List<Unit> players = new List<Unit>(networkController.players.Values);
+        foreach (var player in players) {
+            player.score = 0;
+        }
+    }
 
-	}
+	// private void Update() {
+    //     if(Input.GetKeyDown(KeyCode.Space)) {
+    //         Debug.LogWarning("WINNAAR "+DetermanScore().name +" "+ DetermanScore().score);
+    //     }
+	// }
 }
