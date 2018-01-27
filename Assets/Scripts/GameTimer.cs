@@ -7,6 +7,7 @@ public class GameTimer : MonoBehaviour {
     private float timeLeft;
     private bool running = false;
     private bool animationRunning = false;
+    public Animator countdownAnimator;
 
     // Use this for initialization
     public void startRunning()
@@ -51,6 +52,8 @@ public class GameTimer : MonoBehaviour {
     void animation()
     {
         Debug.Log("Start animation");
+        countdownAnimator.SetTrigger("StartCount");
+
     }
 
     void timerFinished()
