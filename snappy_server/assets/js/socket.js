@@ -187,7 +187,7 @@ function main(){
 
 socket.connect();
 
-$(function(){
+$(document).ready(function(){
     $(document).on('keyup', "input[data-always-uppercase=true]", function () {
         $(this).val(function (_, val) {
             return val.toUpperCase();
