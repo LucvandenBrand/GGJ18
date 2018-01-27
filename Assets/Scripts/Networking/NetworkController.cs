@@ -117,7 +117,7 @@ public class NetworkController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        processNetworkMessage();
+        processNetworkMessages();
     }
 
     static TcpClient client = null;
@@ -142,11 +142,13 @@ public class NetworkController : MonoBehaviour {
         }
     }
 
-    void processNetworkMessage() {
+    void processNetworkMessages() {
         NetworkMessage msg = getItemFromQueue();
-        if (msg != null) {
+        while (msg != null) {
             SnappyServerEvent.Event networkevent = SnappyServerEvent.Event.DeserializeFromJSON(msg.ToString());
             networkevent.handle(this);
+
+            msg = getItemFromQueue();
         }
     }
 

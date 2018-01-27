@@ -40,10 +40,10 @@ public class Unit : MonoBehaviour {
     public void addForce(float x_axis, float y_axis){
         Vector3 movement = new Vector3(x_axis, y_axis, 0);
 
-        if (movement.magnitude > 1.0)
-        {
-            movement.Normalize();
-        }
+        // if (movement.magnitude > 1.0)
+        // {
+        //     movement.Normalize();
+        // }
         // myTransform.Translate(movement.normalized * speed * Time.deltaTime );
         rigidbody.AddForce(movement * speed);
     }
