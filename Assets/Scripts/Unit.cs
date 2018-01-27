@@ -31,6 +31,7 @@ public class Unit : MonoBehaviour {
     [SerializeField]
     private AudioClip playerCollisionSound;
     private AudioSource audiosource;
+    public int rayScore;
 	
 	
 	// Use this for initialization
@@ -57,8 +58,17 @@ public class Unit : MonoBehaviour {
   }
   
   public void updateScore() {
-	  score += 1;
+	score += 1;
   }
+  
+  public void updateRayScore() {
+        rayScore += 1;
+  }
+
+    public void resetRayScore()
+    {
+        rayScore = 0;
+    }
 
 public void addVirtualForce(float x_axis, float y_axis) {
 	virtualJoystick = new Vector2(x_axis, y_axis);

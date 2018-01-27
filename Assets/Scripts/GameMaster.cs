@@ -24,7 +24,7 @@ public class GameMaster : MonoBehaviour {
 
                 if(Physics.Raycast(ray, out hit, rayLength, layerMask)) {
                     if (hit.transform.gameObject != null) {
-                        hit.transform.gameObject.GetComponentInParent<Unit>().updateScore();
+                        hit.transform.gameObject.GetComponentInParent<Unit>().updateRayScore();
                     } else {
                         Debug.LogError("RAAR");
                     }
@@ -36,9 +36,11 @@ public class GameMaster : MonoBehaviour {
         Unit highScoreUnit = players[0];
 
         foreach (var player in players) 
-            if (player.score > highScoreUnit.score) 
+            if (player.rayScore > highScoreUnit.rayScore) 
                 highScoreUnit = player;
-
+        foreach (var player in players)
+            player.resetRayScore();
+        highScoreUnit.score++;
         return highScoreUnit;
 	}
 

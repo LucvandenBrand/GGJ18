@@ -11,6 +11,7 @@ public class GameTimer : MonoBehaviour {
 
     [SerializeField] GameObject playerWinPrefab;
     [SerializeField] GameMaster gm;
+    [SerializeField] int maxScore;
 
     // Use this for initialization
     public void startRunning()
@@ -62,6 +63,12 @@ public class GameTimer : MonoBehaviour {
     {
         Debug.Log("TimerDone");
         Unit winner = gm.DetermanScore();
+        if (winner.score >= maxScore)
+        {
+            // Game Over
+            stopRunning();
+            GetComponent<NetworkController>().FinalScreen();
+        }
         Instantiate(playerWinPrefab, winner.transform.position, Quaternion.identity);
         resetTimer();
     }

@@ -324,4 +324,11 @@ public class NetworkController : MonoBehaviour {
             player.transform.position = Camera.main.ViewportToWorldPoint(pos);
         }
     }
+
+    public void FinalScreen()
+    {
+        Debug.Log("Game Over!");
+        cameraAnimator.SetTrigger("End-Sick");
+        showScore();
+    }
 }
