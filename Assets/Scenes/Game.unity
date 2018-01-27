@@ -1336,6 +1336,7 @@ GameObject:
   - component: {fileID: 1769148827}
   - component: {fileID: 1769148826}
   - component: {fileID: 1769148829}
+  - component: {fileID: 1769148830}
   m_Layer: 0
   m_Name: ConeQuad
   m_TagString: Untagged
@@ -1422,6 +1423,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e807396251681b43acc8fa1037636e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1769148830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1769148824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ff426a47bac3b2429965fcbd1634744, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paramNames:
+  - _X
+  - _Y
+  paramSpeeds:
+  - 1
+  - 1
 --- !u!1 &1871980829
 GameObject:
   m_ObjectHideFlags: 0
