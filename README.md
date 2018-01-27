@@ -19,3 +19,41 @@ This folder is for you to mess around with on your own,
 the folder is never commited such that you do not need to worry about merge conflicts.
 
 **Keep in mind: merge conflicts are truly avoided by proper communication!**
+
+
+## Installing and running Elixir for the server code:
+
+The server code is contained in te `snappy_server` folder.
+
+To install Elixir, I recommend using the `asdf version manager`.
+
+https://github.com/asdf-vm/asdf
+
+You'll need Erlang, Elixir and nodejs.
+
+```
+asdf plugin-add erlang
+asdf plugin-add elixir
+asdf plugin-add nodejs
+
+# If problems during installing Erlang, install these packages first: https://github.com/asdf-vm/asdf-erlang#before-asdf-install
+asdf install erlang 20.1
+asdf global erlang 20.1
+
+asdf install elixir 1.5.2
+asdf global elixir 1.5.2
+
+asdf install nodejs 9.4.0
+asdf global nodejs 9.4.0
+```
+
+
+Then, go to the `snappy_server` folder and run `mix deps.get` to install the Elixir dependencies.
+
+Then, go to the `snappy_server/assets` folder, and install the nodejs dependencies using `npm install`.
+
+Then, you can start the server from `snapp_server` by typing `mix phx.server`.
+
+While running this in your terminal, start the game in Unity. It will attempt to connect at (for now) port 8002.
+
+The web-view for on phones can (for now) be seen at port 4000.

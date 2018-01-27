@@ -30,12 +30,12 @@ defmodule SnappyServer.GameServer do
 
   @doc "Called during lobby creation."
   defcall add_player({player_name, player_socket}), state: state do
-    Logger.debug("Attempting to add player #{player_name} to state #{inspect(state)}")
+    # Logger.debug("Attempting to add player #{player_name} to state #{inspect(state)}")
     if Map.has_key?(state.players, player_name) do
       reply({:error, :player_already_exists})
     else
       updated_state = %State{state | players: Map.put(state.players, player_name, player_socket)}
-      Logger.debug(inspect(updated_state))
+      # Logger.debug(inspect(updated_state))
 
       send_to_unity(updated_state, %{type: "player_added", player_name: player_name})
 
@@ -44,7 +44,7 @@ defmodule SnappyServer.GameServer do
   end
 
   defcast input_message({player_name, input_message}), state: state do
-    Logger.debug("Input Message: #{player_name} #{inspect(input_message)}")
+    # Logger.debug("Input Message: #{player_name} #{inspect(input_message)}")
     send_to_unity(state, %{type: "input_message", message: input_message, player_name: player_name})
     noreply
   end
