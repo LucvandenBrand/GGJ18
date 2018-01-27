@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465785, g: 0.49641252, b: 0.574817, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -783,6 +783,7 @@ GameObject:
   - component: {fileID: 950224469}
   - component: {fileID: 950224468}
   - component: {fileID: 950224470}
+  - component: {fileID: 950224471}
   m_Layer: 0
   m_Name: GameRuler
   m_TagString: Untagged
@@ -832,6 +833,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerDuration: 10
   countdownAnimator: {fileID: 975207148}
+  playerWinPrefab: {fileID: 1867974640705816, guid: c3f2592dde9294ad3a4d720ae2bfe4b0,
+    type: 2}
+  gm: {fileID: 950224471}
+  maxScore: 3
+--- !u!114 &950224471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 950224467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251ffda96ed150f45a579b40b3f25228, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  rayLength: 100
+  width: 16
+  height: 9
+  networkController: {fileID: 950224468}
 --- !u!95 &975207148 stripped
 Animator:
   m_PrefabParentObject: {fileID: 95644116163631368, guid: 628a3ba419765ab448da086cdb7af61b,

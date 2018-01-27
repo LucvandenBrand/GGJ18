@@ -35,9 +35,12 @@ public class GameMaster : MonoBehaviour {
         List<Unit> players = new List<Unit>(networkController.players.Values);
         Unit highScoreUnit = players[0];
 
-        foreach (var player in players) 
-            if (player.rayScore > highScoreUnit.rayScore) 
+        foreach (var player in players)
+        {
+            Debug.Log("rayscore" + player.name + " " + player.rayScore);
+            if (player.rayScore > highScoreUnit.rayScore)
                 highScoreUnit = player;
+        }
         foreach (var player in players)
             player.resetRayScore();
         highScoreUnit.score++;
