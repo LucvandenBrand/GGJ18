@@ -40,9 +40,9 @@ GameObject:
   - component: {fileID: 4793615486507194}
   - component: {fileID: 114817044931806778}
   - component: {fileID: 50025493843244218}
-  - component: {fileID: 58176963852509314}
+  - component: {fileID: 58526381875654716}
   m_Layer: 0
-  m_Name: Unit
+  m_Name: unit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -314,9 +314,8 @@ Rigidbody2D:
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!58 &58526381875654716
-
 CircleCollider2D:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1404716629429212}
