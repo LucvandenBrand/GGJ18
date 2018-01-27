@@ -127,7 +127,7 @@ public class NetworkController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         processNetworkMessages();
-        // checkManualControllers();
+        checkManualControllers();
     }
 
     static TcpClient client = null;
