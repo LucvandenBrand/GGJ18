@@ -30,9 +30,9 @@ public class Unit : MonoBehaviour {
 		rigidbody = gameObject.GetComponent<Rigidbody2D>();
 		lastPosition = myTransform.position;
 		
-		if (Random.value > 0.5){
-			Infect();
-		}
+// 		if (Random.value > 0.5){
+// 			Infect();
+// 		}
 		//myTransform.LookAt(new Vector3(0, -1, 0), new Vector3(0,0,-1));
 	}
 	

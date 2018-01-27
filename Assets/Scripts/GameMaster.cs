@@ -20,10 +20,10 @@ public class GameMaster : MonoBehaviour {
 		    GameObject unitObject = Instantiate(playerPrefab, randomPos, Quaternion.identity) as GameObject;
 		    units.Add(unitObject.GetComponent<Unit>());
             //give infection to first player
-            if (i == 0)
-            {
-                Gun gun = unitObject.AddComponent<RodeHond>();
-            }
+//             if (i == 0)
+//             {
+//                 Gun gun = unitObject.AddComponent<RodeHond>();
+//             }
         }
 		
 	}
