@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114448833763125612}
   - component: {fileID: 50081786407814598}
   - component: {fileID: 58402825461478580}
+  - component: {fileID: 114083211100991846}
   m_Layer: 0
   m_Name: unit
   m_TagString: Untagged
@@ -448,6 +449,34 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114083211100991846
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1142469761710836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c499a2dd3fc09848abda8ce94d36054, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cone: {fileID: 1935166454861528, guid: 6fc14b22140c3704ea39f39bbd83b458, type: 2}
+  voronoiColors:
+  - {fileID: 2100000, guid: f65f00003ce230043b9bae852c9caa85, type: 2}
+  - {fileID: 2100000, guid: 8f1779e8877bf9141bfe5a3aaca4ba53, type: 2}
+  - {fileID: 2100000, guid: c1924293f52adb3469148686b6dc0629, type: 2}
+  - {fileID: 2100000, guid: 8744110c38da61e48ac797c5a3cf3db3, type: 2}
+  - {fileID: 2100000, guid: cbbe0ca2cc1571d4d8452698207cdabd, type: 2}
+  - {fileID: 2100000, guid: c3c41107c5845bd48bc9b2c199ab7c26, type: 2}
+  - {fileID: 2100000, guid: 49365795e658c3749b32de6337a2590f, type: 2}
+  - {fileID: 2100000, guid: d68af19de1053ba468abbabd68732dab, type: 2}
+  - {fileID: 2100000, guid: cbbe0ca2cc1571d4d8452698207cdabd, type: 2}
+  - {fileID: 2100000, guid: c5b5b9c8373880e4c85b5e6a355aa80e, type: 2}
+  - {fileID: 2100000, guid: 6abfc54d1a0e4b74a8df4a5d88cfd480, type: 2}
+  - {fileID: 2100000, guid: 18ca3101dcffc0b47a21ce947b91280c, type: 2}
+  - {fileID: 2100000, guid: 6351198081b8c88498b1da2426a88e80, type: 2}
+  - {fileID: 2100000, guid: 87bc325e0027eaa4c9a09debc8f0eb4a, type: 2}
+  - {fileID: 2100000, guid: 69011c3e3da4b264986d2bc399881da4, type: 2}
 --- !u!114 &114337700674009200
 MonoBehaviour:
   m_ObjectHideFlags: 1
