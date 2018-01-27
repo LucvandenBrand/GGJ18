@@ -23,6 +23,9 @@ public class Unit : MonoBehaviour {
 	public InfectionEvent infectionEvent = new InfectionEvent();
 
 	public Vector2 virtualJoystick = new Vector2(0, 0);
+
+    [SerializeField]
+    private GameObject playerCollisionParticleSystem;
 	
 	
 	// Use this for initialization
@@ -72,6 +75,15 @@ public void addForce(float x_axis, float y_axis) {
 
 	void OnTriggerEnter2D(Collider2D other) {
 	}
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "Player")
+        {
+            GameObject particles = Instantiate(playerCollisionParticleSystem, Camera.main.transform);
+            particles.transform.position = coll.transform.position;
+        }
+    }
 	
 
 	public void Infect(){

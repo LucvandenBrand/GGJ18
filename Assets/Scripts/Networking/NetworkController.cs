@@ -165,8 +165,7 @@ public class NetworkController : MonoBehaviour {
 
     public GameObject add_player(string player_name) {
         Debug.Log("Player Connected: " + player_name);
-        float distance = 10f;
-        Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-distance, distance), UnityEngine.Random.Range(-distance, distance), 5);
+        Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 5);
         GameObject playerObject = Instantiate(playerPrefab, randomPos, Quaternion.identity) as GameObject;
         playerObject.name = player_name;
 
@@ -179,7 +178,19 @@ public class NetworkController : MonoBehaviour {
 
         players.Add(player_name, playerUnit);
         healthyPlayers++;
+
+        checkTimerStart();
+
         return playerObject;
+    }
+
+    private void checkTimerStart()
+    {
+        GameTimer gameTimer = GetComponent<GameTimer>();
+        if (!gameTimer.isRunning())
+        {
+            gameTimer.startRunning();
+        }
     }
 
     public void send_message(string player_name, string message){
@@ -196,7 +207,7 @@ public class NetworkController : MonoBehaviour {
         //DebugTextText.text = "" + pointer_x;
         // Debug.Log(pointer_x);
         player.addVirtualForce(pointer_x, -pointer_y);
-        // player.Infect(); // TODO Temporary test.
+        player.Infect(); // TODO Temporary test.
     }
 
     public void player_release(string player_name) {
@@ -210,7 +221,6 @@ public class NetworkController : MonoBehaviour {
         Debug.Log("Player Disconnected: " + player_name);
         // Unit player = players[player_name];
         // player.addVirtualForce(0, 0);
-        players[player_name].hasDisconnected = true;
     }
 
     static void startServer() {
@@ -260,7 +270,7 @@ public class NetworkController : MonoBehaviour {
     List<String> inputStringsHorizontal = new List<String> { "HorizontalArrow", "HorizontalWASD" };
     private void checkManualControllers()
     {
-        for (int i=0; i<inputStringsHorizontal.Count; ++i)
+        for (int i=0; i<inputStringsHorizontal.Count; i++)
         {
             if (Input.GetAxisRaw(inputStringsVertical[i]) > 0.5)
             {
@@ -285,27 +295,14 @@ public class NetworkController : MonoBehaviour {
             Debug.Log("Game Over!");
             cameraAnimator.SetTrigger("End-Sick");
             showScore();
-
-            // Remove old players; reset players that are still here.
-            Dictionary<string, Unit> newPlayers = new Dictionary<string, Unit>();
-            foreach(Unit p in players.Values) {
-                if(p.hasDisconnected){
-                    UnityEngine.Object.Destroy(p.transform);
-                } else {
-                    p.ResetPlayer();
-                    newPlayers.Add(p.name, p);
-                }
-            }
-            players = newPlayers;
-            healthyPlayers = players.Count;
         }
     }
 
-    private void showScore() {
+    private void showScore() { 
 
         // Show the score
         List<Unit> playerList = new List<Unit>(players.Values);
-        playerList.Sort((p, q) => q.score.CompareTo(p.score));
+        playerList.Sort((p, q) => p.score.CompareTo(q.score));
 
         string scoreString = "SCORE:\n";
 
@@ -327,7 +324,4 @@ public class NetworkController : MonoBehaviour {
             player.transform.position = Camera.main.ViewportToWorldPoint(pos);
         }
     }
-
-
 }
-

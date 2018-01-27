@@ -312,7 +312,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: c3c41107c5845bd48bc9b2c199ab7c26, type: 2}
   - {fileID: 2100000, guid: 49365795e658c3749b32de6337a2590f, type: 2}
   - {fileID: 2100000, guid: d68af19de1053ba468abbabd68732dab, type: 2}
-  - {fileID: 2100000, guid: cbbe0ca2cc1571d4d8452698207cdabd, type: 2}
+  - {fileID: 2100000, guid: 6bb09b8a8ae81c6448f2110605562ef1, type: 2}
   - {fileID: 2100000, guid: c5b5b9c8373880e4c85b5e6a355aa80e, type: 2}
   - {fileID: 2100000, guid: 6abfc54d1a0e4b74a8df4a5d88cfd480, type: 2}
   - {fileID: 2100000, guid: 18ca3101dcffc0b47a21ce947b91280c, type: 2}
@@ -347,13 +347,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc8efb736cb256c4c9777c1ab7d53c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
+  speed: 61.6
   rotationSpeed: 0
   isInfected: 0
   score: 0
   name: 
   hasDisconnected: 0
   virtualJoystick: {x: 0, y: 0}
+  playerCollisionParticleSystem: {fileID: 1335849293727152, guid: 76906a851cd7740dd8a136beff0261d0,
+    type: 2}
 --- !u!114 &114923149312049486
 MonoBehaviour:
   m_ObjectHideFlags: 1
