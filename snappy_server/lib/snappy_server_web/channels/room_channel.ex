@@ -12,13 +12,14 @@ defmodule SnappyServerWeb.RoomChannel do
           {:error, %{reason: "Unexistent Game"}}
         {:error, :player_already_exists} ->
           {:error, %{reason: "Player Already Exists"}}
-        {:ok, %{room_pid: room_pid}} ->
+        {:ok, %{room_pid: room_pid, voronoi_color: voronoi_color}} ->
           socket =
             socket
             |> assign(:room_code, room_code)
             |> assign(:room_pid, room_pid)
             |> assign(:player_name, player_name)
-          {:ok, socket}
+            |> assign(:voronoi_color, voronoi_color)
+          {:ok, %{voronoi_color: voronoi_color}, socket}
       end
     else
       {:error, %{reason: "unauthorized"}}
