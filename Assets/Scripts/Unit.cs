@@ -25,6 +25,11 @@ public class Unit : MonoBehaviour {
 
     [SerializeField]
     private GameObject playerCollisionParticleSystem;
+
+
+    [SerializeField]
+    private AudioClip playerCollisionSound;
+    private AudioSource audiosource;
 	
 	
 	// Use this for initialization
@@ -33,6 +38,8 @@ public class Unit : MonoBehaviour {
 		myTransform = gameObject.transform;
 		rigidbody = gameObject.GetComponent<Rigidbody2D>();
 		lastPosition = myTransform.position;
+
+    audiosource = GetComponent<AudioSource>();
 		
 // 		if (Random.value > 0.5){
 // 			Infect();
@@ -81,6 +88,13 @@ public void addForce(float x_axis, float y_axis) {
         {
             GameObject particles = Instantiate(playerCollisionParticleSystem, Camera.main.transform);
             particles.transform.position = coll.transform.position;
+
+            float lowPitchRange = .75F;
+            float highPitchRange = 1.5F;
+            float velToVol = .01F;
+            float hitVol = coll.relativeVelocity.magnitude * velToVol;
+            audiosource.pitch = Random.Range (lowPitchRange,highPitchRange);
+            audiosource.PlayOneShot(playerCollisionSound, hitVol);
         }
     }
 	
