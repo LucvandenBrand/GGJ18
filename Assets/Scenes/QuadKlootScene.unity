@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465934, g: 0.49642956, b: 0.5748249, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -88,6 +88,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -163,7 +164,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -10
   m_CullingMask:
@@ -175,6 +176,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -238,7 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cone: {fileID: 1935166454861528, guid: 6fc14b22140c3704ea39f39bbd83b458, type: 2}
-  mat: {fileID: 2100000, guid: 8f1779e8877bf9141bfe5a3aaca4ba53, type: 2}
+  mat: {fileID: 2100000, guid: 8744110c38da61e48ac797c5a3cf3db3, type: 2}
 --- !u!23 &359757663
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -305,6 +307,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrust: 2
   turnpower: 5
+  friction: 0
+  maxSpeed: 5
 --- !u!54 &359757667
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -396,9 +400,9 @@ GameObject:
   - component: {fileID: 444131769}
   - component: {fileID: 444131768}
   - component: {fileID: 444131767}
-  - component: {fileID: 444131766}
   - component: {fileID: 444131772}
   - component: {fileID: 444131771}
+  - component: {fileID: 444131766}
   m_Layer: 0
   m_Name: Movable Cone
   m_TagString: Untagged
@@ -418,7 +422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cone: {fileID: 1935166454861528, guid: 6fc14b22140c3704ea39f39bbd83b458, type: 2}
-  mat: {fileID: 2100000, guid: c1924293f52adb3469148686b6dc0629, type: 2}
+  mat: {fileID: 2100000, guid: 8f1779e8877bf9141bfe5a3aaca4ba53, type: 2}
 --- !u!23 &444131767
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -590,7 +594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cone: {fileID: 1935166454861528, guid: 6fc14b22140c3704ea39f39bbd83b458, type: 2}
-  mat: {fileID: 2100000, guid: c3c41107c5845bd48bc9b2c199ab7c26, type: 2}
+  mat: {fileID: 2100000, guid: f65f00003ce230043b9bae852c9caa85, type: 2}
 --- !u!23 &1261668791
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -657,6 +661,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrust: 2
   turnpower: 5
+  friction: 0
+  maxSpeed: 5
 --- !u!54 &1261668795
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -805,7 +811,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cone: {fileID: 1935166454861528, guid: 6fc14b22140c3704ea39f39bbd83b458, type: 2}
-  mat: {fileID: 2100000, guid: f65f00003ce230043b9bae852c9caa85, type: 2}
+  mat: {fileID: 2100000, guid: 49365795e658c3749b32de6337a2590f, type: 2}
 --- !u!23 &1720361899
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -885,6 +891,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrust: 2
   turnpower: 5
+  friction: 0
+  maxSpeed: 5
 --- !u!54 &1720361904
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -963,6 +971,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -1056,9 +1065,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Convex: 0
-  m_InflateMesh: 0
+  m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &2048191069
