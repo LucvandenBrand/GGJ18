@@ -155,56 +155,74 @@ function main(){
 			      ctx.lineTo(pointerX, pointerY);
 			      ctx.stroke()
 		    }
+        draw_name();
+        draw_room_code();
+
 	  }
+
+    function draw_name(){
+        ctx.textAlign = "start";
+        ctx.textBaseline = "top";
+        ctx.font = "12px Arial";
+        ctx.fillText("Player:", 30, 0);
+        ctx.font = "28px Arial";
+        ctx.fillText(playerNameInput.value, 30, 20);
+    }
+
+    function draw_room_code(){
+        ctx.textAlign = "end";
+        ctx.textBaseline = "top";
+        ctx.font = "12px Arial";
+        ctx.fillText("Room:", screen.width - 30, 0);
+        ctx.font = "28px Arial";
+        ctx.fillText(roomCodeInput.value, screen.width - 30, 20);
+    }
 	  
 	  update();
 }
 
 
 
-socket.connect()
+socket.connect();
 
-// Now that you are connected, you can join channels with a topic:
-
-
-
-// chatInput.addEventListener("keypress", event => {
-//     if(event.keyCode === 13){
-//         console.log(chatInput.value, "TEST")
-//         channel.push("new_msg", {body: chatInput.value})
-//         chatInput.value = ""
-//     }
-// });
-
-
-joinButton.addEventListener("click", event => {
-    channel           = socket.channel("room:lobby", {room_code: roomCodeInput.value, player_name: playerNameInput.value})
-
-    //     let messagesContainer = document.querySelector("#messages")
-
-
-    //     channel.on("new_msg", payload => {
-    //         let messageItem = document.createElement("li");
-    //         messageItem.innerText = `[${Date()}] ${payload.body}`
-    //         messagesContainer.appendChild(messageItem)
-    //     })
-
-    event.preventDefault();
-
-    channel.join()
-        .receive("error", resp => { console.log("Unable to join", resp);
-                                    alert("Unable to join game: " + resp.reason);
-                                  })
-        .receive("ok", resp => {
-            console.log("Joined successfully", resp);
-
-            //             document.querySelector("[data-origin='player-name']").innerHTML = playerNameInput.value;
-            //             document.querySelector("[data-origin='room-code']").innerHTML = roomCodeInput.value;
-            document.querySelector("#game-joining-section").style = "display: none";
-            document.querySelector("#game-playing-section").style = "display: block";
-			      
-			      main();
+$(function(){
+    $(document).on('keyup', "input[data-always-uppercase=true]", function () {
+        $(this).val(function (_, val) {
+            return val.toUpperCase();
         });
-});
+    });
+
+    joinButton.addEventListener("click", event => {
+        channel           = socket.channel("room:lobby", {room_code: roomCodeInput.value, player_name: playerNameInput.value});
+
+        //     let messagesContainer = document.querySelector("#messages")
+
+
+        //     channel.on("new_msg", payload => {
+        //         let messageItem = document.createElement("li");
+        //         messageItem.innerText = `[${Date()}] ${payload.body}`
+        //         messagesContainer.appendChild(messageItem)
+        //     })
+
+        event.preventDefault();
+
+        channel.join()
+            .receive("error", resp => { console.log("Unable to join", resp);
+                                        alert("Unable to join game: " + resp.reason);
+                                      })
+            .receive("ok", resp => {
+                console.log("Joined successfully", resp);
+
+                //             document.querySelector("[data-origin='player-name']").innerHTML = playerNameInput.value;
+                //             document.querySelector("[data-origin='room-code']").innerHTML = roomCodeInput.value;
+                // document.querySelector("#game-joining-section").style = "display: none";
+                // document.querySelector("#game-playing-section").style = "display: block";
+                $("#game-joining-section").hide();
+                $("#game-playing-section").show();
+			          
+			          main();
+            });
+    });
+})
 
 export default socket;
