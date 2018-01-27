@@ -22,9 +22,9 @@ public class Gun : MonoBehaviour {
 
     void DoShot()
     {
-        GameObject curBullet = (GameObject)Instantiate(bullet, transform.position + (transform.up), transform.rotation);
+        Instantiate(bullet, shootPosition.position, transform.rotation);
         //curBullet.transform.rotation = transform.rotation;
-        Rigidbody rb = curBullet.GetComponent<Rigidbody>();
-        rb.AddRelativeForce(transform.up * shootPower);
+        // Rigidbody2D rb = go.GetComponent<Rigidbody2D>();
+        // rb.AddRelativeForce(transform.up * shootPower);
     }
 }
