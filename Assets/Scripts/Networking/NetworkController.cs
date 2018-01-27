@@ -6,6 +6,8 @@ using System.IO;
 using UnityEngine;
 using System;
 
+using UnityEngine.UI;
+
 namespace SnappyServerEvent {
     [Serializable]
     public class Event {
@@ -101,6 +103,9 @@ public class NetworkController : MonoBehaviour {
     public GameObject playerPrefab;
     Dictionary<string, Unit> players = new Dictionary<string, Unit>();
 
+
+    public GameObject DebugText;
+
     void Awake() {
         DontDestroyOnLoad(this);
     }
@@ -160,12 +165,15 @@ public class NetworkController : MonoBehaviour {
 
     public void player_move(string player_name, float pointer_x, float pointer_y) {
         Unit player = players[player_name];
-        player.addForce(pointer_x, -pointer_y);
+        Text DebugTextText = DebugText.GetComponent<Text>();
+        DebugTextText.text = "" + pointer_x;
+        // Debug.Log(pointer_x);
+        player.addVirtualForce(pointer_x, -pointer_y);
     }
 
     public void player_release(string player_name) {
         Unit player = players[player_name];
-        player.addForce(0, 0);
+        player.addVirtualForce(0, 0);
     }
 
     static void startServer() {

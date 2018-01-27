@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23516946426207056}
   - component: {fileID: 54736712820109132}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: RodeHondBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
