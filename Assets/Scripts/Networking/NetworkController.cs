@@ -160,7 +160,7 @@ public class NetworkController : MonoBehaviour {
 
     public GameObject add_player(string player_name) {
         Debug.Log("Player Connected: " + player_name);
-        Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 100);
+        Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 5);
         GameObject playerObject = Instantiate(playerPrefab, randomPos, Quaternion.identity) as GameObject;
 
         Unit playerUnit = playerObject.GetComponent<Unit>();
