@@ -175,14 +175,14 @@ function main(){
 
 	  function draw(){
 		    ctx.clearRect(0, 0, width, height);
-		    ctx.strokeStyle = "#0005";
+		    ctx.strokeStyle = "#" + invertHex(voronoiColor);
 		    ctx.beginPath();
         // 		var r = Math.min(width, height)/2;
 		    ctx.lineWidth = circleradius/2;
 		    ctx.arc(width/2, height/2, circleradius, 0, 2*Math.PI);
 		    ctx.stroke();
 		    if (isDown){
-			      ctx.strokeStyle = "#0005";
+			      ctx.strokeStyle = "#" + invertHex(voronoiColor);
 			      ctx.lineWidth = 30 + (Math.hypot(width/2-pointerX, height/2-pointerY))/10;
 			      ctx.lineCap = "round";
 			      ctx.beginPath();
