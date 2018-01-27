@@ -307,7 +307,7 @@ public class NetworkController : MonoBehaviour {
 
         // Show the score
         List<Unit> playerList = new List<Unit>(players.Values);
-        playerList.Sort((p, q) => p.score.CompareTo(q.score));
+        playerList.Sort((p, q) => q.score.CompareTo(p.score));
 
         string scoreString = "SCORE:\n";
 

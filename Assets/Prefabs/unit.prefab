@@ -208,7 +208,7 @@ Transform:
   m_GameObject: {fileID: 1142469761710836}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 191.12863, y: -56.16758, z: 205.47731}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 4640663439051334}
   - {fileID: 4553965115862320}
@@ -531,6 +531,7 @@ MonoBehaviour:
   isInfected: 0
   score: 0
   name: 
+  hasDisconnected: 0
   virtualJoystick: {x: 0, y: 0}
 --- !u!114 &114665501245902926
 MonoBehaviour:
@@ -575,7 +576,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &135909383782763096
 SphereCollider:
