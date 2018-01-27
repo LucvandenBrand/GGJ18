@@ -51,12 +51,12 @@ defmodule SnappyServer.GameServer do
 
   defcast player_move({player_name, movement_map = %{pointer_x: pointer_x, pointer_y: pointer_y}}), state: state do
     Logger.debug("Player Move Message: #{player_name} #{inspect(movement_map)}")
-    send_to_unity(state, %{type: "player_move", pointer_x: pointer_x, pointer_y: pointer_y})
+    send_to_unity(state, %{type: "player_move", player_name: player_name, pointer_x: pointer_x, pointer_y: pointer_y})
     noreply
   end
 
   defcast player_release({player_name}), state: state do
-    send_to_unity(state, %{type: "player_release"})
+    send_to_unity(state, %{type: "player_release", player_name: player_name})
     noreply
   end
 

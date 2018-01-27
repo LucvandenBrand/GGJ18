@@ -32,16 +32,19 @@ namespace SnappyServerEvent {
         }
     }
 
+    [Serializable]
+    public class PlayerEvent : Event {
+        public string player_name;
+    }
+
     // Sent when new player is added to game
     [Serializable]
-    public class PlayerAdded : Event {
-        public string player_name;
+    public class PlayerAdded : PlayerEvent {
     }
 
     // Testing event. To be removed later.
     [Serializable]
-    public class InputMessage : Event {
-        public string player_name;
+    public class InputMessage : PlayerEvent {
         public string message;
     }
 
@@ -53,24 +56,27 @@ namespace SnappyServerEvent {
 
     // Sent whenever a player moves on their device.
     [Serializable]
-    public class PlayerMove : Event {
-        public double pointer_x;
-        public double pointer_y;
+    public class PlayerMove : PlayerEvent {
+        public float pointer_x;
+        public float pointer_y;
     }
 
     // Sent whenever a player stops moving using their device.
     [Serializable]
-    public class PlayerRelease : Event {
+    public class PlayerRelease : PlayerEvent {
     }
 
     // Sent whenever a player is disconnected because of inactivity/broken socket.
     [Serializable]
-    public class PlayerDisconnected : Event {
+    public class PlayerDisconnected : PlayerEvent {
     }
 
 }
 
 public class NetworkController : MonoBehaviour {
+
+    public GameObject playerPrefab;
+    Dictionary<string, Unit> players = new Dictionary<string, Unit>();
 
     void Awake() {
         DontDestroyOnLoad(this);
@@ -108,16 +114,45 @@ public class NetworkController : MonoBehaviour {
         }
     }
 
-    static void processNetworkMessage() {
+    void processNetworkMessage() {
         NetworkMessage msg = getItemFromQueue();
         if (msg != null) {
             // do some processing here, like update the player state
             // JsonUtility.FromJSON(msg.ToString());
-            Debug.Log(msg.ToString());
+            // Debug.Log(msg.ToString());
             SnappyServerEvent.Event networkevent = SnappyServerEvent.Event.DeserializeFromJSON(msg.ToString());
-            Debug.Log(networkevent);
+            if(networkevent is SnappyServerEvent.RoomCode){
+                Debug.Log(((SnappyServerEvent.RoomCode)networkevent).room_code);
+            }else if(networkevent is SnappyServerEvent.PlayerAdded){
+                handleNetworkEvent((SnappyServerEvent.PlayerAdded)networkevent);
+            }else if(networkevent is SnappyServerEvent.PlayerMove){
+                handleNetworkEvent((SnappyServerEvent.PlayerMove)networkevent);
+            }else if(networkevent is SnappyServerEvent.PlayerRelease){
+                handleNetworkEvent((SnappyServerEvent.PlayerRelease)networkevent);
+            }else{
+                Debug.Log(networkevent);
+            }
         }
     }
+
+    void handleNetworkEvent(SnappyServerEvent.PlayerAdded message) {
+        Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0);
+        GameObject playerObject = Instantiate(playerPrefab, randomPos, Quaternion.identity) as GameObject;
+        players.Add(message.player_name, playerObject.GetComponent<Unit>());
+    }
+
+    void handleNetworkEvent(SnappyServerEvent.PlayerMove message) {
+        Unit player = players[message.player_name];
+        player.addForce(100*message.pointer_x, 100*-message.pointer_y);
+    }
+
+    void handleNetworkEvent(SnappyServerEvent.PlayerRelease message) {
+        Unit player = players[message.player_name];
+        player.addForce(0, 0);
+    }
+
+
+
 
     static void startServer() {
         Debug.Log("Attempting to start server...");

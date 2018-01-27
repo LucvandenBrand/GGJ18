@@ -21,17 +21,22 @@ public class Unit : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
+      addForce(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        if (movement.magnitude > 1.0)
-        {
-            movement.Normalize();
-        }
-		// myTransform.Translate(movement.normalized * speed * Time.deltaTime );
-		rigidbody.AddForce(movement * speed);
 		if (Vector3.Distance(myTransform.position, lastPosition) > 0.03){
 			myTransform.LookAt(new Vector3(lastPosition.x, lastPosition.y, 0), new Vector3(0,0,-1));
 		}
 		lastPosition = myTransform.position;
 	}
+
+    public void addForce(float x_axis, float y_axis){
+        Vector3 movement = new Vector3(x_axis, y_axis, 0);
+
+        if (movement.magnitude > 1.0)
+        {
+            movement.Normalize();
+        }
+        // myTransform.Translate(movement.normalized * speed * Time.deltaTime );
+        rigidbody.AddForce(movement * speed);
+    }
 }
