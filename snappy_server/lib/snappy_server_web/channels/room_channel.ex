@@ -45,6 +45,23 @@ defmodule SnappyServerWeb.RoomChannel do
     SnappyServer.GameServerBucket.input_message(socket.assigns[:room_code], {socket.assigns[:player_name], body})
     {:noreply, socket}
   end
+  
+  def handle_in("player_move", body = %{"pointer_x" => pointer_x, "pointer_y" => pointer_y}, socket) do
+    IO.inspect(socket.assigns)
+    IO.inspect(body)
+    # broadcast! socket, "new_msg", %{body: body}
+    SnappyServer.GameServerBucket.input_message(socket.assigns[:room_code], {socket.assigns[:player_name], inspect(body)})
+    {:noreply, socket}
+  end
+  
+    def handle_in("player_release", body, socket) do
+    IO.inspect(socket.assigns)
+    IO.inspect(body)
+    # broadcast! socket, "new_msg", %{body: body}
+    SnappyServer.GameServerBucket.input_message(socket.assigns[:room_code], {socket.assigns[:player_name], inspect(body)})
+    {:noreply, socket}
+  end
+  
   # Add authorization logic here as required.
   defp authorized?(_payload) do
     true

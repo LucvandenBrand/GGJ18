@@ -54,6 +54,12 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 "use strict";
 
 
+let roomCodeInput         = document.querySelector("#room-code")
+let playerNameInput         = document.querySelector("#player-name")
+// let chatInput         = document.querySelector("#chat-input")
+let joinButton        = document.querySelector("#join-button")
+var channel;
+
 function main(){
 	
 	var canvas = document.getElementById("controlcircle");
@@ -134,11 +140,7 @@ socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
 
-let roomCodeInput         = document.querySelector("#room-code")
-let playerNameInput         = document.querySelector("#player-name")
-// let chatInput         = document.querySelector("#chat-input")
-let joinButton        = document.querySelector("#join-button")
-var channel;
+
 
 // chatInput.addEventListener("keypress", event => {
 //     if(event.keyCode === 13){
@@ -170,8 +172,8 @@ joinButton.addEventListener("click", event => {
 
 //             document.querySelector("[data-origin='player-name']").innerHTML = playerNameInput.value;
 //             document.querySelector("[data-origin='room-code']").innerHTML = roomCodeInput.value;
-//             document.querySelector("#game-joining-section").style = "display: none";
-//             document.querySelector("#game-playing-section").style = "display: block";
+            document.querySelector("#game-joining-section").style = "display: none";
+            document.querySelector("#game-playing-section").style = "display: block";
 			
 			main();
         });
