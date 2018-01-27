@@ -109,7 +109,8 @@ public class NetworkController : MonoBehaviour {
     // The Animation to call on game over.
     public Animator cameraAnimator;
 
-    //public GameObject DebugText;
+    // The text to show the room in.
+    public Text roomText;
 
     void Awake() {
         DontDestroyOnLoad(this);
@@ -180,7 +181,7 @@ public class NetworkController : MonoBehaviour {
     }
 
     public void send_room_code(string room_code){
-        Debug.Log("Room Code: " + room_code);
+        roomText.text = room_code;
     }
 
     public void player_move(string player_name, float pointer_x, float pointer_y) {
