@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConeGenerator : MonoBehaviour {
+public class ConeMaker : MonoBehaviour {
     public GameObject cone;
 	private Rigidbody rb;
 
