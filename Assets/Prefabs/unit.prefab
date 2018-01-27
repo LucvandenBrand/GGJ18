@@ -531,6 +531,7 @@ MonoBehaviour:
   isInfected: 0
   score: 0
   name: 
+  hasDisconnected: 0
   virtualJoystick: {x: 0, y: 0}
 --- !u!114 &114665501245902926
 MonoBehaviour:
