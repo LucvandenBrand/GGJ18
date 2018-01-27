@@ -259,7 +259,7 @@ public class NetworkController : MonoBehaviour {
     List<String> inputStringsHorizontal = new List<String> { "HorizontalArrow", "HorizontalWASD" };
     private void checkManualControllers()
     {
-        for (int i=0; i<inputStringsHorizontal.Count; i++)
+        for (int i=0; i<inputStringsHorizontal.Count; ++i)
         {
             if (Input.GetAxisRaw(inputStringsVertical[i]) > 0.5)
             {
@@ -296,6 +296,7 @@ public class NetworkController : MonoBehaviour {
                 }
             }
             players = newPlayers;
+            healthyPlayers = players.Count;
         }
     }
 
@@ -303,7 +304,7 @@ public class NetworkController : MonoBehaviour {
 
         // Show the score
         List<Unit> playerList = new List<Unit>(players.Values);
-        playerList.Sort((p, q) => p.score.CompareTo(q.score));
+        playerList.Sort((p, q) => q.score.CompareTo(p.score));
 
         string scoreString = "SCORE:\n";
 
