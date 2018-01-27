@@ -66,6 +66,7 @@ function main(){
 	var ctx = canvas.getContext("2d");
 	var width = canvas.width = screen.width;
 	var height = canvas.height = screen.height*.8;
+	var circleradius = Math.min(width, height)/2 * 0.7
 	var isDown = false;
 	var pointerX = 0;
 	var pointerY = 0;
@@ -80,6 +81,7 @@ function main(){
 	
 
 	function touchMove(e){
+		e.preventDefault();
 		move(e.touches[0]);
 	}
 
@@ -94,10 +96,13 @@ function main(){
 	}
 
 	function move(e){
-		pointerX = e.pageX;
-		pointerY = e.pageY;
+		pointerX = e.layerX;
+		pointerY = e.layerY;
+		//console.log({pointer_x: (pointerX - width/2) / circleradius, pointer_y: (pointerY - height/2) / circleradius});
+		let normalizedX = (pointerX - width/2) / circleradius;
+		let normalizedY = (pointerY - height/2) / circleradius;
 		
-		channel.push("player_move", {pointer_x: pointerX, pointer_y: pointerY});
+		channel.push("player_move", {pointer_x: normalizedX, pointer_y: normalizedY});
 	}
 
 	function release(){
@@ -116,9 +121,9 @@ function main(){
 		ctx.clearRect(0, 0, width, height);
 		ctx.strokeStyle = "#0005";
 		ctx.beginPath();
-		var r = Math.min(width, height)/2;
-		ctx.lineWidth = r/3;
-		ctx.arc(width/2, height/2, r*.7, 0, 2*Math.PI);
+// 		var r = Math.min(width, height)/2;
+		ctx.lineWidth = circleradius/2;
+		ctx.arc(width/2, height/2, circleradius, 0, 2*Math.PI);
 		ctx.stroke();
 		if (isDown){
 			ctx.strokeStyle = "#0005";
