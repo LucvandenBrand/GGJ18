@@ -128,6 +128,7 @@ public class NetworkController : MonoBehaviour {
     void Update() {
         processNetworkMessages();
         checkManualControllers();
+        ClampPlayers();
     }
 
     static TcpClient client = null;
