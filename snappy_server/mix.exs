@@ -42,7 +42,8 @@ defmodule SnappyServer.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
 
-      {:exactor, "~> 2.2", warn_missing: false}
+      {:exactor, "~> 2.2", warn_missing: false}, # Nice GenServers
+      {:poison, "~> 3.1"} # JSON
     ]
   end
 
