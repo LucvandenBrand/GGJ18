@@ -1,8 +1,12 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 7d96736eb79b6d84b98dc8e5e14aff06
+=======
+guid: c330a1c4c53d240139f72c0cef5015aa
+>>>>>>> development
 timeCreated: 1516529304
 licenseType: Free
-TextScriptImporter:
+DefaultImporter:
   externalObjects: {}
   userData: 
   assetBundleName: 
