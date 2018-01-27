@@ -37,15 +37,26 @@ defmodule SnappyServer.GameServer do
       updated_state = %State{state | players: Map.put(state.players, player_name, player_socket)}
       Logger.debug(inspect(updated_state))
 
-      send_to_unity(updated_state, Poison.encode!(%{type: "player_added", player_name: player_name}) )
+      send_to_unity(updated_state, %{type: "player_added", player_name: player_name})
 
-      set_and_reply(updated_state, {:ok, updated_state.unity_listener})
+      set_and_reply(updated_state, {:ok, %{unity_listener: updated_state.unity_listener, room_pid: self()}})
     end
   end
 
   defcast input_message({player_name, input_message}), state: state do
     Logger.debug("Input Message: #{player_name} #{inspect(input_message)}")
-    send_to_unity(state, Poison.encode!(%{type: "input_message", message: input_message, player_name: player_name}))
+    send_to_unity(state, %{type: "input_message", message: input_message, player_name: player_name})
+    noreply
+  end
+
+  defcast player_move({player_name, movement_map = %{pointer_x: pointer_x, pointer_y: pointer_y}}), state: state do
+    Logger.debug("Player Move Message: #{player_name} #{inspect(movement_map)}")
+    send_to_unity(state, %{type: "player_move", pointer_x: pointer_x, pointer_y: pointer_y})
+    noreply
+  end
+
+  defcast player_release({player_name}), state: state do
+    send_to_unity(state, %{type: "player_release"})
     noreply
   end
 
@@ -56,12 +67,12 @@ defmodule SnappyServer.GameServer do
   defcall get, state: state, do: reply(state)
   
   defp send_to_unity(state, message) do
-    SnappyServer.TCPServer.write_message(state.unity_socket, message)
+    SnappyServer.TCPServer.write_message(state.unity_socket, Poison.encode!(message))
   end
 
   defhandleinfo :first_tick!, state: state do
     Logger.debug("Unity GameServer is live!")
-    send_to_unity(state, Poison.encode!(%{type: "room_code", room_code: state.code}))
+    send_to_unity(state, %{type: "room_code", room_code: state.code})
 
     new_state(state)
   end

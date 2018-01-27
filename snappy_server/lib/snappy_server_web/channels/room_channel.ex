@@ -12,7 +12,7 @@ defmodule SnappyServerWeb.RoomChannel do
           {:error, %{reason: "Unexistent Game"}}
         {:error, :player_already_exists} ->
           {:error, %{reason: "Player Already Exists"}}
-        {:ok, room_pid} ->
+        {:ok, %{room_pid: room_pid}} ->
           socket =
             socket
             |> assign(:room_code, room_code)
@@ -42,7 +42,7 @@ defmodule SnappyServerWeb.RoomChannel do
     IO.inspect(socket.assigns)
     IO.inspect(body)
     # broadcast! socket, "new_msg", %{body: body}
-    SnappyServer.GameServerBucket.input_message(socket.assigns[:room_code], {socket.assigns[:player_name], body})
+    SnappyServer.GameServer.input_message(socket.assigns[:room_pid], {socket.assigns[:player_name], body})
     {:noreply, socket}
   end
   
@@ -50,15 +50,14 @@ defmodule SnappyServerWeb.RoomChannel do
     IO.inspect(socket.assigns)
     IO.inspect(body)
     # broadcast! socket, "new_msg", %{body: body}
-    SnappyServer.GameServerBucket.input_message(socket.assigns[:room_code], {socket.assigns[:player_name], inspect(body)})
+    SnappyServer.GameServer.player_move(socket.assigns[:room_pid], {socket.assigns[:player_name], %{pointer_x: pointer_x, pointer_y: pointer_y}})
     {:noreply, socket}
   end
   
-    def handle_in("player_release", body, socket) do
+    def handle_in("player_release", _body, socket) do
     IO.inspect(socket.assigns)
-    IO.inspect(body)
     # broadcast! socket, "new_msg", %{body: body}
-    SnappyServer.GameServerBucket.input_message(socket.assigns[:room_code], {socket.assigns[:player_name], inspect(body)})
+    SnappyServer.GameServer.player_release(socket.assigns[:room_pid], {socket.assigns[:player_name]})
     {:noreply, socket}
   end
   
