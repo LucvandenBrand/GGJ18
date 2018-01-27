@@ -98,9 +98,11 @@ function main(){
 	function move(e){
 		pointerX = e.layerX;
 		pointerY = e.layerY;
-		console.log({pointer_x: (pointerX - width/2) / circleradius, pointer_y: (pointerY - height/2) / circleradius});
+		//console.log({pointer_x: (pointerX - width/2) / circleradius, pointer_y: (pointerY - height/2) / circleradius});
+		let normalizedX = (pointerX - width/2) / circleradius;
+		let normalizedY = (pointerY - height/2) / circleradius;
 		
-		channel.push("player_move", {pointer_x: (pointerX - width/2) / circleradius, pointer_y: (pointerY - height/2) / circleradius});
+		channel.push("player_move", {pointer_x: normalizedX, pointer_y: normalizedY});
 	}
 
 	function release(){
