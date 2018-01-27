@@ -55,32 +55,45 @@ socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
 
-let channel           = socket.channel("room:lobby", {})
 let roomCodeInput         = document.querySelector("#room-code")
+let playerNameInput         = document.querySelector("#player-name")
 let chatInput         = document.querySelector("#chat-input")
 let joinButton        = document.querySelector("#join-button")
-
-let messagesContainer = document.querySelector("#messages")
+var channel;
 
 chatInput.addEventListener("keypress", event => {
     if(event.keyCode === 13){
-        channel.push("new_msg", {body: chatInput.value, room_code: roomCodeInput.value})
+        console.log(chatInput.value, "TEST")
+        channel.push("new_msg", {body: chatInput.value})
         chatInput.value = ""
     }
-})
+});
 
-channel.on("new_msg", payload => {
-    let messageItem = document.createElement("li");
-    messageItem.innerText = `[${Date()}] ${payload.body}`
-    messagesContainer.appendChild(messageItem)
-})
 
 joinButton.addEventListener("click", event => {
+    channel           = socket.channel("room:lobby", {room_code: roomCodeInput.value, player_name: playerNameInput.value})
+
+    let messagesContainer = document.querySelector("#messages")
+
+
+    channel.on("new_msg", payload => {
+        let messageItem = document.createElement("li");
+        messageItem.innerText = `[${Date()}] ${payload.body}`
+        messagesContainer.appendChild(messageItem)
+    })
+
     event.preventDefault();
 
-    channel.join({"room_code": roomCodeInput.value})
-        .receive("ok", resp => { console.log("Joined successfully", resp) })
+    channel.join()
         .receive("error", resp => { console.log("Unable to join", resp) })
+        .receive("ok", resp => {
+            console.log("Joined successfully", resp)
+
+            document.querySelector("[data-origin='player-name']").innerHTML = playerNameInput.value;
+            document.querySelector("[data-origin='room-code']").innerHTML = roomCodeInput.value;
+            document.querySelector("#game-joining-section").style = "display: none";
+            document.querySelector("#game-playing-section").style = "display: block";
+        });
 
 })
 

@@ -2,11 +2,24 @@
     
 </div>
 
+<section id="game-joining-section">
+Player Name:
+<input name="" type="text" value="" id="player-name" />
 Room Code:
 <input name="" type="text" value="" id="room-code" />
 <button id="join-button">Join</button>
+</section>
 
+
+<section style="display: none" id="game-playing-section" >
+    <div data-origin="player-name">
+        
+    </div>
+    <div data-origin="room-code">
+        
+    </div>
 Temp Raw Chat Input:
 <input name="" type="text" value="" id="chat-input" />
 
+</section>
 
