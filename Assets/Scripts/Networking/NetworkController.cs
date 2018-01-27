@@ -128,6 +128,7 @@ public class NetworkController : MonoBehaviour {
     void Update() {
         processNetworkMessages();
         checkManualControllers();
+        ClampPlayers();
     }
 
     static TcpClient client = null;
@@ -309,5 +310,17 @@ public class NetworkController : MonoBehaviour {
             scoreString += player.name + ": " + player.score + "\n";
         }
         scoreText.text = scoreString;
+    }
+
+    /* Players are disallowed to move outside of the screen. Preventing death. */
+    private void ClampPlayers()
+    {
+        foreach (Unit player in players.Values)
+        {
+            var pos = Camera.main.WorldToViewportPoint(player.transform.position);
+            pos.x = Mathf.Clamp(pos.x, 0.1f, 0.9f);
+            pos.y = Mathf.Clamp(pos.y, 0.1f, 0.9f);
+            player.transform.position = Camera.main.ViewportToWorldPoint(pos);
+        }
     }
 }
