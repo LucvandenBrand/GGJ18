@@ -16,11 +16,11 @@ public class Gun : MonoBehaviour {
 		if (GetComponentInParent<Unit>().isInfected && Time.time > nextFire)
 		{
 			nextFire = Time.time + fireRate;
-			DoShot();
+			Shoot();
 		}
 	}
 
-	void DoShot()
+	void Shoot()
 	{
 		Instantiate(bullet, shootPosition.position, transform.rotation);
 	}

@@ -193,7 +193,7 @@ public class NetworkController : MonoBehaviour {
         //DebugTextText.text = "" + pointer_x;
         // Debug.Log(pointer_x);
         player.addVirtualForce(pointer_x, -pointer_y);
-        player.Infect(); // TODO Temporary test.
+        // player.Infect(); // TODO Temporary test.
     }
 
     public void player_release(string player_name) {
