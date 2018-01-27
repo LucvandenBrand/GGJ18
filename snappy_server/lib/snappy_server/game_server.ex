@@ -7,8 +7,26 @@ defmodule SnappyServer.GameServer do
 
   defmodule State do
     @enforce_keys [:unity_listener, :unity_socket]
-    defstruct players: %{}, unity_listener: nil, unity_socket: nil, code: "AAAA"
+    defstruct players: %{}, unity_listener: nil, unity_socket: nil, code: "AAAA", color: "000000", voronoi_color_index: 0
   end
+
+  def voronoi_color(voronoi_color_index)
+  def voronoi_color(0),do: "09FF00"
+  def voronoi_color(1),do: "FF0000"
+  def voronoi_color(2),do: "0017FF"
+  def voronoi_color(3),do: "FF8E00"
+  def voronoi_color(4),do: "A5A5A5"
+  def voronoi_color(5),do: "FFFF00"
+  def voronoi_color(6),do: "9500CA"
+  def voronoi_color(7),do: "FF9898"
+  def voronoi_color(8),do: "474747"
+  def voronoi_color(9),do: "FF00B9"
+  def voronoi_color(10),do: "67942A"
+  def voronoi_color(11),do: "814E18"
+  def voronoi_color(12),do: "000000"
+  def voronoi_color(13),do: "00FFF4"
+  def voronoi_color(14),do: "FFFFFF"
+  def voronoi_color(n) when n > 14, do: voronoi_color(rem(n, 14))
 
   use ExActor.GenServer
 
@@ -37,12 +55,13 @@ defmodule SnappyServer.GameServer do
     if Map.has_key?(state.players, player_name) do
       reply({:error, :player_already_exists})
     else
-      updated_state = %State{state | players: Map.put(state.players, player_name, player_socket)}
+      voronoi_color = voronoi_color(state.voronoi_color_index)
+      updated_state = %State{state | players: Map.put(state.players, player_name, %{player_socket: player_socket, voronoi_color: voronoi_color}), voronoi_color_index: state.voronoi_color_index + 1}
       # Logger.debug(inspect(updated_state))
 
       send_to_unity(updated_state, %{type: "player_added", player_name: player_name})
 
-      set_and_reply(updated_state, {:ok, %{unity_listener: updated_state.unity_listener, room_pid: self()}})
+      set_and_reply(updated_state, {:ok, %{unity_listener: updated_state.unity_listener, room_pid: self(), voronoi_color: voronoi_color}})
     end
   end
 
