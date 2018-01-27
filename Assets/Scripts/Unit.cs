@@ -48,32 +48,24 @@ public class Unit : MonoBehaviour {
     }
   }
 
-	public void addVirtualForce(float x_axis, float y_axis) {
-		virtualJoystick = new Vector2(x_axis, y_axis);
+public void addVirtualForce(float x_axis, float y_axis) {
+	virtualJoystick = new Vector2(x_axis, y_axis);
+}
+
+public void addForce(float x_axis, float y_axis) {
+	Vector3 movement = new Vector3(x_axis, y_axis, 0);
+
+	if (movement.magnitude > 1.0)
+	{
+		movement.Normalize();
 	}
+	rigidbody.AddForce(movement * speed);
 
-	public void addForce(float x_axis, float y_axis) {
-		Vector3 movement = new Vector3(x_axis, y_axis, 0);
-
-		if (movement.magnitude > 1.0)
-		{
-			movement.Normalize();
-		}
-		rigidbody.AddForce(movement * speed);
-
-		if (movement.magnitude > 0.01f)
-		{
-			float rot_z = Mathf.Atan2(y_axis, x_axis) * Mathf.Rad2Deg;
-			transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
-		}
+	if (movement.magnitude > 0.01f)
+	{
+		float rot_z = Mathf.Atan2(y_axis, x_axis) * Mathf.Rad2Deg;
+		transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
 	}
-void OnCollisionEnter2D(Collision2D other) {
-		if (other.gameObject.tag == "Bullet") {
-        if (!isInfected){
-          Destroy(other.gameObject);
-				Infect();
-			}
-		}
 }
 
 	void OnTriggerEnter2D(Collider2D other) {
