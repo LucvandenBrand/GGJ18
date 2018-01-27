@@ -26,6 +26,8 @@ public class Bullet : MonoBehaviour {
 		myRigidbody.freezeRotation = true;
 		 
 		myRigidbody.AddRelativeForce(new Vector2(0, 1) * fireSpeed);
+
+    Destroy(this.gameObject, 10);
 	}
 
 	void FixedUpdate () { // Store the velocity every physics update this may be multiple times per frame
@@ -34,7 +36,8 @@ public class Bullet : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D collision) {
 		if (collision.gameObject.tag == "Shield") {
-			// Debug.LogError("JHEEEEEEEEEEEEE");
+			print("JHEEEEEEEEEEEEE");
+// 			Destroy(this.gameObject, 0.001f);
 			ContactPoint2D contact = collision.contacts[0];
 			
 			Vector3 reflectedVelocity = Vector3.Reflect(oldVelocity, contact.normal);        
@@ -43,6 +46,17 @@ public class Bullet : MonoBehaviour {
 			
 			Quaternion rotation = Quaternion.FromToRotation(oldVelocity, reflectedVelocity);
 			myTransform.rotation = rotation * myTransform.rotation;
+		} 
+		if (collision.gameObject.tag == "Edges") { // todo: tag parent instead of 4 edge objects
+			Destroy(this.gameObject, 0.001f);
+// 			SetActive(false); // destroy probably doesn't work...
+		}
+		if (collision.gameObject.tag == "Player") {
+			Unit unit = collision.gameObject.GetComponent<Unit>();
+			if (!unit.isInfected){
+				Destroy(this.gameObject, 0.001f);
+				unit.Infect();
+			}
 		}
 
 	}
