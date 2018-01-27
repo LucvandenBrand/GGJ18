@@ -12,14 +12,7 @@ Room Code:
 
 
 <section style="display: none" id="game-playing-section" >
-    <div data-origin="player-name">
-        
-    </div>
-    <div data-origin="room-code">
-        
-    </div>
-Temp Raw Chat Input:
-<input name="" type="text" value="" id="chat-input" />
 
+<canvas id="controlcircle">
 </section>
 

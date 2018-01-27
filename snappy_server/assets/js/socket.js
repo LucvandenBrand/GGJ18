@@ -51,36 +51,115 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 // Finally, pass the token on connect as below. Or remove it
 // from connect if you don't care about authentication.
 
+"use strict";
+
+
+function main(){
+	
+	var canvas = document.getElementById("controlcircle");
+	var ctx = canvas.getContext("2d");
+	var width = canvas.width = screen.width;
+	var height = canvas.height = screen.height*.8;
+	var isDown = false;
+	var pointerX = 0;
+	var pointerY = 0;
+	window.addEventListener("touchmove", touchMove);
+	window.addEventListener("mousemove", mouseMove);
+	window.addEventListener("touchstart", (e)=>{press(); touchMove(e);});
+	window.addEventListener("mousedown", (e)=>{press(); mouseMove(e);});
+	window.addEventListener("touchend", release);
+	window.addEventListener("mouseup", release);
+	window.addEventListener("touchcancel", release);
+	window.addEventListener("mouseleave", release);
+	
+
+	function touchMove(e){
+		move(e.touches[0]);
+	}
+
+	function mouseMove(e){
+		if (isDown){
+			move(e);
+		}
+	}
+
+	function press(){
+		isDown = true;
+	}
+
+	function move(e){
+		pointerX = e.pageX;
+		pointerY = e.pageY;
+		
+		channel.push("player_move", {pointer_x: pointerX, pointer_y: pointerY});
+	}
+
+	function release(){
+		isDown = false;
+		channel.push("player_release", {});
+	}
+
+
+	function update(){
+		draw();
+		requestAnimationFrame(update);
+	}
+
+
+	function draw(){
+		ctx.clearRect(0, 0, width, height);
+		ctx.strokeStyle = "#0005";
+		ctx.beginPath();
+		var r = Math.min(width, height)/2;
+		ctx.lineWidth = r/3;
+		ctx.arc(width/2, height/2, r*.7, 0, 2*Math.PI);
+		ctx.stroke();
+		if (isDown){
+			ctx.strokeStyle = "#0005";
+			ctx.lineWidth = 30 + (Math.hypot(width/2-pointerX, height/2-pointerY))/10;
+			ctx.lineCap = "round";
+			ctx.beginPath();
+			ctx.moveTo(width/2, height/2);
+			ctx.lineTo(pointerX, pointerY);
+			ctx.stroke()
+		}
+	}
+	
+	update();
+}
+
+
+
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
 
 let roomCodeInput         = document.querySelector("#room-code")
 let playerNameInput         = document.querySelector("#player-name")
-let chatInput         = document.querySelector("#chat-input")
+// let chatInput         = document.querySelector("#chat-input")
 let joinButton        = document.querySelector("#join-button")
 var channel;
 
-chatInput.addEventListener("keypress", event => {
-    if(event.keyCode === 13){
-        console.log(chatInput.value, "TEST")
-        channel.push("new_msg", {body: chatInput.value})
-        chatInput.value = ""
-    }
-});
+// chatInput.addEventListener("keypress", event => {
+//     if(event.keyCode === 13){
+//         console.log(chatInput.value, "TEST")
+//         channel.push("new_msg", {body: chatInput.value})
+//         chatInput.value = ""
+//     }
+// });
 
 
 joinButton.addEventListener("click", event => {
     channel           = socket.channel("room:lobby", {room_code: roomCodeInput.value, player_name: playerNameInput.value})
 
-    let messagesContainer = document.querySelector("#messages")
+//     let messagesContainer = document.querySelector("#messages")
 
 
-    channel.on("new_msg", payload => {
-        let messageItem = document.createElement("li");
-        messageItem.innerText = `[${Date()}] ${payload.body}`
-        messagesContainer.appendChild(messageItem)
-    })
+//     channel.on("new_msg", payload => {
+//         let messageItem = document.createElement("li");
+//         messageItem.innerText = `[${Date()}] ${payload.body}`
+//         messagesContainer.appendChild(messageItem)
+//     })
 
     event.preventDefault();
 
@@ -89,10 +168,12 @@ joinButton.addEventListener("click", event => {
         .receive("ok", resp => {
             console.log("Joined successfully", resp)
 
-            document.querySelector("[data-origin='player-name']").innerHTML = playerNameInput.value;
-            document.querySelector("[data-origin='room-code']").innerHTML = roomCodeInput.value;
-            document.querySelector("#game-joining-section").style = "display: none";
-            document.querySelector("#game-playing-section").style = "display: block";
+//             document.querySelector("[data-origin='player-name']").innerHTML = playerNameInput.value;
+//             document.querySelector("[data-origin='room-code']").innerHTML = roomCodeInput.value;
+//             document.querySelector("#game-joining-section").style = "display: none";
+//             document.querySelector("#game-playing-section").style = "display: block";
+			
+			main();
         });
 
 })
