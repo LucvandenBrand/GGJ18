@@ -25,12 +25,16 @@ public class Unit : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         // addForce(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if(virtualJoystick.x != 0 || virtualJoystick.y != 0) {
+            myTransform.LookAt(new Vector3(myTransform.position.x + virtualJoystick.x, myTransform.position.y + virtualJoystick.y, 0), new Vector3(0,0,-1));
+        }
         addForce(virtualJoystick.x, virtualJoystick.y);
 
-        if (Vector3.Distance(myTransform.position, lastPosition) > 0.03){
-            myTransform.LookAt(new Vector3(lastPosition.x, lastPosition.y, 0), new Vector3(0,0,-1));
-        }
-        lastPosition = myTransform.position;
+    //     if (Vector3.Distance(myTransform.position, lastPosition) > 0.03){
+    //         myTransform.LookAt(new Vector3(lastPosition.x, lastPosition.y, 0), new Vector3(0,0,-1));
+    //     }
+    //     lastPosition = myTransform.position;
+    // }
     }
 
     public void addVirtualForce(float x_axis, float y_axis) {
