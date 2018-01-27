@@ -1,1 +1,30 @@
 /* This file is for your main application css. */
+
+div {
+    text-align: center;
+    margin: 2em;
+}
+
+input {
+    background: white;
+    color: black;
+    font-size: 20px;
+    padding: .2em .5em;
+    border-radius: 3px;
+    border: 1px solid #999;
+
+    display: inline-block;
+    width: 100px;
+}
+
+label {
+    display: inline-block;
+}
+
+button {
+    background-color: #222;
+    font-size: 25px;
+    padding: .2em .5em;
+    border-radius: 3px;
+    border: 1px solid black;
+}

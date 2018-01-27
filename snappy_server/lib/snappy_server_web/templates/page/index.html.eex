@@ -3,11 +3,23 @@
 </div>
 
 <section id="game-joining-section">
-Player Name:
-<input name="" type="text" value="" id="player-name" />
-Room Code:
-<input name="" type="text" value="" id="room-code" />
-<button id="join-button">Join</button>
+    <div>
+        <h1>Shady Cells</h1>
+        
+        <label for="player-name">
+           Player Name:
+        </label>
+        <input name="player-name" type="text" value="" id="player-name" />
+    </div>
+    <div>
+        <label for="room-code">
+            Room Code:
+        </label>
+        <input name="" type="text" value="" id="room-code" />
+    </div>
+    <div>
+        <button id="join-button">Join</button>
+    </div>
 </section>
 
 
