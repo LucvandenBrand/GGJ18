@@ -26,6 +26,8 @@ public class Bullet : MonoBehaviour {
 		myRigidbody.freezeRotation = true;
 		 
 		myRigidbody.AddRelativeForce(new Vector2(0, 1) * fireSpeed);
+
+    Destroy(this.gameObject, 10);
 	}
 
 	void FixedUpdate () { // Store the velocity every physics update this may be multiple times per frame
