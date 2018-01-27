@@ -59,12 +59,21 @@ public class Unit : MonoBehaviour {
         rigidbody.AddForce(movement * speed);
     }
 
-    private void OnCollisionEnter2D(Collision2D other) {
-        
+   void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.tag == "Bullet") {
+// 			Debug.LogError("JHEEEEEEEEEEEEE");
+			
+			
+			
+			if (!isInfected){
+				Destroy(other.gameObject);
+				isInfected = true;
+				// todo: notify something
+			}
+		}
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        
     }
 
     public void Infect(){

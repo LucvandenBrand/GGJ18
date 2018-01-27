@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DebugText
   - Shield
+  - Bullet
   layers:
   - Default
   - TransparentFX
