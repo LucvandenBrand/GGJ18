@@ -25,7 +25,10 @@ defmodule SnappyServer.GameServer do
   end
 
   defp generate_code do
-    Integer.to_string(:rand.uniform(65535), 32)
+    Ecto.UUID.generate()
+    |> String.split_at(4)
+    |> elem(0)
+    |> String.upcase
   end
 
   @doc "Called during lobby creation."
