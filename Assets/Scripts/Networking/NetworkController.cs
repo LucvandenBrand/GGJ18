@@ -102,7 +102,7 @@ namespace SnappyServerEvent {
 public class NetworkController : MonoBehaviour {
 
     public GameObject playerPrefab;
-    Dictionary<string, Unit> players = new Dictionary<string, Unit>();
+    public Dictionary<string, Unit> players = new Dictionary<string, Unit>();
     int healthyPlayers = 0;
 
 
@@ -168,6 +168,7 @@ public class NetworkController : MonoBehaviour {
         float distance = 10f;
         Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-distance, distance), UnityEngine.Random.Range(-distance, distance), 5);
         GameObject playerObject = Instantiate(playerPrefab, randomPos, Quaternion.identity) as GameObject;
+        playerObject.name = player_name;
 
         Unit playerUnit = playerObject.GetComponent<Unit>();
         playerUnit.name = player_name;
