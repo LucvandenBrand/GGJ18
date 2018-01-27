@@ -81,8 +81,8 @@ function main(){
 	  
 	  var canvas = document.getElementById("controlcircle");
 	  var ctx = canvas.getContext("2d");
-	  var width = canvas.width = screen.width;
-	  var height = canvas.height = screen.height*.8;
+	  var width = canvas.width = window.innerWidth;
+	  var height = canvas.height = window.innerHeight*.8;
 	  var circleradius = Math.min(width, height)/2 * 0.7;
 	  var isDown = false;
 	  var pointerX = 0;
