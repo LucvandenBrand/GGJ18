@@ -4,6 +4,42 @@ using System.Collections.Generic;
 using System.Threading;
 using System.IO;
 using UnityEngine;
+using System;
+
+[Serializable]
+public class SnappyServerEvent {
+    public string type;
+
+    public static SnappyServerEvent DeserializeFromJSON(string json_str) {
+        SnappyServerEvent raw_event = JsonUtility.FromJson<SnappyServerEvent>(json_str);
+        switch(raw_event.type){
+            case "player_added" :
+                return JsonUtility.FromJson<PlayerAddedServerEvent>(json_str);
+            case "input_message" :
+                return JsonUtility.FromJson<InputMessageServerEvent>(json_str);
+            case "room_code" :
+                return JsonUtility.FromJson<RoomCodeServerEvent>(json_str);
+            default:
+                return raw_event;
+        }
+    }
+}
+
+[Serializable]
+public class PlayerAddedServerEvent : SnappyServerEvent {
+    public string player_name;
+}
+
+[Serializable]
+public class InputMessageServerEvent : SnappyServerEvent {
+    public string player_name;
+    public string message;
+}
+
+[Serializable]
+public class RoomCodeServerEvent : SnappyServerEvent {
+    public string room_code;
+}
 
 
 public class NetworkController : MonoBehaviour {
@@ -48,7 +84,10 @@ public class NetworkController : MonoBehaviour {
         NetworkMessage msg = getItemFromQueue();
         if (msg != null) {
       // do some processing here, like update the player state
+            // JsonUtility.FromJSON(msg.ToString());
             Debug.Log(msg.ToString());
+            SnappyServerEvent networkevent = SnappyServerEvent.DeserializeFromJSON(msg.ToString());
+            Debug.Log(networkevent);
         }
     }
 
@@ -68,10 +107,6 @@ public class NetworkController : MonoBehaviour {
             });
             networkThread.Start();
         }
-
-        send(NetworkMessage.FromString("The quick brown fox jumps over the lazy dog"));
-        send(NetworkMessage.FromString("Bar"));
-        send(NetworkMessage.FromString("Baz"));
     }
 
     static void connect() {

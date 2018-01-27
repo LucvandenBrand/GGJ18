@@ -37,13 +37,15 @@ defmodule SnappyServer.GameServer do
       updated_state = %State{state | players: Map.put(state.players, player_name, player_socket)}
       Logger.debug(inspect(updated_state))
 
+      send_to_unity(updated_state, Poison.encode!(%{type: "player_added", player_name: player_name}) )
+
       set_and_reply(updated_state, {:ok, updated_state.unity_listener})
     end
   end
 
   defcast input_message({player_name, input_message}), state: state do
     Logger.debug("Input Message: #{player_name} #{inspect(input_message)}")
-    send_to_unity(state, input_message)
+    send_to_unity(state, Poison.encode!(%{type: "input_message", message: input_message, player_name: player_name}))
     noreply
   end
 
@@ -52,14 +54,14 @@ defmodule SnappyServer.GameServer do
 
   @doc "Debugging"
   defcall get, state: state, do: reply(state)
-
+  
   defp send_to_unity(state, message) do
     SnappyServer.TCPServer.write_message(state.unity_socket, message)
   end
 
   defhandleinfo :first_tick!, state: state do
     Logger.debug("Unity GameServer is live!")
-    send_to_unity(state, "'room_code' => '#{state.code}'")
+    send_to_unity(state, Poison.encode!(%{type: "room_code", room_code: state.code}))
 
     new_state(state)
   end
