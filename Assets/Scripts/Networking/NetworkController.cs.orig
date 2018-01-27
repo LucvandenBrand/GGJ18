@@ -128,6 +128,10 @@ public class NetworkController : MonoBehaviour {
     void Update() {
         processNetworkMessages();
         checkManualControllers();
+<<<<<<< HEAD
+        ClampPlayers();
+=======
+>>>>>>> 4779d195ccbb23c9bab0019818b0201742330e53
     }
 
     static TcpClient client = null;
@@ -312,7 +316,7 @@ public class NetworkController : MonoBehaviour {
             pos.y = Mathf.Clamp(pos.y, 0.1f, 0.9f);
             player.transform.position = Camera.main.ViewportToWorldPoint(pos);
         }
-    }
+}
 
 
 }
