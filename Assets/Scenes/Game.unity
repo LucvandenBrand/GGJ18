@@ -1515,10 +1515,10 @@ RectTransform:
   m_Father: {fileID: 2073260111}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.05477646, y: 0.81227416}
-  m_AnchorMax: {x: 0.256642, y: 0.9593474}
-  m_AnchoredPosition: {x: 468.6129, y: -174.4}
-  m_SizeDelta: {x: 78.5, y: 226.2}
+  m_AnchorMin: {x: 0.6145147, y: 0.118196085}
+  m_AnchorMax: {x: 0.9636765, y: 0.900536}
+  m_AnchoredPosition: {x: 1.5, y: 0.099998474}
+  m_SizeDelta: {x: -1.6000061, y: -2.199997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1947093992
 MonoBehaviour:
@@ -1566,7 +1566,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: CODE
+  m_Text: There is a TRANSMISSION of disease around these woods...
 --- !u!222 &1947093994
 CanvasRenderer:
   m_ObjectHideFlags: 0
