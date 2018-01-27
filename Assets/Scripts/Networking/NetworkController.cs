@@ -109,7 +109,11 @@ public class NetworkController : MonoBehaviour {
     // The Animation to call on game over.
     public Animator cameraAnimator;
 
-    //public GameObject DebugText;
+    // The text to show the room in.
+    public Text roomText;
+
+    // The text to show the score in.
+    public Text scoreText;
 
     void Awake() {
         DontDestroyOnLoad(this);
@@ -180,7 +184,7 @@ public class NetworkController : MonoBehaviour {
     }
 
     public void send_room_code(string room_code){
-        Debug.Log("Room Code: " + room_code);
+        roomText.text = room_code;
     }
 
     public void player_move(string player_name, float pointer_x, float pointer_y) {
@@ -268,14 +272,30 @@ public class NetworkController : MonoBehaviour {
         }
     }
 
-    private void playerBecameInfected(Unit player){
+    private void playerBecameInfected(Unit player) {
         Debug.Log("Player " + player.name + " became infected!");
         healthyPlayers--;
         Debug.Log("healthy Players:" + healthyPlayers);
-        if(healthyPlayers == 0 && players.Count > 0) {
+        if (healthyPlayers == 0 && players.Count > 0) {
             // Game Over
             Debug.Log("Game Over!");
             cameraAnimator.SetTrigger("End-Sick");
+            showScore();
         }
+    }
+
+    private void showScore() { 
+
+        // Show the score
+        List<Unit> playerList = new List<Unit>(players.Values);
+        playerList.Sort((p, q) => p.score.CompareTo(q.score));
+
+        string scoreString = "SCORE:\n";
+
+        foreach (Unit player in playerList)
+        {
+            scoreString += player.name + ": " + player.score + "\n";
+        }
+        scoreText.text = scoreString;
     }
 }

@@ -14,7 +14,7 @@ public class Unit : MonoBehaviour {
     public float rotationSpeed;
 
     public bool isInfected = false;
-    int score = 0;
+    public int score = 0;
     public string name = "";
 
     public class InfectionEvent : UnityEvent<Unit> {}
