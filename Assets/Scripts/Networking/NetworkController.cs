@@ -282,8 +282,8 @@ public class NetworkController : MonoBehaviour {
             Debug.Log("Game Over!");
             cameraAnimator.SetTrigger("End-Sick");
             showScore();
-            foreach(Unit player in player.Values) {
-                
+            foreach(Unit p in players.Values) {
+                p.ResetPlayer();
             }
         }
     }
