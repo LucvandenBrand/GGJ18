@@ -310,7 +310,7 @@ GameObject:
   - component: {fileID: 316297179}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Edges
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -523,6 +523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1142469761710836, guid: 4b00221222a752b4f8fa943e71806cdd,
     type: 2}
+  cameraAnimator: {fileID: 0}
 --- !u!4 &950224469
 Transform:
   m_ObjectHideFlags: 0
@@ -750,7 +751,7 @@ GameObject:
   - component: {fileID: 1257788492}
   m_Layer: 0
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Edges
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -847,7 +848,7 @@ GameObject:
   - component: {fileID: 1455652435}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Edges
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1095,7 +1096,7 @@ GameObject:
   - component: {fileID: 1526298724}
   m_Layer: 0
   m_Name: Cube (3)
-  m_TagString: Untagged
+  m_TagString: Edges
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1533,7 +1534,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4457551370590780, guid: 4b00221222a752b4f8fa943e71806cdd, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -1
+      value: -10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b00221222a752b4f8fa943e71806cdd, type: 2}

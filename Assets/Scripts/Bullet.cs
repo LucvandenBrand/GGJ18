@@ -43,6 +43,10 @@ public class Bullet : MonoBehaviour {
 			
 			Quaternion rotation = Quaternion.FromToRotation(oldVelocity, reflectedVelocity);
 			myTransform.rotation = rotation * myTransform.rotation;
+		} 
+		if (collision.gameObject.tag == "Edges") { // todo: tag parent instead of 4 edge objects
+			Destroy(this.gameObject, 0.001f);
+// 			SetActive(false); // destroy probably doesn't work...
 		}
 
 	}
