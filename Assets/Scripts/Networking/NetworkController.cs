@@ -250,8 +250,12 @@ public class NetworkController : MonoBehaviour {
 
     public void OnDestroy()
     {
-        networkThread.Abort();
-        stream.Close();
+        if(networkThread != null) {
+            networkThread.Abort();
+        }
+        if(stream != null){
+            stream.Close();
+        }
     }
 
     // Runs for all non-networked controllers.
@@ -303,7 +307,7 @@ public class NetworkController : MonoBehaviour {
 
         // Show the score
         List<Unit> playerList = new List<Unit>(players.Values);
-        playerList.Sort((p, q) => p.score.CompareTo(q.score));
+        playerList.Sort((p, q) => q.score.CompareTo(p.score));
 
         string scoreString = "SCORE:\n";
 
