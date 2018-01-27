@@ -99,7 +99,7 @@ function main(){
 	  
 
 	  function touchMove(e){
-		    // e.preventDefault();
+		    e.preventDefault();
 		    move(e.touches[0]);
 	  }
 
