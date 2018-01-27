@@ -11,15 +11,14 @@ public class Unit : MonoBehaviour {
     [SerializeField]
     float speed = 40;
 
-    int infected = 0;   // 0: no
-                        // 1: yes virus 1
-                        // 2: yes virus 2
+    public bool infected = false;
 
     Vector2 virtualJoystick = new Vector2(0, 0);
     
 
     // Use this for initialization
     void Start () {
+        infected = true;
         myTransform = gameObject.transform;
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
         lastPosition = myTransform.position;

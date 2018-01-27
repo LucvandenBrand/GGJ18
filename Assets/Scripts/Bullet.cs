@@ -37,7 +37,7 @@ public class Bullet : MonoBehaviour {
 			// Debug.LogError("JHEEEEEEEEEEEEE");
 			ContactPoint2D contact = collision.contacts[0];
 			
-			Vector3 reflectedVelocity = Vect	or3.Reflect(oldVelocity, contact.normal);        
+			Vector3 reflectedVelocity = Vector3.Reflect(oldVelocity, contact.normal);        
 			
 			myRigidbody.velocity = reflectedVelocity;
 			
