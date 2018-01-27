@@ -13,7 +13,7 @@ public class Gun : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (GetComponentInParent<Unit>().infected && Time.time > nextFire)
+		if (GetComponentInParent<Unit>().isInfected && Time.time > nextFire)
 		{
 			nextFire = Time.time + fireRate;
 			DoShot();
