@@ -55,10 +55,16 @@ defmodule SnappyServer.GameServer do
     noreply
   end
 
-  defcast player_release({player_name}), state: state do
+  defcast player_release(player_name), state: state do
     send_to_unity(state, %{type: "player_release", player_name: player_name})
     noreply
   end
+
+  defcast player_disconnected(player_name), state: state do
+    send_to_unity(state, %{type: "player_disconnected", player_name: player_name})
+    noreply
+  end
+
 
   @doc "Called when game is finished?"
   defcast stop, do: stop_server(:normal)

@@ -93,9 +93,9 @@ namespace SnappyServerEvent {
     [Serializable]
     public class PlayerDisconnected : PlayerEvent {
         public override void handle(NetworkController network_controller){
+            network_controller.player_disconnected(this.player_name);
         }
     }
-
 }
 
 public class NetworkController : MonoBehaviour {
@@ -153,16 +153,18 @@ public class NetworkController : MonoBehaviour {
     }
 
     public void add_player(string player_name){
+        Debug.Log("Player Connected: " + player_name);
         Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0);
         GameObject playerObject = Instantiate(playerPrefab, randomPos, Quaternion.identity) as GameObject;
         players.Add(player_name, playerObject.GetComponent<Unit>());
     }
 
     public void send_message(string player_name, string message){
+        Debug.Log("Sent message by player " + player_name + ": " + message);
     }
 
     public void send_room_code(string room_code){
-        Debug.Log(room_code);
+        Debug.Log("Room Code: " + room_code);
     }
 
     public void player_move(string player_name, float pointer_x, float pointer_y) {
@@ -176,6 +178,13 @@ public class NetworkController : MonoBehaviour {
     public void player_release(string player_name) {
         Unit player = players[player_name];
         player.addVirtualForce(0, 0);
+    }
+
+    // TODO: Proper disconnection logic.
+    public void player_disconnected(string player_name) {
+        Debug.Log("Player Disconnected: " + player_name);
+        // Unit player = players[player_name];
+        // player.addVirtualForce(0, 0);
     }
 
     static void startServer() {

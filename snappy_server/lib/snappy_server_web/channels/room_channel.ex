@@ -54,11 +54,15 @@ defmodule SnappyServerWeb.RoomChannel do
     {:noreply, socket}
   end
   
-    def handle_in("player_release", _body, socket) do
+  def handle_in("player_release", _body, socket) do
     IO.inspect(socket.assigns)
     # broadcast! socket, "new_msg", %{body: body}
-    SnappyServer.GameServer.player_release(socket.assigns[:room_pid], {socket.assigns[:player_name]})
+    SnappyServer.GameServer.player_release(socket.assigns[:room_pid], socket.assigns[:player_name])
     {:noreply, socket}
+  end
+
+  def terminate(message, socket) do
+    SnappyServer.GameServer.player_disconnected(socket.assigns[:room_pid], socket.assigns[:player_name]);
   end
   
   # Add authorization logic here as required.

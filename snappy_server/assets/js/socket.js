@@ -192,9 +192,11 @@ joinButton.addEventListener("click", event => {
     event.preventDefault();
 
     channel.join()
-        .receive("error", resp => { console.log("Unable to join", resp) })
+        .receive("error", resp => { console.log("Unable to join", resp);
+                                    alert("Unable to join game: " + resp.reason);
+                                  })
         .receive("ok", resp => {
-            console.log("Joined successfully", resp)
+            console.log("Joined successfully", resp);
 
             //             document.querySelector("[data-origin='player-name']").innerHTML = playerNameInput.value;
             //             document.querySelector("[data-origin='room-code']").innerHTML = roomCodeInput.value;
@@ -203,7 +205,6 @@ joinButton.addEventListener("click", event => {
 			      
 			      main();
         });
+});
 
-})
-
-export default socket
+export default socket;
