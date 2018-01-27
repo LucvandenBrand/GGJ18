@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!121 &12100000
+Flare:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: VfxLensFlare
+  m_FlareTexture: {fileID: 2800000, guid: cd37625e731b74cd4bd80cbc3bd72d74, type: 3}
+  m_TextureLayout: 0
+  m_Elements:
+  - m_ImageIndex: 0
+    m_Position: 0.88
+    m_Size: 10.24
+    m_Color: {r: 1, g: 1, b: 1, a: 1}
+    m_UseLightColor: 0
+    m_Rotate: 0
+    m_Zoom: 1
+    m_Fade: 0
+  - m_ImageIndex: 1
+    m_Position: -0.78
+    m_Size: 3.28
+    m_Color: {r: 0.13311364, g: 0.1544118, b: 0, a: 0.491}
+    m_UseLightColor: 0
+    m_Rotate: 0
+    m_Zoom: 0
+    m_Fade: 1
+  - m_ImageIndex: 2
+    m_Position: 0.31
+    m_Size: 13.1
+    m_Color: {r: 0.11764705, g: 0.11764705, b: 0.11764705, a: 0.034}
+    m_UseLightColor: 0
+    m_Rotate: 0
+    m_Zoom: 1
+    m_Fade: 1
+  - m_ImageIndex: 3
+    m_Position: -1
+    m_Size: 0.54
+    m_Color: {r: 0.1102941, g: 0.1102941, b: 0.1102941, a: 0.034}
+    m_UseLightColor: 1
+    m_Rotate: 0
+    m_Zoom: 1
+    m_Fade: 1
+  - m_ImageIndex: 4
+    m_Position: 0.62
+    m_Size: 10.1
+    m_Color: {r: 0.24264705, g: 0.24264705, b: 0.24264705, a: 1}
+    m_UseLightColor: 0
+    m_Rotate: 1
+    m_Zoom: 1
+    m_Fade: 1
+  - m_ImageIndex: 3
+    m_Position: -1.73
+    m_Size: 0.7
+    m_Color: {r: 0.29411763, g: 0.0064878953, b: 0.13740905, a: 1}
+    m_UseLightColor: 0
+    m_Rotate: 0
+    m_Zoom: 1
+    m_Fade: 1
+  - m_ImageIndex: 3
+    m_Position: -2
+    m_Size: 0.39
+    m_Color: {r: 0.44117647, g: 0, b: 0.20081142, a: 1}
+    m_UseLightColor: 0
+    m_Rotate: 0
+    m_Zoom: 1
+    m_Fade: 1
+  - m_ImageIndex: 0
+    m_Position: -1.24
+    m_Size: 9.99
+    m_Color: {r: 0.1641436, g: 0.4852941, b: 0.40556023, a: 0}
+    m_UseLightColor: 0
+    m_Rotate: 0
+    m_Zoom: 1
+    m_Fade: 1
+  - m_ImageIndex: 1
+    m_Position: -3.46
+    m_Size: -0.46
+    m_Color: {r: 0, g: 0.19117647, b: 0.19117647, a: 1}
+    m_UseLightColor: 0
+    m_Rotate: 0
+    m_Zoom: 1
+    m_Fade: 1
+  - m_ImageIndex: 1
+    m_Position: -3.94
+    m_Size: -0.69
+    m_Color: {r: 0, g: 0.09558821, b: 0.09558821, a: 1}
+    m_UseLightColor: 0
+    m_Rotate: 0
+    m_Zoom: 1
+    m_Fade: 1
+  m_UseFog: 0
