@@ -521,7 +521,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.34170234, y: 0.8289246}
   m_AnchorMax: {x: 0.6581391, y: 0.9644847}
-  m_AnchoredPosition: {x: 0.49942398, y: 3.025116}
+  m_AnchoredPosition: {x: 0.49942398, y: 3.0250854}
   m_SizeDelta: {x: 1, y: 1.95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &114884298
@@ -2865,7 +2865,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.47443315, y: 0}
   m_AnchorMax: {x: 0.5389043, y: 0.11889744}
-  m_AnchoredPosition: {x: 0.9999542, y: -0.0011901855}
+  m_AnchoredPosition: {x: 0.9999542, y: -0.0012207031}
   m_SizeDelta: {x: -2, y: -4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1073892817
@@ -4091,6 +4091,7 @@ GameObject:
   - component: {fileID: 1330180431}
   - component: {fileID: 1330180434}
   - component: {fileID: 1330180433}
+  - component: {fileID: 1330180437}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -4136,7 +4137,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1330180432}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1330180437}
+        m_MethodName: LoadGameScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1330180432
@@ -4221,6 +4233,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0.25963217, y: -1.3502045}
   m_SizeDelta: {x: -2.399994, y: -2.699997}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1330180437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1330180430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c811e300b38e2174ab428def79d304fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1338624680
 GameObject:
   m_ObjectHideFlags: 0
