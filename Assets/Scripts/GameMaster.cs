@@ -6,7 +6,7 @@ public class GameMaster : MonoBehaviour {
 
 	// List<Unit> units = new List<Unit>();
     [SerializeField] public LayerMask layerMask;
-    [SerializeField] public float rayLength;
+    [SerializeField] public float rayLength = 100;
 
     [SerializeField] int width, height;
 
@@ -49,9 +49,9 @@ public class GameMaster : MonoBehaviour {
         }
     }
 
-	private void Update() {
-        if(Input.GetKeyDown(KeyCode.Space)) {
-            Debug.LogWarning("WINNAAR "+DetermanScore().name +" "+ DetermanScore().score);
-        }
-	}
+	// private void Update() {
+    //     if(Input.GetKeyDown(KeyCode.Space)) {
+    //         Debug.LogWarning("WINNAAR "+DetermanScore().name +" "+ DetermanScore().score);
+    //     }
+	// }
 }
