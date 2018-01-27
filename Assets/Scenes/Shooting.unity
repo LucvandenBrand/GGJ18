@@ -524,6 +524,8 @@ MonoBehaviour:
   playerPrefab: {fileID: 1142469761710836, guid: 4b00221222a752b4f8fa943e71806cdd,
     type: 2}
   cameraAnimator: {fileID: 0}
+  roomText: {fileID: 0}
+  scoreText: {fileID: 0}
 --- !u!4 &950224469
 Transform:
   m_ObjectHideFlags: 0
@@ -1535,6 +1537,10 @@ Prefab:
     - target: {fileID: 4457551370590780, guid: 4b00221222a752b4f8fa943e71806cdd, type: 2}
       propertyPath: m_LocalPosition.z
       value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1165714575899128, guid: 4b00221222a752b4f8fa943e71806cdd, type: 2}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b00221222a752b4f8fa943e71806cdd, type: 2}
