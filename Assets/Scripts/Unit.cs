@@ -59,7 +59,7 @@ public class Unit : MonoBehaviour {
 	}
 	
 	void setScale(){
-		float scale = .5f + .4f * System.Math.Min((float)score, 10.0f);
+		float scale = .7f + .3f * System.Math.Min((float)score, 10.0f);
 		myTransform.localScale = new Vector3(scale, scale, scale); // MUST BE SMALLER THAN 5!!
 	}
 	
