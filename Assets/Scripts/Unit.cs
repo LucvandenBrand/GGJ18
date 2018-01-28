@@ -130,8 +130,9 @@ public void addForce(float x_axis, float y_axis) {
 	public void ResetPlayer(){
 		this.isInfected = false;
 		this.score = 0;
-		myTransform.GetChild(1).gameObject.SetActive(true); // show shield.
+// 		myTransform.GetChild(1).gameObject.SetActive(true); // show shield.
 		Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 5);
 		this.transform.position = randomPos;
+		setScale();
 	}
 }
