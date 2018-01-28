@@ -83,6 +83,7 @@ public class Unit : MonoBehaviour {
 	void setScale(){
 		float scale = .7f + .3f * System.Math.Min((float)score, 10.0f);
 		myTransform.localScale = new Vector3(scale, scale, scale); // MUST BE SMALLER THAN 5!!
+		rigidbody.mass = scale;
 	}
 	
 	public void updateRayScore() {
