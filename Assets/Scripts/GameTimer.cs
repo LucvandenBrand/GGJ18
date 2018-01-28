@@ -37,7 +37,7 @@ public class GameTimer : MonoBehaviour {
 	// Update is called once per frame
 	void Update()
 	{
-		timeLeft -= Time.deltaTime;
+		//timeLeft -= Time.deltaTime;
 		// running can hopefully be removed if isSick is implemented
 		if (GetComponent<NetworkController>().IsSick() && running)
 		{
