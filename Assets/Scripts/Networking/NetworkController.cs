@@ -189,8 +189,8 @@ public class NetworkController : MonoBehaviour {
 
 	private void checkTimerStart()
 	{
-		GameTimer gameTimer = GetComponent<GameTimer>();
-		gameTimer.startRunning();
+// 		GameTimer gameTimer = GetComponent<GameTimer>();
+// 		gameTimer.startRunning();
 
 	}
 

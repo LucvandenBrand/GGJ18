@@ -29,6 +29,8 @@ public class GameTimer : MonoBehaviour {
 		GetComponent<GameMaster>().ResetPlayers();
 		state = GameState.Lobby;
 		// open lobby
+		startRunning(); // remove this when lobby when lobby is implemented
+		print("Starting round");
 		
 	}
 
@@ -63,6 +65,7 @@ public class GameTimer : MonoBehaviour {
 		// running can hopefully be removed if isSick is implemented
 		if (state == GameState.Game){//GetComponent<NetworkController>().IsSick() && running)
 		{
+// 			print("GAMING");
 			timeLeft -= Time.deltaTime;
 			timeField.text = timeLeft.ToString("0");
 			if (timeLeft <= 4)

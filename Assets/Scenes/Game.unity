@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465785, g: 0.49641252, b: 0.574817, a: 1}
+  m_IndirectSpecularColor: {r: NaN, g: NaN, b: NaN, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -309,6 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc0fd91faf115624298d505c4c9bc137, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: {fileID: 950224470}
 --- !u!1001 &307939892
 Prefab:
   m_ObjectHideFlags: 0
@@ -1187,7 +1188,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.05477646, y: 0.81227416}
   m_AnchorMax: {x: 0.256642, y: 0.9593474}
-  m_AnchoredPosition: {x: -1.2999878, y: 0.2000122}
+  m_AnchoredPosition: {x: -1.2999725, y: 0.2000122}
   m_SizeDelta: {x: -1.9000015, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1257788489
