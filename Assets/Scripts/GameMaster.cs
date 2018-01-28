@@ -44,7 +44,7 @@ public class GameMaster : MonoBehaviour {
         foreach (var player in players)
             player.resetRayScore();
         StartCoroutine(toggleConeEffect(highScoreUnit, players));
-        ++highScoreUnit.score;
+        highScoreUnit.updateScore();
         return highScoreUnit;
 	}
 
