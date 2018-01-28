@@ -32,6 +32,17 @@ public class Unit : MonoBehaviour {
     private AudioClip playerCollisionSound;
     private AudioSource audiosource;
     public int rayScore;
+
+
+    [System.Serializable]
+    public class Yell {
+        public string text;
+        public AudioClip scoreSound;
+    }
+
+    [SerializeField]
+    public Yell[] scoreSounds;
+
 	
 	// Use this for initialization
 	void Start () {
@@ -56,11 +67,23 @@ public class Unit : MonoBehaviour {
 	public void updateScore() {
 		score += 1;
 		setScale();
+
+    maybePlayScoreSound();
 	}
+
+    private void maybePlayScoreSound(){
+        if(Random.Range(0, 5) < 1) {
+            AudioClip randomClip = scoreSounds[Random.Range(0, scoreSounds.Length)].scoreSound;
+            Debug.Log(randomClip);
+            audiosource.pitch = 1;
+            audiosource.PlayOneShot(randomClip, 0.5f);
+        }
+    }
 	
 	void setScale(){
 		float scale = .7f + .3f * System.Math.Min((float)score, 10.0f);
 		myTransform.localScale = new Vector3(scale, scale, scale); // MUST BE SMALLER THAN 5!!
+		rigidbody.mass = scale;
 	}
 	
 	public void updateRayScore() {
