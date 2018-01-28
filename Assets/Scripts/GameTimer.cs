@@ -23,13 +23,19 @@ public class GameTimer : MonoBehaviour {
 	[SerializeField] GameMaster gm;
 	[SerializeField] int maxScore;
 	
-	
+	public void Start()
+    {
+        timeField.enabled = false;
+    }
+
+
 	public void startRound(){
         Debug.Log("straten");
-		GetComponent<GameMaster>().ResetPlayers();
+		gm.ResetPlayers();
 		state = GameState.Lobby;
         GetComponent<LobbyManager>().openLobby();
-	}
+        
+    }
 
 	// Use this for initialization
 	public void startRunning()
@@ -53,7 +59,8 @@ public class GameTimer : MonoBehaviour {
 	public void stopRunning()
 	{
 		running = false;
-		state = GameState.Score;
+        timeField.enabled = false;
+        state = GameState.Score;
 	}
 
 	// Update is called once per frame
