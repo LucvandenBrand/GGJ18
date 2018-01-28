@@ -14,7 +14,7 @@ defmodule SnappyServer.GameServer do
   def voronoi_color(0),do: "09FF00"
   def voronoi_color(1),do: "FF0000"
   def voronoi_color(2),do: "0017FF"
-  def voronoi_color(3),do: "FF8E00"
+  def voronoi_color(3),do: "E26B2CFF"
   def voronoi_color(4),do: "A5A5A5"
   def voronoi_color(5),do: "FFFF00"
   def voronoi_color(6),do: "9500CA"
