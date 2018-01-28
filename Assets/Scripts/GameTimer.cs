@@ -25,13 +25,10 @@ public class GameTimer : MonoBehaviour {
 	
 	
 	public void startRound(){
-		
+        Debug.Log("straten");
 		GetComponent<GameMaster>().ResetPlayers();
 		state = GameState.Lobby;
-		// open lobby
-		startRunning(); // remove this when lobby when lobby is implemented
-		print("Starting round");
-		
+        GetComponent<LobbyManager>().openLobby();
 	}
 
 	// Use this for initialization

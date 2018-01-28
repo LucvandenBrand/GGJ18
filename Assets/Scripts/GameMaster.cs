@@ -67,7 +67,8 @@ public class GameMaster : MonoBehaviour {
 		List<Unit> players = new List<Unit>(networkController.players.Values);
 		foreach (var player in players) {
 			player.ResetPlayer();
-		}
+            player.transform.position = new Vector3(10, UnityEngine.Random.Range(-1f, 1f), 5);
+        }
 	}
 
 }
