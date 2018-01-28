@@ -34,9 +34,9 @@ public class GameTimer : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+		timeLeft -= Time.deltaTime;
         if (running)
         {
-            timeLeft -= Time.deltaTime;
             if (timeLeft <= 3)
             {
                 if (!animationRunning)
@@ -50,7 +50,10 @@ public class GameTimer : MonoBehaviour {
             {
                 timerFinished();
             }
-        }
+        } else {
+			// show the score and wait for restart
+			
+		}
     }
 
     void animation()
@@ -63,14 +66,13 @@ public class GameTimer : MonoBehaviour {
     {
         Debug.Log("TimerDone");
         Unit winner = gm.DetermanScore();
+        Instantiate(playerWinPrefab, winner.transform.position, Quaternion.identity);
+        resetTimer();
         if (winner.score >= maxScore)
         {
             // Game Over
-            stopRunning();
-            GetComponent<NetworkController>().FinalScreen();
+			showScore();
         }
-        Instantiate(playerWinPrefab, winner.transform.position, Quaternion.identity);
-        resetTimer();
     }
 
     private void resetTimer()
@@ -79,4 +81,12 @@ public class GameTimer : MonoBehaviour {
         running = true;
         animationRunning = false;
     }
+    
+    private void showScore(){
+		
+		stopRunning();
+		timeLeft += 30;
+		GetComponent<NetworkController>().FinalScreen();
+	}
+		
 }
