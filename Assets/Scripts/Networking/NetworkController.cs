@@ -163,7 +163,7 @@ public class NetworkController : MonoBehaviour {
         }
     }
 
-    public GameObject add_player(string player_name) {
+    public GameObject add_player(string player_name, bool localControls=false) {
         Debug.Log("Player Connected: " + player_name);
         Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 5);
         GameObject playerObject = Instantiate(playerPrefab, randomPos, Quaternion.identity) as GameObject;
@@ -171,6 +171,8 @@ public class NetworkController : MonoBehaviour {
 
         Unit playerUnit = playerObject.GetComponent<Unit>();
         playerUnit.name = player_name;
+        
+        playerObject.GetComponentInChildren<ConeMaker>().makeCone(localControls);
 
         players.Add(player_name, playerUnit);
 
@@ -269,7 +271,7 @@ public class NetworkController : MonoBehaviour {
         {
             if (Input.GetAxisRaw(inputStringsVertical[i]) > 0.5)
             {
-                GameObject curPlayer = add_player(inputStringsVertical[i]);
+                GameObject curPlayer = add_player(inputStringsVertical[i], true);
                 KeysToVirtual keys = curPlayer.AddComponent<KeysToVirtual>();
                 keys.horizontalString = inputStringsVertical[i];
                 keys.verticalString = inputStringsHorizontal[i];
