@@ -115,6 +115,9 @@ public class NetworkController : MonoBehaviour {
 	// The text to show the score in.
 	public Text scoreText;
 
+  // The text to show the timer in usually, used for winner text on score screen.
+  public Text timerText;
+
 	void Awake() {
 		DontDestroyOnLoad(this);
 	}
@@ -296,6 +299,8 @@ public class NetworkController : MonoBehaviour {
 			scoreString += player.name + ": " + player.score + "\n";
 		}
 		scoreText.text = scoreString;
+
+    timerText.text = playerList[0].name + " is the Ultimate Virus";
 	}
 
 	/* Players are disallowed to move outside of the screen. Preventing death. */
