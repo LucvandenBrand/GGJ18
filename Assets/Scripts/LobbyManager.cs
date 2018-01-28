@@ -5,17 +5,14 @@ using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviour {
     private NetworkController nc;
-    //public Image startPanel;
     public GameObject circle;
     public GameObject textInvection;
     private GameObject curCircle, curText;
 
     private bool lobbyOpen = false;
-	// Use this for initialization
 	void Start () {
         nc = GetComponent<NetworkController>();
         closeLobby();
-        openLobby(); // put this at end of animation
     }
 
     public void closeLobby()
@@ -23,18 +20,16 @@ public class LobbyManager : MonoBehaviour {
         lobbyOpen = false;
         Destroy(curCircle);
         Destroy(curText);
-        //startPanel.enabled = false;
     }
 
     public void openLobby()
     {
-        lobbyOpen = true;
+        GetComponent<GameMaster>().ResetPlayers();
         curCircle = Instantiate(circle);
         curText = Instantiate(textInvection);
-        //startPanel.enabled = true;
+        lobbyOpen = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (lobbyOpen)
@@ -53,6 +48,7 @@ public class LobbyManager : MonoBehaviour {
     private void beginGame()
     {
         closeLobby();
+        GetComponent<GameTimer>().startRunning();
     }
 
     private bool checkProperLocation()
