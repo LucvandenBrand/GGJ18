@@ -54,6 +54,10 @@ public class GameTimer : MonoBehaviour {
                 timerFinished();
             }
         } else {
+			if (timeLeft < 0){
+				print("RESTARTING");
+				startRunning();
+			}
 			// show the score and wait for restart
 			
 		}
@@ -88,7 +92,7 @@ public class GameTimer : MonoBehaviour {
     private void showScore(){
 		
 		stopRunning();
-		timeLeft += 30;
+		timeLeft += 1;
 		GetComponent<NetworkController>().FinalScreen();
 	}
 		
