@@ -16,9 +16,12 @@ public class GameTimer : MonoBehaviour {
     // Use this for initialization
     public void startRunning()
     {
-        timeLeft = timerDuration;
-        running = true;
-        animationRunning = false;
+        if (!running)
+        {
+            timeLeft = timerDuration;
+            running = true;
+            animationRunning = false;
+        }
     }
 
     public void stopRunning()
