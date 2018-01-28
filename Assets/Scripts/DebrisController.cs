@@ -7,8 +7,8 @@ public class DebrisController : MonoBehaviour {
 //	public GameObject[] cells;
 	// Use this for initialization
 
-	public float DebreeInterval = 10.0f;
-	public float tChange = 3.0f;
+	public float DebreeInterval = 15.0f;
+	public float tChange = 10.0f;
 	public GameObject debris;
 
 	void Start () {
@@ -33,7 +33,7 @@ public class DebrisController : MonoBehaviour {
 		GameObject hittedPlayer = this.findClosestPlayer (x, y);
 
 		if(hittedPlayer != null) {
-			hittedPlayer.GetComponent<Unit> ().Infect ();
+			hittedPlayer.GetComponent<Unit>().SuperPower ();
 		}
 
 	}

@@ -428,18 +428,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc8efb736cb256c4c9777c1ab7d53c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SuperPowerMaterial: {fileID: 2100000, guid: 805fa042357424290a8c809cc3bbae38, type: 2}
+  InnerMaterial: {fileID: 2100000, guid: afe2554769226b64a8c666116ebef798, type: 2}
   speed: 61.6
   rotationSpeed: 0
   isInfected: 0
   score: 0
   name: 
   hasDisconnected: 0
+  paralyze: 0
+  superpower: 0
   virtualJoystick: {x: 0, y: 0}
   playerCollisionParticleSystem: {fileID: 1335849293727152, guid: 76906a851cd7740dd8a136beff0261d0,
     type: 2}
   playerCollisionSound: {fileID: 8300000, guid: b9bd9c75847f3e14a8c3163d9bcdcb6d,
     type: 3}
   rayScore: 0
+  scoreSounds:
+  - text: Infect, you scored
+    scoreSound: {fileID: 8300000, guid: eac1d36a8491840459d338835f7051a7, type: 3}
+  - text: EPIDEMIC!!
+    scoreSound: {fileID: 8300000, guid: a2898cfb898d54eea801c43b1686e393, type: 3}
+  - text: FLU-ently!
+    scoreSound: {fileID: 8300000, guid: 65851465b14b14ec2a87c261c8f5fc16, type: 3}
+  - text: Infectious!
+    scoreSound: {fileID: 8300000, guid: dc19034c9819f47c3b9447e7064ded6b, type: 3}
+  - text: You're doing sickmakingly good.
+    scoreSound: {fileID: 8300000, guid: f4ea63e82f79c4ad79c8d578dc5ca52e, type: 3}
+  - text: Sick Moves!
+    scoreSound: {fileID: 8300000, guid: 265db8e63c2844446a57b51b61988dd7, type: 3}
+  - text: You've got sk...ILL!
+    scoreSound: {fileID: 8300000, guid: 3d4b71759cb134142ae3c51923334eee, type: 3}
+  - text: Sucking the life right from 'em!
+    scoreSound: {fileID: 8300000, guid: 82b46537eafd545a889fd82b3c3bf0f2, type: 3}
+  - text: You make it look disease-y!
+    scoreSound: {fileID: 8300000, guid: 8e1013add18174173aef477fae64c81b, type: 3}
+  - text: You're going viral!
+    scoreSound: {fileID: 8300000, guid: 68d466a8185344ac1b66a01a9816b578, type: 3}
 --- !u!114 &114923149312049486
 MonoBehaviour:
   m_ObjectHideFlags: 1

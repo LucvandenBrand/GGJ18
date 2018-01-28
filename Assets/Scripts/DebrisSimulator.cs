@@ -19,7 +19,6 @@ public class DebrisSimulator : MonoBehaviour {
 		if (transform.localScale.x < stop) {
 			dc.HitPlayer(transform.position.x, transform.position.y);
 			Destroy (gameObject);
-
 		}
 	}
 }

@@ -246,6 +246,9 @@ $(document).ready(function(){
         channel.join()
             .receive("error", resp => { console.log("Unable to join", resp);
                                         alert("Unable to join game: " + resp.reason);
+                                        $("#game-joining-section").show();
+                                        $("#game-playing-section").hide();
+
                                       })
             .receive("ok", resp => {
                 console.log("Joined successfully", resp);
