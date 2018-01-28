@@ -53,14 +53,16 @@ defmodule SnappyServer.GameServer do
   defcall add_player({player_name, player_socket}), state: state do
     # Logger.debug("Attempting to add player #{player_name} to state #{inspect(state)}")
     if Map.has_key?(state.players, player_name) do
-      reply({:error, :player_already_exists})
+      # reply({:error, :player_already_exists})
+      updated_state = %State{state | players: Map.put(state.players, player_name, %{state.players[player_name] | player_socket: player_socket})}
+
+      set_and_reply(updated_state, {:ok, %{unity_listener: updated_state.unity_listener, room_pid: self(), voronoi_color: updated_state.players[player_name].voronoi_color}})
     else
       voronoi_color = voronoi_color(state.voronoi_color_index)
       updated_state = %State{state | players: Map.put(state.players, player_name, %{player_socket: player_socket, voronoi_color: voronoi_color}), voronoi_color_index: state.voronoi_color_index + 1}
-      # Logger.debug(inspect(updated_state))
 
       send_to_unity(updated_state, %{type: "player_added", player_name: player_name})
-
+      updated_state
       set_and_reply(updated_state, {:ok, %{unity_listener: updated_state.unity_listener, room_pid: self(), voronoi_color: voronoi_color}})
     end
   end
