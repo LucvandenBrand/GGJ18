@@ -189,8 +189,8 @@ public class NetworkController : MonoBehaviour {
 
 	private void checkTimerStart()
 	{
-		GameTimer gameTimer = GetComponent<GameTimer>();
-		gameTimer.startRunning();
+// 		GameTimer gameTimer = GetComponent<GameTimer>();
+// 		gameTimer.startRunning();
 
 	}
 
@@ -324,6 +324,8 @@ public class NetworkController : MonoBehaviour {
 	
 	public bool IsSick(){
 		// TODO: implement this to check if the sick animation is playing
+		print(cameraAnimator.GetCurrentAnimatorStateInfo(0).IsName("Sick"));
+// 		return cameraAnimator.GetCurrentAnimatorStateInfo(0).IsName("Sick");
 		return true;//cameraAnimator.IsPlaying("Sick");
 	}
 }
