@@ -14,11 +14,11 @@ public class Unit : MonoBehaviour {
 	public float speed;
 	public float rotationSpeed;
 
-    public bool isInfected = false;
-    public int score = 0;
-    public string name = "";
-    public bool hasDisconnected = false;
-    
+	public bool isInfected = false;
+	public int score = 0;
+	public string name = "";
+	public bool hasDisconnected = false;
+	
 	public class InfectionEvent : UnityEvent<Unit> {}
 	public InfectionEvent infectionEvent = new InfectionEvent();
 
@@ -33,7 +33,6 @@ public class Unit : MonoBehaviour {
     private AudioSource audiosource;
     public int rayScore;
 	
-	
 	// Use this for initialization
 	void Start () {
 		
@@ -41,12 +40,9 @@ public class Unit : MonoBehaviour {
 		rigidbody = gameObject.GetComponent<Rigidbody2D>();
 		lastPosition = myTransform.position;
 
-    audiosource = GetComponent<AudioSource>();
+		audiosource = GetComponent<AudioSource>();
 		
-// 		if (Random.value > 0.5){
-// 			Infect();
-// 		}
-		//myTransform.LookAt(new Vector3(0, -1, 0), new Vector3(0,0,-1));
+		setScale();
 	}
 	
 	// Update is called once per frame
@@ -55,20 +51,25 @@ public class Unit : MonoBehaviour {
 			//myTransform.LookAt(new Vector3(myTransform.position.x + virtualJoystick.x, myTransform.position.y + virtualJoystick.y, 0), new Vector3(0,0,-1));
 		}
 		addForce(virtualJoystick.x, virtualJoystick.y);
-  }
-  
-  public void updateScore() {
-	score += 1;
-  }
-  
-  public void updateRayScore() {
-        rayScore += 1;
-  }
-
-    public void resetRayScore()
-    {
-        rayScore = 0;
-    }
+	}
+	
+	public void updateScore() {
+		score += 1;
+		setScale();
+	}
+	
+	void setScale(){
+		float scale = .5f + .4f * System.Math.Min((float)score, 10.0f);
+		myTransform.localScale = new Vector3(scale, scale, scale); // MUST BE SMALLER THAN 5!!
+	}
+	
+	public void updateRayScore() {
+		rayScore += 1;
+	}
+	public void resetRayScore()
+	{
+		rayScore = 0;
+	}
 
 public void addVirtualForce(float x_axis, float y_axis) {
 	virtualJoystick = new Vector2(x_axis, y_axis);
@@ -126,11 +127,11 @@ public void addForce(float x_axis, float y_axis) {
 		// TODO Play nice animation
 	}
 
-    public void ResetPlayer(){
-        this.isInfected = false;
-        this.score = 0;
-        myTransform.GetChild(1).gameObject.SetActive(true); // show shield.
-        Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 5);
-        this.transform.position = randomPos;
-    }
+	public void ResetPlayer(){
+		this.isInfected = false;
+		this.score = 0;
+		myTransform.GetChild(1).gameObject.SetActive(true); // show shield.
+		Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 5);
+		this.transform.position = randomPos;
+	}
 }
