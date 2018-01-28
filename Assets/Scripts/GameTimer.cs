@@ -52,7 +52,7 @@ public class GameTimer : MonoBehaviour {
 				} 
 				
 			}
-			if (timeLeft <= 0)
+			if (timeLeft <= 1)
 			{
 				timerFinished();
 			}
