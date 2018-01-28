@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameTimer : MonoBehaviour {
     public float timerDuration;
@@ -8,6 +9,7 @@ public class GameTimer : MonoBehaviour {
     private bool running = false;
     private bool animationRunning = false;
     public Animator countdownAnimator;
+    public Text timeField;
 
     [SerializeField] GameObject playerWinPrefab;
     [SerializeField] GameMaster gm;
@@ -18,9 +20,7 @@ public class GameTimer : MonoBehaviour {
     {
         if (!running)
         {
-            timeLeft = timerDuration;
-            running = true;
-            animationRunning = false;
+            resetTimer();
         }
     }
 
@@ -38,12 +38,14 @@ public class GameTimer : MonoBehaviour {
     void Update()
     {
 		timeLeft -= Time.deltaTime;
+		timeField.text = timeLeft.ToString("0");
         if (running)
         {
-            if (timeLeft <= 3)
+            if (timeLeft <= 4)
             {
                 if (!animationRunning)
                 {
+                    timeField.enabled = false;
                     animationRunning = true;
                     animation();
                 } 
@@ -87,6 +89,7 @@ public class GameTimer : MonoBehaviour {
         timeLeft = timerDuration;
         running = true;
         animationRunning = false;
+        timeField.enabled = true;
     }
     
     private void showScore(){
