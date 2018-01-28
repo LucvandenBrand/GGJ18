@@ -171,15 +171,13 @@ public class NetworkController : MonoBehaviour {
 
         Unit playerUnit = playerObject.GetComponent<Unit>();
         playerUnit.name = player_name;
-        playerUnit.infectionEvent.AddListener(playerBecameInfected);
-
-        Debug.Log("Player infectionEvent");
-        Debug.Log(playerUnit.infectionEvent);
 
         players.Add(player_name, playerUnit);
-        healthyPlayers++;
 
-        checkTimerStart();
+        if (players.Count >= 2)
+        {
+            checkTimerStart();
+        }
 
         return playerObject;
     }
@@ -187,10 +185,8 @@ public class NetworkController : MonoBehaviour {
     private void checkTimerStart()
     {
         GameTimer gameTimer = GetComponent<GameTimer>();
-        if (!gameTimer.isRunning())
-        {
-            gameTimer.startRunning();
-        }
+        gameTimer.startRunning();
+
     }
 
     public void send_message(string player_name, string message){
@@ -207,7 +203,6 @@ public class NetworkController : MonoBehaviour {
         //DebugTextText.text = "" + pointer_x;
         // Debug.Log(pointer_x);
         player.addVirtualForce(pointer_x, -pointer_y);
-        player.Infect(); // TODO Temporary test.
     }
 
     public void player_release(string player_name) {
@@ -283,18 +278,6 @@ public class NetworkController : MonoBehaviour {
                 inputStringsHorizontal.RemoveAt(i);
                 inputStringsVertical.RemoveAt(i);
             }
-        }
-    }
-
-    private void playerBecameInfected(Unit player) {
-        Debug.Log("Player " + player.name + " became infected!");
-        healthyPlayers--;
-        Debug.Log("healthy Players:" + healthyPlayers);
-        if (healthyPlayers == 0 && players.Count > 0) {
-            // Game Over
-            Debug.Log("Game Over!");
-            cameraAnimator.SetTrigger("End-Sick");
-            showScore();
         }
     }
 
