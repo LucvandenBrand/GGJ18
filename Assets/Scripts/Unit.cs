@@ -95,7 +95,7 @@ public class Unit : MonoBehaviour {
 	}
 
     private void maybePlayScoreSound(){
-        if(Random.Range(0, 5) < 1) {
+        if(Random.Range(0, 3) < 1) {
             AudioClip randomClip = scoreSounds[Random.Range(0, scoreSounds.Length)].scoreSound;
             Debug.Log(randomClip);
             audiosource.pitch = 1;
@@ -199,9 +199,7 @@ public void addForce(float x_axis, float y_axis) {
 		this.paralyze = false;
 		this.superpower = false;
 		this.score = 0;
-// 		myTransform.GetChild(1).gameObject.SetActive(true); // show shield.
-		Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 5);
-		this.transform.position = randomPos;
-		setScale();
+        this.transform.position = new Vector3(10, UnityEngine.Random.Range(-1f, 1f), 5);
+        setScale();
 	}
 }
