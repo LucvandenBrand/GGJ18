@@ -9,20 +9,29 @@ public class Unit : MonoBehaviour {
 	Transform myTransform;
 	Rigidbody2D rigidbody;
 	Vector3 lastPosition;
+
 	[SerializeField]
 	public float speed;
 	public float rotationSpeed;
 
-    public bool isInfected = false;
-    public int score = 0;
-    public string name = "";
-    public bool hasDisconnected = false;
-    
+	public bool isInfected = false;
+	public int score = 0;
+	public string name = "";
+	public bool hasDisconnected = false;
+	
 	public class InfectionEvent : UnityEvent<Unit> {}
 	public InfectionEvent infectionEvent = new InfectionEvent();
 
 	public Vector2 virtualJoystick = new Vector2(0, 0);
-	
+
+    [SerializeField]
+    private GameObject playerCollisionParticleSystem;
+
+
+    [SerializeField]
+    private AudioClip playerCollisionSound;
+    private AudioSource audiosource;
+    public int rayScore;
 	
 	// Use this for initialization
 	void Start () {
@@ -30,11 +39,10 @@ public class Unit : MonoBehaviour {
 		myTransform = gameObject.transform;
 		rigidbody = gameObject.GetComponent<Rigidbody2D>();
 		lastPosition = myTransform.position;
+
+		audiosource = GetComponent<AudioSource>();
 		
-// 		if (Random.value > 0.5){
-// 			Infect();
-// 		}
-		//myTransform.LookAt(new Vector3(0, -1, 0), new Vector3(0,0,-1));
+		setScale();
 	}
 	
 	// Update is called once per frame
@@ -43,11 +51,25 @@ public class Unit : MonoBehaviour {
 			//myTransform.LookAt(new Vector3(myTransform.position.x + virtualJoystick.x, myTransform.position.y + virtualJoystick.y, 0), new Vector3(0,0,-1));
 		}
 		addForce(virtualJoystick.x, virtualJoystick.y);
-
-    if(!this.isInfected){
-        this.score++;
-    }
-  }
+	}
+	
+	public void updateScore() {
+		score += 1;
+		setScale();
+	}
+	
+	void setScale(){
+		float scale = .7f + .3f * System.Math.Min((float)score, 10.0f);
+		myTransform.localScale = new Vector3(scale, scale, scale); // MUST BE SMALLER THAN 5!!
+	}
+	
+	public void updateRayScore() {
+		rayScore += 1;
+	}
+	public void resetRayScore()
+	{
+		rayScore = 0;
+	}
 
 public void addVirtualForce(float x_axis, float y_axis) {
 	virtualJoystick = new Vector2(x_axis, y_axis);
@@ -71,6 +93,22 @@ public void addForce(float x_axis, float y_axis) {
 
 	void OnTriggerEnter2D(Collider2D other) {
 	}
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "Player")
+        {
+            GameObject particles = Instantiate(playerCollisionParticleSystem, Camera.main.transform);
+            particles.transform.position = coll.transform.position;
+
+            float lowPitchRange = .75F;
+            float highPitchRange = 1.5F;
+            float velToVol = .01F;
+            float hitVol = coll.relativeVelocity.magnitude * velToVol;
+            audiosource.pitch = Random.Range (lowPitchRange,highPitchRange);
+            audiosource.PlayOneShot(playerCollisionSound, hitVol);
+        }
+    }
 	
 
 	public void Infect(){
@@ -89,11 +127,12 @@ public void addForce(float x_axis, float y_axis) {
 		// TODO Play nice animation
 	}
 
-    public void ResetPlayer(){
-        this.isInfected = false;
-        this.score = 0;
-        myTransform.GetChild(1).gameObject.SetActive(true); // show shield.
-        Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 5);
-        this.transform.position = randomPos;
-    }
+	public void ResetPlayer(){
+		this.isInfected = false;
+		this.score = 0;
+// 		myTransform.GetChild(1).gameObject.SetActive(true); // show shield.
+		Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 5);
+		this.transform.position = randomPos;
+		setScale();
+	}
 }
