@@ -11,6 +11,11 @@ public class Unit : MonoBehaviour {
 	Vector3 lastPosition;
 
 	[SerializeField]
+	Material SuperPowerMaterial;
+	[SerializeField]
+	Material InnerMaterial;
+
+	[SerializeField]
 	public float speed;
 	public float rotationSpeed;
 
@@ -18,7 +23,13 @@ public class Unit : MonoBehaviour {
 	public int score = 0;
 	public string name = "";
 	public bool hasDisconnected = false;
-	
+	public bool paralyze = false;
+	public bool superpower = false;
+
+	private float interval = 10.0f;
+	private float sChange = 0.0f;
+	private float pChange = 0.0f;
+
 	public class InfectionEvent : UnityEvent<Unit> {}
 	public InfectionEvent infectionEvent = new InfectionEvent();
 
@@ -63,7 +74,19 @@ public class Unit : MonoBehaviour {
 		}
 		addForce(virtualJoystick.x, virtualJoystick.y);
 	}
-	
+
+	public void Update() {
+		sChange -= Time.deltaTime;
+		pChange -= Time.deltaTime;
+		if (pChange <= 0 && paralyze) {
+			paralyze = false;
+			gameObject.transform.GetChild (1).transform.gameObject.SetActive (true);
+		}
+		if (sChange <= 0 && superpower) {
+			gameObject.transform.GetChild(0).GetComponent<MeshRenderer> ().material = InnerMaterial;
+			superpower = false;
+		}
+	}	
 	public void updateScore() {
 		score += 1;
 		setScale();
@@ -123,13 +146,16 @@ public void addForce(float x_axis, float y_axis) {
         {
             GameObject particles = Instantiate(playerCollisionParticleSystem, Camera.main.transform);
             particles.transform.position = coll.transform.position;
-
             float lowPitchRange = .75F;
             float highPitchRange = 1.5F;
             float velToVol = .01F;
             float hitVol = coll.relativeVelocity.magnitude * velToVol;
             audiosource.pitch = Random.Range (lowPitchRange,highPitchRange);
             audiosource.PlayOneShot(playerCollisionSound, hitVol);
+
+			if (superpower) {
+				coll.gameObject.GetComponent<Unit>().Paralyze ();
+			}
         }
     }
 	
@@ -150,8 +176,28 @@ public void addForce(float x_axis, float y_axis) {
 		// TODO Play nice animation
 	}
 
+	public void SuperPower() {
+		gameObject.transform.GetChild(0).GetComponent<MeshRenderer> ().material = SuperPowerMaterial;
+		superpower = true;
+		sChange = interval;
+	}
+
+	public void Paralyze() {
+		if (!superpower) {
+			paralyze = true;
+			pChange = interval;
+			gameObject.transform.GetChild (1).transform.gameObject.SetActive (false);
+		}
+	}
+
+//	public IEnumerable Paralyze(){
+//		yield return true;
+//	}
+
 	public void ResetPlayer(){
 		this.isInfected = false;
+		this.paralyze = false;
+		this.superpower = false;
 		this.score = 0;
         this.transform.position = new Vector3(10, UnityEngine.Random.Range(-1f, 1f), 5);
         setScale();

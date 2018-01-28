@@ -440,12 +440,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc8efb736cb256c4c9777c1ab7d53c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SuperPowerMaterial: {fileID: 2100000, guid: 805fa042357424290a8c809cc3bbae38, type: 2}
+  InnerMaterial: {fileID: 2100000, guid: afe2554769226b64a8c666116ebef798, type: 2}
   speed: 61.6
   rotationSpeed: 0
   isInfected: 0
   score: 0
   name: 
   hasDisconnected: 0
+  paralyze: 0
+  superpower: 0
   virtualJoystick: {x: 0, y: 0}
   playerCollisionParticleSystem: {fileID: 1335849293727152, guid: 76906a851cd7740dd8a136beff0261d0,
     type: 2}
