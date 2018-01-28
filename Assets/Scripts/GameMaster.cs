@@ -43,7 +43,7 @@ public class GameMaster : MonoBehaviour {
         }
         foreach (var player in players)
             player.resetRayScore();
-        highScoreUnit.score++;
+        highScoreUnit.updateScore();
         return highScoreUnit;
 	}
 

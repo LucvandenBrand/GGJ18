@@ -41,10 +41,8 @@ public class Unit : MonoBehaviour {
 		lastPosition = myTransform.position;
 
 		audiosource = GetComponent<AudioSource>();
-// 		if (Random.value > 0.5){
-// 			Infect();
-// 		}
-		//myTransform.LookAt(new Vector3(0, -1, 0), new Vector3(0,0,-1));
+		
+		setScale();
 	}
 	
 	// Update is called once per frame
@@ -53,29 +51,25 @@ public class Unit : MonoBehaviour {
 			//myTransform.LookAt(new Vector3(myTransform.position.x + virtualJoystick.x, myTransform.position.y + virtualJoystick.y, 0), new Vector3(0,0,-1));
 		}
 		addForce(virtualJoystick.x, virtualJoystick.y);
-  }
-  
-  public void updateScore() {
-	score += 1;
-  }
-  
-  public void updateRayScore() {
-        rayScore += 1;
-  }
-
-<<<<<<< HEAD
-	if(!this.isInfected){
-		this.score++;
-		float scale = .5f + .8f * System.Math.Min((float)score, 10.0f);
+	}
+	
+	public void updateScore() {
+		score += 1;
+		setScale();
+	}
+	
+	void setScale(){
+		float scale = .5f + .4f * System.Math.Min((float)score, 10.0f);
 		myTransform.localScale = new Vector3(scale, scale, scale); // MUST BE SMALLER THAN 5!!
 	}
-}
-=======
-    public void resetRayScore()
-    {
-        rayScore = 0;
-    }
->>>>>>> ed38244633e25b5c6f281b9d1c2fb240542a2ae6
+	
+	public void updateRayScore() {
+		rayScore += 1;
+	}
+	public void resetRayScore()
+	{
+		rayScore = 0;
+	}
 
 public void addVirtualForce(float x_axis, float y_axis) {
 	virtualJoystick = new Vector2(x_axis, y_axis);
