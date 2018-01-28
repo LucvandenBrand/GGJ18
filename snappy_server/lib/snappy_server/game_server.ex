@@ -43,10 +43,15 @@ defmodule SnappyServer.GameServer do
   end
 
   defp generate_code do
-    Ecto.UUID.generate()
-    |> String.split_at(4)
-    |> elem(0)
-    |> String.upcase
+	alphabet = String.codepoints "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	Enum.random(alphabet) <>
+	Enum.random(alphabet) <>
+	Enum.random(alphabet) <>
+	Enum.random(alphabet)
+#     Ecto.UUID.generate()
+#     |> String.split_at(4)
+#     |> elem(0)
+#     |> String.upcase
   end
 
   @doc "Called during lobby creation."
