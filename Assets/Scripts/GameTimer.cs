@@ -38,9 +38,9 @@ public class GameTimer : MonoBehaviour {
 	void Update()
 	{
 		timeLeft -= Time.deltaTime;
-		timeField.text = timeLeft.ToString("0");
 		if (running)
 		{
+			timeField.text = timeLeft.ToString("0");
 			if (timeLeft <= 4)
 			{
 				if (!animationRunning)

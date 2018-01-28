@@ -62,13 +62,6 @@ public class GameMaster : MonoBehaviour {
 				player.transform.GetChild(1).gameObject.SetActive(true);
 			}
 	}
-
-	private void ResetScore() {
-		List<Unit> players = new List<Unit>(networkController.players.Values);
-		foreach (var player in players) {
-			player.score = 0;
-		}
-	}
 	
 	public void ResetPlayers() {
 		List<Unit> players = new List<Unit>(networkController.players.Values);
@@ -77,9 +70,4 @@ public class GameMaster : MonoBehaviour {
 		}
 	}
 
-	// private void Update() {
-	//     if(Input.GetKeyDown(KeyCode.Space)) {
-	//         Debug.LogWarning("WINNAAR "+DetermanScore().name +" "+ DetermanScore().score);
-	//     }
-	// }
 }
