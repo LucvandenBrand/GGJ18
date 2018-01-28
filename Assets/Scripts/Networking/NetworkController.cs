@@ -168,7 +168,7 @@ public class NetworkController : MonoBehaviour {
 
 	public GameObject add_player(string player_name, bool localControls=false) {
 		Debug.Log("Player Connected: " + player_name);
-		Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 5);
+		Vector3 randomPos = new Vector3(10, UnityEngine.Random.Range(-1f, 1f), 5);
 		GameObject playerObject = Instantiate(playerPrefab, randomPos, Quaternion.identity) as GameObject;
 		playerObject.name = player_name;
 
@@ -189,8 +189,8 @@ public class NetworkController : MonoBehaviour {
 
 	private void checkTimerStart()
 	{
-		GameTimer gameTimer = GetComponent<GameTimer>();
-		gameTimer.startRunning();
+// 		GameTimer gameTimer = GetComponent<GameTimer>();
+// 		gameTimer.startRunning();
 
 	}
 
@@ -324,6 +324,8 @@ public class NetworkController : MonoBehaviour {
 	
 	public bool IsSick(){
 		// TODO: implement this to check if the sick animation is playing
+		print(cameraAnimator.GetCurrentAnimatorStateInfo(0).IsName("Sick"));
+// 		return cameraAnimator.GetCurrentAnimatorStateInfo(0).IsName("Sick");
 		return true;//cameraAnimator.IsPlaying("Sick");
 	}
 }

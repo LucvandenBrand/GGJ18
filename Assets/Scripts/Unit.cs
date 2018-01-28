@@ -72,7 +72,7 @@ public class Unit : MonoBehaviour {
 	}
 
     private void maybePlayScoreSound(){
-        if(Random.Range(0, 5) < 1) {
+        if(Random.Range(0, 3) < 1) {
             AudioClip randomClip = scoreSounds[Random.Range(0, scoreSounds.Length)].scoreSound;
             Debug.Log(randomClip);
             audiosource.pitch = 1;
