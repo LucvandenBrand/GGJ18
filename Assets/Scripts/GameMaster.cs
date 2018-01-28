@@ -43,9 +43,23 @@ public class GameMaster : MonoBehaviour {
         }
         foreach (var player in players)
             player.resetRayScore();
+        StartCoroutine(toggleConeEffect(highScoreUnit, players));
         highScoreUnit.score++;
         return highScoreUnit;
 	}
+
+    IEnumerator toggleConeEffect(Unit highScoreUnit, List<Unit> players){
+        foreach (var player in players)
+            if(player != highScoreUnit) {
+                player.transform.GetChild(1).gameObject.SetActive(false);
+            }
+        yield return new WaitForSeconds(1);
+        
+        foreach (var player in players)
+            if(player != highScoreUnit) {
+                player.transform.GetChild(1).gameObject.SetActive(true);
+            }
+    }
 
     private void ResetScore() {
         List<Unit> players = new List<Unit>(networkController.players.Values);
