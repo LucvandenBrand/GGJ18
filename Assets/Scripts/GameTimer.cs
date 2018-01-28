@@ -38,7 +38,8 @@ public class GameTimer : MonoBehaviour {
 	void Update()
 	{
 		timeLeft -= Time.deltaTime;
-		if (running)
+		// running can hopefully be removed if isSick is implemented
+		if (GetComponent<NetworkController>().IsSick() && running)
 		{
 			timeField.text = timeLeft.ToString("0");
 			if (timeLeft <= 4)
