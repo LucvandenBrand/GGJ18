@@ -1,0 +1,31 @@
+<div id="messages" >
+    
+</div>
+
+<section id="game-joining-section">
+    <div>
+        <h1>INVECTED</h1>
+        <h3>Survival of the Sickest</h3>
+        
+        <label for="player-name">
+           Player Name:
+        </label>
+        <input name="player-name" type="text" value="" id="player-name" />
+    </div>
+    <div>
+        <label for="room-code">
+            Room Code:
+        </label>
+        <input name="" type="text" value="" id="room-code" data-always-uppercase="true" />
+    </div>
+    <div>
+        <button id="join-button">Join</button>
+    </div>
+</section>
+
+
+<section style="display: none" id="game-playing-section" >
+
+<canvas id="controlcircle">
+</section>
+
