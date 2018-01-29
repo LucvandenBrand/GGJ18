@@ -7,7 +7,6 @@ using UnityEngine;
 using System;
 
 using UnityEngine.UI;
-using UnityEditor.Animations;
 
 namespace SnappyServerEvent {
 	[Serializable]
