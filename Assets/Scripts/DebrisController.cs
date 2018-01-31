@@ -20,11 +20,12 @@ public class DebrisController : MonoBehaviour {
 
 		if (tChange <= 0) {
 			tChange = Random.Range (DebreeInterval, DebreeInterval + 5.0f);
-			float randomX = Random.Range (-8.0f, 8.0f);
-			float randomY = Random.Range (-4.5f, 4.5f);
-			GameObject currDebris = Instantiate (debris, new Vector3(randomX, randomY, 10.0f), new Quaternion(0.0f, 0.0f, 0.0f, 0.0f)) as GameObject;
-			currDebris.GetComponent<DebrisSimulator> ().dc = this;
-
+			if (GetComponent<GameTimer>().isRunning()){
+				float randomX = Random.Range (-8.0f, 8.0f);
+				float randomY = Random.Range (-4.5f, 4.5f);
+				GameObject currDebris = Instantiate (debris, new Vector3(randomX, randomY, 10.0f), new Quaternion(0.0f, 0.0f, 0.0f, 0.0f)) as GameObject;
+				currDebris.GetComponent<DebrisSimulator> ().dc = this;
+			}
 		}
 	}
 

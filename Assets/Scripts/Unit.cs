@@ -79,12 +79,10 @@ public class Unit : MonoBehaviour {
 		sChange -= Time.deltaTime;
 		pChange -= Time.deltaTime;
 		if (pChange <= 0 && paralyze) {
-			paralyze = false;
-			gameObject.transform.GetChild (1).transform.gameObject.SetActive (true);
+			endParalyze();
 		}
 		if (sChange <= 0 && superpower) {
-			gameObject.transform.GetChild(0).GetComponent<MeshRenderer> ().material = InnerMaterial;
-			superpower = false;
+			endSuperPower();
 		}
 	}	
 	public void updateScore() {
@@ -155,6 +153,7 @@ public void addForce(float x_axis, float y_axis) {
 
 			if (superpower) {
 				coll.gameObject.GetComponent<Unit>().Paralyze ();
+				endSuperPower();
 			}
         }
     }
@@ -188,6 +187,16 @@ public void addForce(float x_axis, float y_axis) {
 			pChange = interval;
 			gameObject.transform.GetChild (1).transform.gameObject.SetActive (false);
 		}
+	}
+	
+	public void endParalyze(){
+		paralyze = false;
+		gameObject.transform.GetChild (1).transform.gameObject.SetActive (true);
+	}
+	
+	public void endSuperPower(){
+		gameObject.transform.GetChild(0).GetComponent<MeshRenderer> ().material = InnerMaterial;
+		superpower = false;
 	}
 
 //	public IEnumerable Paralyze(){
