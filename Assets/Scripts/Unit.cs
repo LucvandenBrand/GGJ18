@@ -26,6 +26,7 @@ public class Unit : MonoBehaviour {
 	public bool paralyze = false;
 	public bool superpower = false;
 
+	private float sInterval = 5.0f;
 	private float interval = 10.0f;
 	private float sChange = 0.0f;
 	private float pChange = 0.0f;
@@ -178,7 +179,7 @@ public void addForce(float x_axis, float y_axis) {
 	public void SuperPower() {
 		gameObject.transform.GetChild(0).GetComponent<MeshRenderer> ().material = SuperPowerMaterial;
 		superpower = true;
-		sChange = interval;
+		sChange = sInterval;
 	}
 
 	public void Paralyze() {
