@@ -13,7 +13,6 @@ public enum GameState {
 public class GameTimer : MonoBehaviour {
 	public float timerDuration;
 	private float timeLeft;
-	private bool running = false;
 	private GameState state = GameState.Starting;
 	private bool animationRunning = false;
 	public Animator countdownAnimator;
@@ -50,7 +49,6 @@ public class GameTimer : MonoBehaviour {
 	{
 		timeLeft = timerDuration;
 		state = GameState.Game;
-		running = true;
 		
 		animationRunning = false;
 		timeField.enabled = true;
@@ -58,9 +56,12 @@ public class GameTimer : MonoBehaviour {
 
 	public void stopRunning()
 	{
-		running = false;
         timeField.enabled = false;
         state = GameState.Score;
+	}
+	
+	public bool isRunning(){
+		return state == GameState.Game;
 	}
 
 	// Update is called once per frame

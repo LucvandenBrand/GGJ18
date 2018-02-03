@@ -26,6 +26,7 @@ public class Unit : MonoBehaviour {
 	public bool paralyze = false;
 	public bool superpower = false;
 
+	private float sInterval = 5.0f;
 	private float interval = 10.0f;
 	private float sChange = 0.0f;
 	private float pChange = 0.0f;
@@ -79,12 +80,10 @@ public class Unit : MonoBehaviour {
 		sChange -= Time.deltaTime;
 		pChange -= Time.deltaTime;
 		if (pChange <= 0 && paralyze) {
-			paralyze = false;
-			gameObject.transform.GetChild (1).transform.gameObject.SetActive (true);
+			endParalyze();
 		}
 		if (sChange <= 0 && superpower) {
-			gameObject.transform.GetChild(0).GetComponent<MeshRenderer> ().material = InnerMaterial;
-			superpower = false;
+			endSuperPower();
 		}
 	}	
 	public void updateScore() {
@@ -155,6 +154,7 @@ public void addForce(float x_axis, float y_axis) {
 
 			if (superpower) {
 				coll.gameObject.GetComponent<Unit>().Paralyze ();
+				endSuperPower();
 			}
         }
     }
@@ -179,7 +179,7 @@ public void addForce(float x_axis, float y_axis) {
 	public void SuperPower() {
 		gameObject.transform.GetChild(0).GetComponent<MeshRenderer> ().material = SuperPowerMaterial;
 		superpower = true;
-		sChange = interval;
+		sChange = sInterval;
 	}
 
 	public void Paralyze() {
@@ -188,6 +188,16 @@ public void addForce(float x_axis, float y_axis) {
 			pChange = interval;
 			gameObject.transform.GetChild (1).transform.gameObject.SetActive (false);
 		}
+	}
+	
+	public void endParalyze(){
+		paralyze = false;
+		gameObject.transform.GetChild (1).transform.gameObject.SetActive (true);
+	}
+	
+	public void endSuperPower(){
+		gameObject.transform.GetChild(0).GetComponent<MeshRenderer> ().material = InnerMaterial;
+		superpower = false;
 	}
 
 //	public IEnumerable Paralyze(){
