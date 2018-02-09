@@ -4,7 +4,7 @@ defmodule SnappyServer.Mixfile do
   def project do
     [
       app: :snappy_server,
-      version: "0.0.1",
+      version: "0.0.2",
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
@@ -43,7 +43,9 @@ defmodule SnappyServer.Mixfile do
       {:cowboy, "~> 1.0"},
 
       {:exactor, "~> 2.2", warn_missing: false}, # Nice GenServers
-      {:poison, "~> 3.1"} # JSON
+      {:poison, "~> 3.1"}, # JSON
+
+      {:distillery, "~> 1.5", runtime: false}
     ]
   end
 
