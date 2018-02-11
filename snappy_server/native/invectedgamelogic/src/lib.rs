@@ -14,7 +14,7 @@ mod atoms {
 }
 
 rustler_export_nifs! {
-    "Elixir.InvectedGameLogic",
+    "Elixir.SnappyServer.InvectedGameLogic",
     [("add", 2, add)],
     None
 }

@@ -7,7 +7,8 @@ defmodule SnappyServer.Mixfile do
       version: "0.0.2",
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers,
+      compilers: [:rustler, :phoenix, :gettext] ++ Mix.compilers,
+      rustler_crates: rustler_crates(),
       start_permanent: Mix.env == :prod,
       aliases: aliases(),
       deps: deps()
@@ -46,7 +47,8 @@ defmodule SnappyServer.Mixfile do
       {:poison, "~> 3.1"}, # JSON
 
       {:distillery, "~> 1.5", runtime: false},
-      {:rustler, "~> 0.16.0"}
+      # {:rustler, "~> 0.16.0"}
+      {:rustler, git: "git@github.com:hansihe/rustler.git"}
     ]
   end
 
@@ -62,5 +64,12 @@ defmodule SnappyServer.Mixfile do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       "test": ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
+  end
+
+  defp rustler_crates do
+    [invectedgamelogic: [
+        path: "native/invectedgamelogic",
+        mode: (if Mix.env == :prod, do: :release, else: :debug),
+      ]]
   end
 end
