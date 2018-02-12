@@ -1,8 +1,10 @@
 #[macro_use] extern crate rustler;
-#[macro_use] extern crate rustler_codegen;
 #[macro_use] extern crate lazy_static;
 use rustler::resource::ResourceArc; // NifResource
-use rustler::types::elixir_struct;
+
+#[macro_use] extern crate serde_derive;
+extern crate serde;
+extern crate serde_json;
 
 
 use rustler::{NifEnv, NifTerm, NifResult, NifEncoder};
@@ -40,7 +42,7 @@ fn print_nice_message<'a>(env: NifEnv<'a>, _args: &[NifTerm<'a>]) -> NifResult<N
     Ok(atoms::ok().encode(env))
 }
 
-
+#[derive(Serialize, Deserialize)]
 struct Player {
     position: (f64, f64),
     score: u64,
@@ -60,4 +62,13 @@ fn init_game_state<'a>(env: NifEnv<'a>, _args: &[NifTerm<'a>]) -> NifResult<NifT
     // let result = InvectedGameState { players: Vec.new![ Player {position: (0, 0), score: 1} ]};
     let result = Player { position: (0.0, 0.0), score: 1 };
     Ok(ResourceArc::new(result).encode(env))
+}
+
+fn print_player<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
+    // let player: ResourceArc<Player> = try!(args[0].decode());
+    let player = Player { position: (0.0, 0.0), score: 1 };
+
+    let player_json_str = serde_json::to_string(&player).unwrap();
+    println!("JSON = {}", player_json_str);
+    Ok(().encode(env))
 }
