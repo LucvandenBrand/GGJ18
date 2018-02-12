@@ -7,4 +7,9 @@ defmodule SnappyServer.InvectedGameLogic do
   def print_nice_message(), do: :erlang.nif_error(:nif_not_loaded)
 
   def init_game_state(), do: :erlang.nif_error(:nif_not_loaded)
+
+  def add_player(state, player_name), do: :erlang.nif_error(:nif_not_loaded)
+
+  def print_player(player), do: :erlang.nif_error(:nif_not_loaded)
+  def print_state(state), do: :erlang.nif_error(:nif_not_loaded)
 end
