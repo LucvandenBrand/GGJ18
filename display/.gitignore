@@ -2,6 +2,6 @@ node_modules
 npm-debug.log
 .cache
 .idea
-dist/*.js
-dist/*.map
-
+dist
+tmp
+babel-output
