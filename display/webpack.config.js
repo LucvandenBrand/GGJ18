@@ -1,0 +1,49 @@
+const webpack = require('webpack'),
+    path = require('path'),
+    ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+var inProduction = process.env.NODE_ENV === 'production';
+
+// Retrieve the version string from package.json
+function getVersion()
+{
+	return require("./package.json").version;
+}
+
+module.exports = {
+    entry: {
+		display: './src/main.js'
+    },
+    output: {
+        path: path.join(__dirname, './dist'),
+        filename: '[name]-' + getVersion() + '.js'
+    },
+	module: {
+	 rules: [{
+		  test: /\.css$/,
+          use: ExtractTextPlugin.extract({
+                use: 'css-loader'
+          })
+	 }],
+	 loaders: [
+		 {
+			 test: /\.js$/,
+			 loader: 'babel-loader',
+			 query: {
+				 presets: ['es2015']
+			 }
+		 }
+	 ]
+	},
+	plugins: [
+        new ExtractTextPlugin('css/[name]-' + getVersion() + '.css'),
+    ],
+	stats: {
+		colors: true
+	},
+	devtool: 'source-map'
+};
+
+if(inProduction) {
+	// Do production specific things here.
+}
