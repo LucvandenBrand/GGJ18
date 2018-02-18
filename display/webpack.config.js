@@ -27,12 +27,17 @@ module.exports = {
         filename: '[name]-' + getVersion() + '.js'
     },
 	module: {
-	 rules: [{
-		  test: /\.css$/,
-          use: ExtractTextPlugin.extract({
-                use: 'css-loader'
-          })
-	 }],
+	 rules: [
+           {
+	     test: /\.css$/,
+             use: ExtractTextPlugin.extract({
+                  use: 'css-loader'})
+	   },
+           {
+             test: /\.glsl$/,
+             use: 'raw-loader'
+           }
+         ],
 	 loaders: [
 		 {
 			 test: /\.js$/,
