@@ -7,6 +7,7 @@ extern crate serde;
 extern crate serde_json;
 
 use std::sync::RwLock;
+use std::sync::Arc;
 
 
 use rustler::{NifEnv, NifTerm, NifResult, NifEncoder};
@@ -60,9 +61,9 @@ pub fn on_load<'a>(env: NifEnv<'a>, _arg: NifTerm<'a>) -> bool {
     true
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 struct InvectedGameState {
-    players: RwLock<Vec<Player>>,
+    players: Arc<Vec<Player>>,
     /// In seconds
     game_round_time: f64,
 }
@@ -71,7 +72,7 @@ fn init_game_state<'a>(env: NifEnv<'a>, _args: &[NifTerm<'a>]) -> NifResult<NifT
     
     // let result = InvectedGameState { players: Vec.new![ Player {position: (0, 0), score: 1} ]};
     // let result = Player { position: (0.0, 0.0), score: 1, name: "Foobar".to_owned()};
-    let state = InvectedGameState {players: RwLock::new(vec![]), game_round_time: 0.0};
+    let state = InvectedGameState {players: Arc::new(vec![]), game_round_time: 0.0};
     Ok(ResourceArc::new(state).encode(env))
 }
 
@@ -81,11 +82,16 @@ fn add_player<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a
     let player_name: String = try!(args[1].decode());
 
     // let mut players = state_arc.players.to_owned();
-    let mut players = state.players.write().unwrap();
+    let mut players = (*state.players).clone();
 
     players.push(Player {name: player_name, score: 0, position: (0.0, 0.0) });
+    let new_state = InvectedGameState {game_round_time: state.game_round_time, players: Arc::new(players)};
+    // std::mem::swap(& mut state, &mut new_state);
+    // let mut new_state = state.to_owned();
+    // new_state.players = Arc::new(players);
+    // std::mem::swap(new_state.players.as_mut_slice(), &mut Arc::new(players));
 
-    Ok(state.encode(env))
+    Ok(ResourceArc::new(new_state).encode(env))
 }
 
 fn print_player<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
