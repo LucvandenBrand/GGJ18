@@ -26,9 +26,11 @@ rustler_export_nifs! {
     [
         ("init_game_state", 0, init_game_state),
         ("add_player", 2, add_player),
-        ("update_state", 2, update_state),
         ("render_state", 1, render_state),
+        ("update_player_desired_movement", 3, update_player_desired_movement),
+        ("update_game_timestep", 2, update_game_timestep),
 
+        ("update_state", 2, update_state), // deprecated
         ("print_player", 1, print_player),
         ("print_state", 1, print_state),
     ],
@@ -56,6 +58,24 @@ fn add_player<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a
     Ok(ResourceArc::new(new_state).encode(env))
 }
 
+fn update_player_desired_movement<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
+    let state_arc: ResourceArc<InvectedGameState> = try!(args[0].decode());
+    let state: &InvectedGameState = &state_arc;
+    let player_name: String = try!(args[1].decode());
+    let desired_movement: (f64, f64) = try!(args[2].decode());
+
+    let new_state = game_logic::update_player_desired_movement(state, &player_name, desired_movement);
+    Ok(ResourceArc::new(new_state).encode(env))
+}
+
+fn update_game_timestep<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
+    let state_arc: ResourceArc<InvectedGameState> = try!(args[0].decode());
+    let state: &InvectedGameState = &state_arc;
+    let dt: f64 = try!(args[1].decode());
+
+    let new_state = game_logic::update_game_timestep(state, dt);
+    Ok(ResourceArc::new(new_state).encode(env))
+}
 
 fn update_state<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
     let state_arc: ResourceArc<InvectedGameState> = try!(args[0].decode());

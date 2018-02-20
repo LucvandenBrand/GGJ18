@@ -20,8 +20,22 @@ defmodule SnappyServer.InvectedGameLogic do
   @doc """
   Updates the state, by passign in a map
   where the keys are player names, and the values are (xmovement, ymovement)-pairs.
+
+  TODO will probably be removed in favour for other API
   """
   def update_state(state, player_movements), do: :erlang.nif_error(:nif_not_loaded)
+
+  @doc """
+  Updates the direction in which the given player will move,
+  based on their joystick input.
+  """
+  def update_player_desired_movement(state, player_name, movement_pair), do: :erlang.nif_error(:nif_not_loaded)
+
+  @doc """
+  This function moves players, performs collisions, etc.
+  Run 60 times per second.
+  """
+  def update_game_timestep(state, deltatime), do: :erlang.nif_error(:nif_not_loaded)
 
   @doc """
   Returns a JSON-representation of the given state.

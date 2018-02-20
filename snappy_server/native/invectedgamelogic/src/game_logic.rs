@@ -13,7 +13,7 @@ pub struct Player {
     position: (f64, f64),
     velocity: (f64, f64),
     acceleration: (f64, f64),
-    desired_direction: (f64, f64),
+    desired_movement: (f64, f64),
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -42,12 +42,12 @@ pub fn add_player(state: &InvectedGameState, player_name: String) -> InvectedGam
         position: (0.0, 0.0),
         velocity: (0.0, 0.0),
         acceleration: (0.0, 0.0),
-        desired_direction: (0.0, 0.0),
+        desired_movement: (0.0, 0.0),
     });
 
     InvectedGameState {game_round_time: state.game_round_time, players: Arc::new(players)}
 }
-
+// Deprecated
 pub fn update_state(state: &InvectedGameState, movements: & Vec<(String, (f64, f64))>) -> InvectedGameState {
     println!("{:?}", state);
     println!("{:?}", movements);
@@ -66,34 +66,43 @@ pub fn update_state(state: &InvectedGameState, movements: & Vec<(String, (f64, f
                 position: position,
                 velocity: velocity,
                 acceleration: acceleration,
-                desired_direction: (xdir, ydir)
+                desired_movement: (xdir, ydir)
             });
         }
     }
     InvectedGameState {game_round_time: state.game_round_time, players: Arc::new(players)}
 }
 
+pub fn update_player_desired_movement(state: &InvectedGameState, player_name: &String, movement: (f64, f64)) -> InvectedGameState {
+    let mut players = (*state.players).clone();
+    if let Entry::Occupied(mut player_entry) = players.entry(player_name.clone()) {
+        let mut new_player = player_entry.get().clone();
+        new_player.desired_movement = movement;
+        player_entry.insert(new_player);
+    }
+
+    let mut new_state = state.clone();
+    new_state.players = Arc::new(players);
+    new_state
+}
+
+pub fn update_game_timestep(state: &InvectedGameState, dt: f64) -> InvectedGameState {
+    move_players(state, dt)
+}
+
 fn move_player(orig_player: &Player, dt: f64) -> Player {
     let mut player = orig_player.clone();
 
-    let (mut acc_x, mut acc_y) = player.acceleration;
-    let (mut vel_x, mut vel_y) = player.velocity;
-    let (mut pos_x, mut pos_y) = player.position;
-    pos_x += vel_x * dt;
-    pos_y += vel_y * dt;
-    vel_x += acc_x * dt;
-    vel_y += acc_y * dt;
-    acc_x += player.desired_direction.0 * dt;
-    acc_y *= player.desired_direction.1 * dt;
+    let (acc_x, acc_y) = player.acceleration;
+    let (vel_x, vel_y) = player.velocity;
+    let (pos_x, pos_y) = player.position;
+    let (dir_x, dir_y) = player.desired_movement;
 
-    // player.acceleration = (acc_x, acc_y);
-    // let new_player = Player {
-    //     name: *player_name,
-    //     score: player.score
-    // }
-    player.position = (pos_x, pos_y);
-    player.velocity = (vel_x, vel_y);
-    player.acceleration = (acc_x, acc_y);
+    player.position = (pos_x + vel_x * dt, pos_y + vel_y * dt);
+    player.velocity = (vel_x + acc_x * dt, vel_y + acc_y * dt);
+    player.acceleration = (acc_x + dir_x, acc_y + dir_y);
+
+    // TODO cap these values.
 
     player
 }
