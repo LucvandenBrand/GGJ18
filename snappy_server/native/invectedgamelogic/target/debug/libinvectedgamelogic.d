@@ -1,0 +1,1 @@
+/run/media/qqwy/Serendipity/Programming/Personal/unity/GGJ/GGJ18/snappy_server/native/invectedgamelogic/target/debug/libinvectedgamelogic.so: /run/media/qqwy/Serendipity/Programming/Personal/unity/GGJ/GGJ18/snappy_server/native/invectedgamelogic/src/lib.rs

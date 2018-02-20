@@ -1,0 +1,69 @@
+{application, ssl,
+   [{description, "Erlang/OTP SSL application"},
+    {vsn, "8.2.1"},
+    {modules, [
+	       %% TLS/SSL 
+	       tls_connection,
+	       tls_handshake,
+	       tls_record,
+	       tls_socket,
+	       tls_v1,
+	       ssl_v3,
+	       ssl_v2,
+	       tls_connection_sup,
+	       %% DTLS
+	       dtls_connection,
+	       dtls_handshake,
+	       dtls_record,
+	       dtls_socket,
+	       dtls_v1,
+	       dtls_connection_sup,
+	       dtls_udp_listener,
+	       dtls_udp_sup,
+	       %% API
+	       ssl,  %% Main API		  
+	       tls,  %% TLS specific
+	       dtls, %% DTLS specific 
+	       ssl_session_cache_api,
+	       %% Both TLS/SSL and DTLS
+	       ssl_config,
+	       ssl_connection,
+	       ssl_handshake,
+	       ssl_record,
+	       ssl_cipher,
+	       ssl_srp_primes,
+	       ssl_alert,
+	       ssl_listen_tracker_sup, %% may be used by DTLS over SCTP	
+	       %% Erlang Distribution over SSL/TLS
+	       inet_tls_dist,
+	       inet6_tls_dist,
+	       ssl_tls_dist_proxy,
+	       ssl_dist_sup,
+               ssl_dist_connection_sup,
+               ssl_dist_admin_sup,
+	       %% SSL/TLS session and cert handling
+	       ssl_session,
+	       ssl_session_cache,
+	       ssl_manager,
+	       ssl_pem_cache,
+	       ssl_pkix_db,
+	       ssl_certificate,
+	       %% CRL handling
+	       ssl_crl,
+	       ssl_crl_cache, 
+	       ssl_crl_cache_api,
+	       ssl_crl_hash_dir,
+	       %% App structure
+	       ssl_app,
+	       ssl_sup,
+	       ssl_admin_sup,
+	       ssl_connection_sup
+	       ]},
+    {registered, [ssl_sup, ssl_manager]},
+    {applications, [crypto, public_key, kernel, stdlib]},
+    {env, []},
+    {mod, {ssl_app, []}},
+    {runtime_dependencies, ["stdlib-3.2","public_key-1.5","kernel-3.0",
+			    "erts-7.0","crypto-3.3", "inets-5.10.7"]}]}.
+
+
