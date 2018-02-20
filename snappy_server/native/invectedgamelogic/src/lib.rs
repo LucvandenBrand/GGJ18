@@ -10,6 +10,7 @@ use game_logic::InvectedGameState as InvectedGameState;
 
 
 use rustler::{NifEnv, NifTerm, NifResult, NifEncoder};
+use rustler::types::NifMapIterator;
 
 mod atoms {
     rustler_atoms! {
@@ -23,28 +24,15 @@ mod atoms {
 rustler_export_nifs! {
     "Elixir.SnappyServer.InvectedGameLogic",
     [
-        ("add", 2, add),
-        ("print_nice_message", 0, print_nice_message),
         ("init_game_state", 0, init_game_state),
         ("add_player", 2, add_player),
+        ("update_state", 2, update_state),
+        ("render_state", 1, render_state),
+
         ("print_player", 1, print_player),
         ("print_state", 1, print_state),
     ],
     Some(on_load)
-}
-
-/// A testing function to see if NIF-invocation works properly
-fn add<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
-    let num1: i64 = try!(args[0].decode());
-    let num2: i64 = try!(args[1].decode());
-
-    Ok((atoms::ok(), num1 + num2).encode(env))
-}
-
-/// Another testing function
-fn print_nice_message<'a>(env: NifEnv<'a>, _args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
-    println!("You are nice!");
-    Ok(atoms::ok().encode(env))
 }
 
 pub fn on_load<'a>(env: NifEnv<'a>, _arg: NifTerm<'a>) -> bool {
@@ -55,9 +43,6 @@ pub fn on_load<'a>(env: NifEnv<'a>, _arg: NifTerm<'a>) -> bool {
 
 
 fn init_game_state<'a>(env: NifEnv<'a>, _args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
- 
-    // let result = InvectedGameState { players: Vec.new![ Player {position: (0, 0), score: 1} ]};
-    // let result = Player { position: (0.0, 0.0), score: 1, name: "Foobar".to_owned()};
     let state = game_logic::init_game_state();
     Ok(ResourceArc::new(state).encode(env))
 }
@@ -67,20 +52,42 @@ fn add_player<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a
     let state : &InvectedGameState = &state_arc;
     let player_name: String = try!(args[1].decode());
 
-    let new_state = game_logic::do_add_player(state, player_name);
-    // let mut players = (*state.players).clone();
-    // players.push(Player {name: player_name, score: 0, position: (0.0, 0.0) });
-
-    // let new_state = InvectedGameState {game_round_time: state.game_round_time, players: Arc::new(players)};
+    let new_state = game_logic::add_player(state, player_name);
     Ok(ResourceArc::new(new_state).encode(env))
 }
+
+
+fn update_state<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
+    let state_arc: ResourceArc<InvectedGameState> = try!(args[0].decode());
+    let state : &InvectedGameState = &state_arc;
+    let movements_iter: NifMapIterator = args[1].decode()?;
+
+    let mut movements = vec![];
+    for (key, value) in movements_iter {
+        let key_str = key.decode::<String>()?;
+        let value_float = value.decode::<(f64, f64)>()?;
+        movements.push((key_str, value_float));
+    }
+
+    let new_state = game_logic::update_state(state, &movements);
+    Ok(ResourceArc::new(new_state).encode(env))
+}
+
+fn render_state<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
+    let state_arc: ResourceArc<InvectedGameState> = try!(args[0].decode());
+    let state: &InvectedGameState = &state_arc;
+
+    let state_json_str = game_logic::render_state(state);
+    Ok(state_json_str.encode(env))
+}
+
+
 
 fn print_player<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
     let player_arc: ResourceArc<Player> = try!(args[0].decode());
     let player: &Player = &player_arc;
 
-    let player_json_str = game_logic::do_print_player(player);
-
+    let player_json_str = game_logic::print_player(player);
     Ok(player_json_str.encode(env))
 }
 
@@ -88,6 +95,6 @@ fn print_state<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'
     let state_arc: ResourceArc<InvectedGameState> = try!(args[0].decode());
     let state: &InvectedGameState = &state_arc;
 
-    let state_json_str = game_logic::do_print_state(state);
+    let state_json_str = game_logic::print_state(state);
     Ok(state_json_str.encode(env))
 }
