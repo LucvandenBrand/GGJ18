@@ -16,6 +16,19 @@ pub struct Player {
     desired_movement: (f64, f64),
 }
 
+impl Player {
+    pub fn new(player_name: String) -> Player {
+        Player {
+            name: player_name,
+            score: 0,
+            position: (0.0, 0.0),
+            velocity: (0.0, 0.0),
+            acceleration: (0.0, 0.0),
+            desired_movement: (0.0, 0.0),
+        }
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct InvectedGameState {
     players: Arc<HashMap<String, Player>>,
@@ -23,74 +36,40 @@ pub struct InvectedGameState {
     game_round_time: f64,
 }
 
-/// Returns initial version of the game state.
-pub fn init_game_state() -> InvectedGameState {
-    InvectedGameState {players: Arc::new(HashMap::new()), game_round_time: 0.0}
-}
-
-/// Renders the state to JSON.
-pub fn render_state(state: &InvectedGameState) -> String {
-    serde_json::to_string(state).unwrap()
-}
-
-fn new_player(player_name: String) -> Player {
-    Player {
-        name: player_name,
-        score: 0,
-        position: (0.0, 0.0),
-        velocity: (0.0, 0.0),
-        acceleration: (0.0, 0.0),
-        desired_movement: (0.0, 0.0),
-    }
-}
-
-/// Returns a new state with another player added.
-pub fn add_player(state: &InvectedGameState, player_name: String) -> InvectedGameState {
-    let mut players = (*state.players).clone();
-    players.insert(player_name.clone(), new_player(player_name));
-
-    InvectedGameState {players: Arc::new(players), .. *state}
-}
-
-// Deprecated
-pub fn update_state(state: &InvectedGameState, movements: & Vec<(String, (f64, f64))>) -> InvectedGameState {
-    println!("{:?}", state);
-    println!("{:?}", movements);
-    let mut players = (*state.players).clone();
-    for &(ref player_name, (xdir, ydir)) in movements {
-        let name = player_name.clone();
-        if let Entry::Occupied(mut player) = players.entry(name) {
-            let score = player.get().score;
-            let velocity = player.get().velocity;
-            let acceleration = player.get().acceleration;
-            let position = player.get().position;
-            player.insert(Player {
-                name: player_name.clone(),
-                score: score,
-
-                position: position,
-                velocity: velocity,
-                acceleration: acceleration,
-                desired_movement: (xdir, ydir)
-            });
+impl InvectedGameState {
+    fn new() -> InvectedGameState {
+        InvectedGameState {
+            players: Arc::new(HashMap::new()),
+            game_round_time: 0.0
         }
     }
-    InvectedGameState {game_round_time: state.game_round_time, players: Arc::new(players)}
-}
 
-pub fn update_player_desired_movement(state: &InvectedGameState, player_name: &String, movement: (f64, f64)) -> InvectedGameState {
-    let mut players = (*state.players).clone();
-    if let Entry::Occupied(mut player_entry) = players.entry(player_name.clone()) {
-        let mut new_player = player_entry.get().clone();
-        new_player.desired_movement = movement;
-        player_entry.insert(new_player);
+    /// Moves the players around the board
+    /// Keeps players in bounds
+    /// Handles inter-player collisions
+    fn move_players(self, dt: f64) -> InvectedGameState {
+
+        let mut players = (*self.players).clone();
+        for player in players.values_mut() {
+            *player = move_player(player, dt);
+        }
+
+        // TODO Check and resolve inter-player collisions.
+
+        InvectedGameState {players: Arc::new(players), .. self}
     }
 
-    InvectedGameState {players: Arc::new(players), .. *state}
-}
+    /// Checks if/who has picked up a power-up.
+    /// TODO
+    fn check_collision_with_powerup(self, _dt: f64) -> InvectedGameState {
+        self
+    }
 
-pub fn update_game_timestep(state: &InvectedGameState, dt: f64) -> InvectedGameState {
-    move_players(state, dt)
+    /// Gives player with largest area a point if interval to check score has passed again.
+    /// TODO
+    fn manage_scoring(self, _dt: f64) -> InvectedGameState {
+        self
+    }
 }
 
 fn move_player(player: &Player, dt: f64) -> Player {
@@ -106,20 +85,51 @@ fn move_player(player: &Player, dt: f64) -> Player {
     let velocity = (vel_x + acc_x * dt, vel_y + acc_y * dt);
     let acceleration = (acc_x + dir_x, acc_y + dir_y);
 
-    // TODO cap these values.
+    // TODO Cap these values.
+    // TODO Keep player inside of game board.
 
     Player {acceleration, velocity, position, .. player.clone()}
 }
 
-fn move_players(state: &InvectedGameState, dt: f64) -> InvectedGameState {
+/// Returns initial version of the game state.
+pub fn init_game_state() -> InvectedGameState {
+    InvectedGameState::new()
+}
 
+/// Renders the state to JSON.
+pub fn render_state(state: &InvectedGameState) -> String {
+    serde_json::to_string(state).unwrap()
+}
+
+/// Returns a new state with another player added.
+pub fn add_player(state: &InvectedGameState, player_name: String) -> InvectedGameState {
     let mut players = (*state.players).clone();
-    for player in players.values_mut() {
-        *player = move_player(player, dt);
+    players.insert(player_name.clone(), Player::new(player_name));
+
+    InvectedGameState {players: Arc::new(players), .. *state}
+}
+
+/// Updates the desired direction the player identified by `player_name` wants to move in.
+/// based on their joystick input.
+pub fn update_player_desired_movement(state: &InvectedGameState, player_name: &String, movement: (f64, f64)) -> InvectedGameState {
+    let mut players = (*state.players).clone();
+    if let Entry::Occupied(mut player_entry) = players.entry(player_name.clone()) {
+        let mut new_player = player_entry.get().clone();
+        new_player.desired_movement = movement;
+        player_entry.insert(new_player);
     }
 
     InvectedGameState {players: Arc::new(players), .. *state}
 }
+
+/// Increments the game's state `dt` time to the future.
+pub fn update_game_timestep(state: &InvectedGameState, dt: f64) -> InvectedGameState {
+    state.clone()
+        .move_players(dt)
+        .check_collision_with_powerup(dt)
+        .manage_scoring(dt)
+}
+
 
 
 /// Prints information of a single player. Debugging function, will probably not be used later.

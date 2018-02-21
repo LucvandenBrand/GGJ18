@@ -1,5 +1,4 @@
 #[macro_use] extern crate rustler;
-#[macro_use] extern crate lazy_static;
 use rustler::resource::ResourceArc; // NifResource
 
 #[macro_use] extern crate serde_derive;
@@ -10,16 +9,6 @@ use game_logic::InvectedGameState as InvectedGameState;
 
 
 use rustler::{NifEnv, NifTerm, NifResult, NifEncoder};
-use rustler::types::NifMapIterator;
-
-mod atoms {
-    rustler_atoms! {
-        atom ok;
-        //atom error;
-        //atom __true__ = "true";
-        //atom __false__ = "false";
-    }
-}
 
 rustler_export_nifs! {
     "Elixir.SnappyServer.InvectedGameLogic",
@@ -30,7 +19,6 @@ rustler_export_nifs! {
         ("update_player_desired_movement", 3, update_player_desired_movement),
         ("update_game_timestep", 2, update_game_timestep),
 
-        ("update_state", 2, update_state), // deprecated
         ("print_player", 1, print_player),
         ("print_state", 1, print_state),
     ],
@@ -74,22 +62,6 @@ fn update_game_timestep<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<
     let dt: f64 = try!(args[1].decode());
 
     let new_state = game_logic::update_game_timestep(state, dt);
-    Ok(ResourceArc::new(new_state).encode(env))
-}
-
-fn update_state<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
-    let state_arc: ResourceArc<InvectedGameState> = try!(args[0].decode());
-    let state : &InvectedGameState = &state_arc;
-    let movements_iter: NifMapIterator = args[1].decode()?;
-
-    let mut movements = vec![];
-    for (key, value) in movements_iter {
-        let key_str = key.decode::<String>()?;
-        let value_float = value.decode::<(f64, f64)>()?;
-        movements.push((key_str, value_float));
-    }
-
-    let new_state = game_logic::update_state(state, &movements);
     Ok(ResourceArc::new(new_state).encode(env))
 }
 
