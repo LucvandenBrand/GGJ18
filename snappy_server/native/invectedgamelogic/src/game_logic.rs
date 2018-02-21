@@ -112,10 +112,11 @@ fn move_player(player: &Player, dt: f64) -> Player {
 }
 
 fn move_players(state: &InvectedGameState, dt: f64) -> InvectedGameState {
-    let players: HashMap<String, Player> = (*state.players).values().map(|player| {
-        let player_name = player.name.clone();
-        (player_name, move_player(player, dt))
-    }).collect();
+
+    let mut players = (*state.players).clone();
+    for player in players.values_mut() {
+        *player = move_player(player, dt);
+    }
 
     InvectedGameState {players: Arc::new(players), .. *state}
 }
