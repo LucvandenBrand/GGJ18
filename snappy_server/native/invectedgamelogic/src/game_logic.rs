@@ -33,20 +33,25 @@ pub fn render_state(state: &InvectedGameState) -> String {
     serde_json::to_string(state).unwrap()
 }
 
-/// Returns a new state with another player added.
-pub fn add_player(state: &InvectedGameState, player_name: String) -> InvectedGameState {
-    let mut players = (*state.players).clone();
-    players.insert(player_name.clone(), Player {
+fn new_player(player_name: String) -> Player {
+    Player {
         name: player_name,
         score: 0,
         position: (0.0, 0.0),
         velocity: (0.0, 0.0),
         acceleration: (0.0, 0.0),
         desired_movement: (0.0, 0.0),
-    });
-
-    InvectedGameState {game_round_time: state.game_round_time, players: Arc::new(players)}
+    }
 }
+
+/// Returns a new state with another player added.
+pub fn add_player(state: &InvectedGameState, player_name: String) -> InvectedGameState {
+    let mut players = (*state.players).clone();
+    players.insert(player_name.clone(), new_player(player_name));
+
+    InvectedGameState {players: Arc::new(players), .. *state}
+}
+
 // Deprecated
 pub fn update_state(state: &InvectedGameState, movements: & Vec<(String, (f64, f64))>) -> InvectedGameState {
     println!("{:?}", state);
@@ -81,30 +86,29 @@ pub fn update_player_desired_movement(state: &InvectedGameState, player_name: &S
         player_entry.insert(new_player);
     }
 
-    let mut new_state = state.clone();
-    new_state.players = Arc::new(players);
-    new_state
+    InvectedGameState {players: Arc::new(players), .. *state}
 }
 
 pub fn update_game_timestep(state: &InvectedGameState, dt: f64) -> InvectedGameState {
     move_players(state, dt)
 }
 
-fn move_player(orig_player: &Player, dt: f64) -> Player {
-    let mut player = orig_player.clone();
+fn move_player(player: &Player, dt: f64) -> Player {
+    let &Player {
+        acceleration: (acc_x, acc_y),
+        velocity: (vel_x, vel_y),
+        position: (pos_x, pos_y),
+        desired_movement: (dir_x, dir_y),
+        ..
+    } = player;
 
-    let (acc_x, acc_y) = player.acceleration;
-    let (vel_x, vel_y) = player.velocity;
-    let (pos_x, pos_y) = player.position;
-    let (dir_x, dir_y) = player.desired_movement;
-
-    player.position = (pos_x + vel_x * dt, pos_y + vel_y * dt);
-    player.velocity = (vel_x + acc_x * dt, vel_y + acc_y * dt);
-    player.acceleration = (acc_x + dir_x, acc_y + dir_y);
+    let position = (pos_x + vel_x * dt, pos_y + vel_y * dt);
+    let velocity = (vel_x + acc_x * dt, vel_y + acc_y * dt);
+    let acceleration = (acc_x + dir_x, acc_y + dir_y);
 
     // TODO cap these values.
 
-    player
+    Player {acceleration, velocity, position, .. player.clone()}
 }
 
 fn move_players(state: &InvectedGameState, dt: f64) -> InvectedGameState {
@@ -113,7 +117,7 @@ fn move_players(state: &InvectedGameState, dt: f64) -> InvectedGameState {
         (player_name, move_player(player, dt))
     }).collect();
 
-    InvectedGameState {game_round_time: state.game_round_time, players: Arc::new(players)}
+    InvectedGameState {players: Arc::new(players), .. *state}
 }
 
 
