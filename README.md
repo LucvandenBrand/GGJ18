@@ -20,6 +20,24 @@ the folder is never commited such that you do not need to worry about merge conf
 
 **Keep in mind: merge conflicts are truly avoided by proper communication!**
 
+## Building Elixir Release
+
+To ensure the server can be run on systems without Elixir itself, a release can be built using the following command:
+
+```
+MIX_ENV=prod mix release --executable
+```
+
+The release can then be found in
+```
+_build/prod/rel/snappy_server/bin/
+```
+
+And run with:
+
+```
+_build/prod/rel/snappy_server/bin/snappy_server foreground
+```
 
 ## Installing and running Elixir for the server code:
 

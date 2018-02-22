@@ -7,7 +7,8 @@ use Mix.Config
 
 # General application configuration
 config :snappy_server,
-  ecto_repos: [SnappyServer.Repo]
+  ecto_repos: [SnappyServer.Repo],
+  server: true
 
 # Configures the endpoint
 config :snappy_server, SnappyServerWeb.Endpoint,
